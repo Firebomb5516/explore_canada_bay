@@ -69,7 +69,10 @@ class _ExploreScreenState extends State<ExploreScreen> {
   final MapController _mapController = MapController();
 
   final TextEditingController _searchController = TextEditingController();
-  final ScrollController _mobileScrollController = ScrollController();
+  final DraggableScrollableController _mobileSheetController =
+      DraggableScrollableController();
+  double _mobileSheetMinimumExtent = 0.14;
+  double _mobileSheetMaximumExtent = 0.88;
 
   static final LatLng _southWest = LatLng(-33.8980, 151.0800);
 
@@ -160,19 +163,30 @@ class _ExploreScreenState extends State<ExploreScreen> {
   @override
   void dispose() {
     _searchController.dispose();
-    _mobileScrollController.dispose();
+    _mobileSheetController.dispose();
     super.dispose();
   }
 
   void _revealMapOnMobile() {
     WidgetsBinding.instance.addPostFrameCallback((_) async {
-      if (!mounted || !_mobileScrollController.hasClients) return;
-      await _mobileScrollController.animateTo(
-        0,
+      if (!mounted || !_mobileSheetController.isAttached) return;
+      await _mobileSheetController.animateTo(
+        _mobileSheetMinimumExtent,
         duration: const Duration(milliseconds: 280),
         curve: Curves.easeOutCubic,
       );
     });
+  }
+
+  void _toggleMobileExplorerSheet() {
+    if (!_mobileSheetController.isAttached) return;
+    final collapsed =
+        _mobileSheetController.size <= _mobileSheetMinimumExtent + 0.04;
+    _mobileSheetController.animateTo(
+      collapsed ? _mobileSheetMaximumExtent : _mobileSheetMinimumExtent,
+      duration: const Duration(milliseconds: 320),
+      curve: Curves.easeOutCubic,
+    );
   }
 
   // ---------------------------------------------------------------------------
