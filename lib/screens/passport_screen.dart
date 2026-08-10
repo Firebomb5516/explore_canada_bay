@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import '../l10n/app_localizations.dart';
 import '../l10n/journey_activity_localizations.dart';
 import '../l10n/journey_localizations.dart';
+import '../models/community_challenge.dart';
 import '../models/passport.dart';
 import '../models/settlement_profile.dart';
 import '../services/external_link_service.dart';
@@ -22,6 +23,7 @@ const _logoAsset = 'assets/images/canada_bay_logo.jpg';
 
 class PassportScreen extends StatelessWidget {
   final PassportController passport;
+  final CommunityChallengeController communityChallenge;
   final String explorerName;
   final bool isSignedIn;
   final bool showFeaturedAchievements;
@@ -33,6 +35,7 @@ class PassportScreen extends StatelessWidget {
   const PassportScreen({
     super.key,
     required this.passport,
+    required this.communityChallenge,
     this.explorerName = 'Explorer',
     this.isSignedIn = false,
     this.showFeaturedAchievements = true,
@@ -50,7 +53,11 @@ class PassportScreen extends StatelessWidget {
         color: AppThemeColors.background,
         child: SafeArea(
           child: AnimatedBuilder(
-            animation: Listenable.merge([passport, settlement]),
+            animation: Listenable.merge([
+              passport,
+              settlement,
+              communityChallenge,
+            ]),
             builder: (context, _) {
               return LayoutBuilder(
                 builder: (context, constraints) {
@@ -114,6 +121,10 @@ class PassportScreen extends StatelessWidget {
                                 ),
                               ],
                             ],
+                            SizedBox(height: desktop ? 24 : 16),
+                            _CommunityChallengePanel(
+                              controller: communityChallenge,
+                            ),
                             SizedBox(height: desktop ? 24 : 16),
                             if (desktop)
                               Row(
@@ -236,6 +247,306 @@ class PassportScreen extends StatelessWidget {
           ),
         );
       },
+    );
+  }
+}
+
+class _CommunityChallengePanel extends StatelessWidget {
+  const _CommunityChallengePanel({required this.controller});
+
+  final CommunityChallengeController controller;
+
+  @override
+  Widget build(BuildContext context) {
+    final challenge = controller.snapshot;
+    final strings = AppLocalizations.of(context);
+    return _PassportPanel(
+      icon: Icons.groups_2_rounded,
+      title: 'Community challenge',
+      subtitle: 'Your contribution to what Canada Bay achieves together',
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Container(
+            width: double.infinity,
+            padding: const EdgeInsets.all(18),
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                colors: [
+                  _passportGreen.withValues(alpha: 0.18),
+                  _passportBlue.withValues(alpha: 0.10),
+                ],
+              ),
+              borderRadius: BorderRadius.circular(22),
+              border: Border.all(color: _passportGreen.withValues(alpha: 0.25)),
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  children: [
+                    Expanded(
+                      child: Text(
+                        strings.literal(challenge.title),
+                        style: TextStyle(
+                          color: _passportText,
+                          fontSize: 19,
+                          fontWeight: FontWeight.w900,
+                        ),
+                      ),
+                    ),
+                    if (controller.loading)
+                      const SizedBox.square(
+                        dimension: 18,
+                        child: CircularProgressIndicator(strokeWidth: 2),
+                      )
+                    else
+                      IconButton(
+                        onPressed: controller.refresh,
+                        tooltip: strings.literal('Refresh community progress'),
+                        icon: const Icon(Icons.refresh_rounded),
+                      ),
+                  ],
+                ),
+                const SizedBox(height: 5),
+                Text(
+                  strings.literal(challenge.description),
+                  style: TextStyle(
+                    color: _passportMuted,
+                    fontSize: 12,
+                    height: 1.45,
+                  ),
+                ),
+                const SizedBox(height: 16),
+                Row(
+                  children: [
+                    Expanded(
+                      child: Text(
+                        '${challenge.communityPoints} / ${challenge.targetPoints} ${strings.literal('community points')}',
+                        style: TextStyle(
+                          color: _passportText,
+                          fontWeight: FontWeight.w900,
+                        ),
+                      ),
+                    ),
+                    Text(
+                      '${(challenge.progress * 100).round()}%',
+                      style: TextStyle(
+                        color: _passportGreen,
+                        fontWeight: FontWeight.w900,
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 8),
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(99),
+                  child: LinearProgressIndicator(
+                    value: challenge.progress,
+                    minHeight: 11,
+                    backgroundColor: _passportCardLight,
+                    valueColor: AlwaysStoppedAnimation(_passportGreen),
+                  ),
+                ),
+                const SizedBox(height: 14),
+                Wrap(
+                  spacing: 10,
+                  runSpacing: 10,
+                  children: [
+                    _ChallengeMetric(
+                      icon: Icons.person_rounded,
+                      value: '${challenge.personalPoints}',
+                      label: 'your points',
+                    ),
+                    _ChallengeMetric(
+                      icon: Icons.people_alt_rounded,
+                      value: '${challenge.contributorCount}',
+                      label: 'contributors',
+                    ),
+                    _ChallengeMetric(
+                      icon: Icons.flag_rounded,
+                      value: '${challenge.pointsRemaining}',
+                      label: 'points to go',
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 14),
+                Container(
+                  padding: const EdgeInsets.all(13),
+                  decoration: BoxDecoration(
+                    color: _passportDark.withValues(alpha: 0.55),
+                    borderRadius: BorderRadius.circular(16),
+                  ),
+                  child: Row(
+                    children: [
+                      Icon(
+                        challenge.completed
+                            ? Icons.celebration_rounded
+                            : Icons.redeem_rounded,
+                        color: _passportGreen,
+                      ),
+                      const SizedBox(width: 10),
+                      Expanded(
+                        child: Text(
+                          strings.literal(challenge.reward),
+                          style: TextStyle(
+                            color: _passportText,
+                            fontSize: 11.5,
+                            fontWeight: FontWeight.w700,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
+          const SizedBox(height: 14),
+          if (!controller.cloudAvailable)
+            _ChallengeNotice(
+              icon: Icons.cloud_off_rounded,
+              message:
+                  'Shared progress activates when this build is connected to Supabase.',
+            )
+          else if (!controller.isSignedIn)
+            _ChallengeNotice(
+              icon: Icons.login_rounded,
+              message:
+                  'Sign in from Profile to contribute your Passport activities to the community total.',
+            )
+          else ...[
+            SwitchListTile.adaptive(
+              value: challenge.leaderboardOptIn,
+              onChanged: controller.loading
+                  ? null
+                  : controller.setLeaderboardOptIn,
+              contentPadding: EdgeInsets.zero,
+              activeTrackColor: _passportGreen,
+              title: const Text(
+                'Join the seasonal leaderboard',
+                style: TextStyle(fontWeight: FontWeight.w800),
+              ),
+              subtitle: const Text(
+                'Optional. Only a generated Neighbour alias and your points are shown.',
+              ),
+            ),
+            if (challenge.leaders.isNotEmpty) ...[
+              const SizedBox(height: 8),
+              Text(
+                'Season leaders',
+                style: TextStyle(
+                  color: _passportText,
+                  fontWeight: FontWeight.w900,
+                ),
+              ),
+              const SizedBox(height: 8),
+              ...challenge.leaders.map(
+                (leader) => Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 6),
+                  child: Row(
+                    children: [
+                      SizedBox(
+                        width: 28,
+                        child: Text(
+                          '#${leader.position}',
+                          style: TextStyle(
+                            color: _passportGreen,
+                            fontWeight: FontWeight.w900,
+                          ),
+                        ),
+                      ),
+                      Expanded(
+                        child: Text(
+                          leader.alias,
+                          style: TextStyle(
+                            color: _passportText,
+                            fontWeight: FontWeight.w700,
+                          ),
+                        ),
+                      ),
+                      Text(
+                        '${leader.points} pts',
+                        style: TextStyle(color: _passportMuted),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ],
+          ],
+          if (controller.error != null) ...[
+            const SizedBox(height: 8),
+            const _ChallengeNotice(
+              icon: Icons.sync_problem_rounded,
+              message:
+                  'Community progress could not sync. Your Passport activity is safe and will retry.',
+            ),
+          ],
+        ],
+      ),
+    );
+  }
+}
+
+class _ChallengeMetric extends StatelessWidget {
+  const _ChallengeMetric({
+    required this.icon,
+    required this.value,
+    required this.label,
+  });
+
+  final IconData icon;
+  final String value;
+  final String label;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 9),
+      decoration: BoxDecoration(
+        color: _passportCardLight,
+        borderRadius: BorderRadius.circular(14),
+      ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Icon(icon, color: _passportGreen, size: 17),
+          const SizedBox(width: 7),
+          Text(
+            '$value ${AppLocalizations.of(context).literal(label)}',
+            style: TextStyle(
+              color: _passportText,
+              fontSize: 11,
+              fontWeight: FontWeight.w800,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _ChallengeNotice extends StatelessWidget {
+  const _ChallengeNotice({required this.icon, required this.message});
+
+  final IconData icon;
+  final String message;
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Icon(icon, size: 18, color: _passportMuted),
+        const SizedBox(width: 9),
+        Expanded(
+          child: Text(
+            message,
+            style: TextStyle(color: _passportMuted, fontSize: 11.5),
+          ),
+        ),
+      ],
     );
   }
 }

@@ -55,8 +55,19 @@ flutter run -d chrome `
 Use only the client publishable/anonymous key. Never include a Supabase
 `service_role` key in the application, repository, screenshots or handoff.
 
-Accounts currently provide authentication and identity. Passport progress is
-stored locally until cloud passport synchronisation is implemented.
+Accounts provide authentication and connect unique Passport activities to the
+shared Community Challenge. Passport progress remains available locally, while
+signed-in challenge contributions, collective totals and the opt-in seasonal
+leaderboard are stored in Supabase. Practical details entered during the guided
+Journey—such as bin day, library reference and usual transport stop—also sync
+to a private account-owned settlement profile while retaining an offline local
+copy.
+
+Before enabling the feature, apply the SQL migrations in `supabase/migrations/`
+to the Supabase project. The migration creates the challenge tables, row-level
+security policies and restricted RPC functions used by the app. Users only
+publish a generated `Neighbour` alias when they explicitly join the
+leaderboard; account names and email addresses are never returned publicly.
 
 ## Quality checks
 

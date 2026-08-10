@@ -199,6 +199,156 @@ class AppLocalizations {
   /// Keeping this table strict lets us migrate those widgets incrementally
   /// without allowing an English phrase to leak into another locale.
   static const Map<String, Map<String, String>> _screenPhrases = {
+    'COMMUNITY CHALLENGE': {
+      'zh': '社区挑战',
+      'ko': '커뮤니티 도전',
+      'it': 'SFIDA DELLA COMUNITÀ',
+      'hi': 'सामुदायिक चुनौती',
+    },
+    'Community challenge': {
+      'zh': '社区挑战',
+      'ko': '커뮤니티 도전',
+      'it': 'Sfida della comunità',
+      'hi': 'सामुदायिक चुनौती',
+    },
+    'Together Canada Bay': {
+      'zh': '加拿大湾齐参与',
+      'ko': '함께하는 캐나다 베이',
+      'it': 'Canada Bay insieme',
+      'hi': 'टुगेदर कनाडा बे',
+    },
+    'Complete meaningful local activities and move the community forward together.': {
+      'zh': '完成有意义的本地活动，共同推动社区进步。',
+      'ko': '의미 있는 지역 활동을 완료하고 공동체와 함께 나아가세요.',
+      'it':
+          'Completa attività locali significative e fai crescere la comunità insieme.',
+      'hi': 'सार्थक स्थानीय गतिविधियाँ पूरी करें और समुदाय को साथ आगे बढ़ाएँ।',
+    },
+    'Explore, volunteer, walk and learn together. Every verified Passport activity moves the whole community forward.': {
+      'zh': '一起探索、志愿服务、步行和学习。每项已验证的护照活动都会推动整个社区前进。',
+      'ko': '함께 탐험하고 봉사하고 걷고 배워요. 인증된 모든 패스포트 활동이 공동체를 앞으로 나아가게 합니다.',
+      'it':
+          'Esplora, fai volontariato, cammina e impara insieme. Ogni attività verificata del Passaporto fa avanzare tutta la comunità.',
+      'hi':
+          'साथ मिलकर खोजें, स्वयंसेवा करें, चलें और सीखें। हर सत्यापित पासपोर्ट गतिविधि पूरे समुदाय को आगे बढ़ाती है।',
+    },
+    'Unlock the Together Canada Bay digital celebration.': {
+      'zh': '解锁“加拿大湾齐参与”数字庆祝内容。',
+      'ko': '함께하는 캐나다 베이 디지털 축하 콘텐츠를 잠금 해제하세요.',
+      'it': 'Sblocca la celebrazione digitale Canada Bay insieme.',
+      'hi': 'टुगेदर कनाडा बे डिजिटल उत्सव अनलॉक करें।',
+    },
+    'Unlock the Together Canada Bay digital celebration and community impact story.': {
+      'zh': '解锁“加拿大湾齐参与”数字庆祝内容和社区影响故事。',
+      'ko': '함께하는 캐나다 베이 디지털 축하와 공동체 성과 이야기를 잠금 해제하세요.',
+      'it':
+          'Sblocca la celebrazione digitale Canada Bay insieme e la storia dell’impatto comunitario.',
+      'hi':
+          'टुगेदर कनाडा बे डिजिटल उत्सव और सामुदायिक प्रभाव कहानी अनलॉक करें।',
+    },
+    'Your contribution to what Canada Bay achieves together': {
+      'zh': '您为加拿大湾共同成就作出的贡献',
+      'ko': '캐나다 베이가 함께 이루는 성과에 대한 나의 기여',
+      'it': 'Il tuo contributo ai risultati condivisi di Canada Bay',
+      'hi': 'कनाडा बे की सामूहिक उपलब्धि में आपका योगदान',
+    },
+    'community points': {
+      'zh': '社区积分',
+      'ko': '커뮤니티 포인트',
+      'it': 'punti comunità',
+      'hi': 'सामुदायिक अंक',
+    },
+    'your points': {
+      'zh': '您的积分',
+      'ko': '내 포인트',
+      'it': 'i tuoi punti',
+      'hi': 'आपके अंक',
+    },
+    'contributors': {
+      'zh': '参与者',
+      'ko': '참여자',
+      'it': 'partecipanti',
+      'hi': 'योगदानकर्ता',
+    },
+    'points to go': {
+      'zh': '剩余积分',
+      'ko': '남은 포인트',
+      'it': 'punti mancanti',
+      'hi': 'शेष अंक',
+    },
+    'yours': {'zh': '您的贡献', 'ko': '내 기여', 'it': 'tuoi', 'hi': 'आपके'},
+    'Connect Supabase to activate shared progress': {
+      'zh': '连接 Supabase 以启用共享进度',
+      'ko': '공동 진행률을 활성화하려면 Supabase를 연결하세요',
+      'it': 'Collega Supabase per attivare i progressi condivisi',
+      'hi': 'साझा प्रगति सक्रिय करने के लिए Supabase जोड़ें',
+    },
+    'Sign in to add your activities': {
+      'zh': '登录以添加您的活动',
+      'ko': '내 활동을 추가하려면 로그인하세요',
+      'it': 'Accedi per aggiungere le tue attività',
+      'hi': 'अपनी गतिविधियाँ जोड़ने के लिए साइन इन करें',
+    },
+    'Community reward unlocked!': {
+      'zh': '社区奖励已解锁！',
+      'ko': '커뮤니티 보상이 잠금 해제되었습니다!',
+      'it': 'Ricompensa della comunità sbloccata!',
+      'hi': 'सामुदायिक पुरस्कार अनलॉक हुआ!',
+    },
+    'Your Passport activities count automatically': {
+      'zh': '您的护照活动会自动计入',
+      'ko': '패스포트 활동이 자동으로 반영됩니다',
+      'it': 'Le attività del Passaporto vengono conteggiate automaticamente',
+      'hi': 'आपकी पासपोर्ट गतिविधियाँ अपने आप गिनी जाती हैं',
+    },
+    'Refresh community progress': {
+      'zh': '刷新社区进度',
+      'ko': '커뮤니티 진행률 새로고침',
+      'it': 'Aggiorna i progressi della comunità',
+      'hi': 'सामुदायिक प्रगति रीफ़्रेश करें',
+    },
+    'Shared progress activates when this build is connected to Supabase.': {
+      'zh': '此版本连接到 Supabase 后，共享进度便会启用。',
+      'ko': '이 빌드가 Supabase에 연결되면 공동 진행률이 활성화됩니다.',
+      'it':
+          'I progressi condivisi si attivano quando questa versione è collegata a Supabase.',
+      'hi': 'इस बिल्ड के Supabase से जुड़ने पर साझा प्रगति सक्रिय होगी।',
+    },
+    'Sign in from Profile to contribute your Passport activities to the community total.': {
+      'zh': '从个人资料登录，将您的护照活动计入社区总数。',
+      'ko': '프로필에서 로그인하여 패스포트 활동을 커뮤니티 합계에 더하세요.',
+      'it':
+          'Accedi dal Profilo per aggiungere le attività del Passaporto al totale della comunità.',
+      'hi':
+          'अपनी पासपोर्ट गतिविधियाँ सामुदायिक कुल में जोड़ने के लिए प्रोफ़ाइल से साइन इन करें।',
+    },
+    'Join the seasonal leaderboard': {
+      'zh': '加入季度排行榜',
+      'ko': '시즌 순위표 참여',
+      'it': 'Partecipa alla classifica stagionale',
+      'hi': 'मौसमी लीडरबोर्ड में शामिल हों',
+    },
+    'Optional. Only a generated Neighbour alias and your points are shown.': {
+      'zh': '可选。仅显示系统生成的“邻居”别名和您的积分。',
+      'ko': '선택 사항입니다. 생성된 이웃 별칭과 포인트만 표시됩니다.',
+      'it':
+          'Facoltativo. Vengono mostrati solo un alias Neighbour generato e i tuoi punti.',
+      'hi': 'वैकल्पिक। केवल बनाया गया Neighbour उपनाम और आपके अंक दिखेंगे।',
+    },
+    'Season leaders': {
+      'zh': '本季领先者',
+      'ko': '시즌 선두',
+      'it': 'Leader stagionali',
+      'hi': 'सीज़न लीडर्स',
+    },
+    'Community progress could not sync. Your Passport activity is safe and will retry.': {
+      'zh': '社区进度无法同步。您的护照活动已安全保存，稍后将重试。',
+      'ko': '커뮤니티 진행률을 동기화하지 못했습니다. 패스포트 활동은 안전하며 다시 시도됩니다.',
+      'it':
+          'Impossibile sincronizzare i progressi comunitari. Le attività del Passaporto sono al sicuro e verrà effettuato un nuovo tentativo.',
+      'hi':
+          'सामुदायिक प्रगति सिंक नहीं हुई। आपकी पासपोर्ट गतिविधि सुरक्षित है और फिर प्रयास होगा।',
+    },
     'Explorer': {
       'zh': '探索者',
       'ko': '탐험가',

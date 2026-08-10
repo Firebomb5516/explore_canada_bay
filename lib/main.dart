@@ -7,6 +7,7 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 import 'l10n/app_localizations.dart';
 import 'models/account_profile.dart';
 import 'models/app_preferences.dart';
+import 'models/community_challenge.dart';
 import 'models/passport.dart';
 import 'models/settlement_profile.dart';
 import 'screens/community_screen.dart' as community;
@@ -45,16 +46,28 @@ Future<void> main() async {
 
   final account = AccountProfileController(supabase: supabase);
   final preferences = AppPreferencesController();
-  final settlement = SettlementProfileController();
+  final settlement = SettlementProfileController(
+    supabase: supabase,
+    userId: account.userId,
+  );
   await Future.wait([account.load(), preferences.load(), settlement.load()]);
   final passport = PassportController(ownerId: account.passportOwnerId);
   await passport.load();
+  final communityChallenge = CommunityChallengeController(
+    passport: passport,
+    repository: supabase == null
+        ? null
+        : SupabaseCommunityChallengeRepository(supabase),
+    userId: account.userId,
+  );
+  await communityChallenge.load();
   runApp(
     ExploreCanadaBayApp(
       passport: passport,
       account: account,
       preferences: preferences,
       settlement: settlement,
+      communityChallenge: communityChallenge,
     ),
   );
 }
@@ -64,6 +77,7 @@ class ExploreCanadaBayApp extends StatelessWidget {
   final AccountProfileController account;
   final AppPreferencesController preferences;
   final SettlementProfileController settlement;
+  final CommunityChallengeController communityChallenge;
 
   const ExploreCanadaBayApp({
     super.key,
@@ -71,6 +85,7 @@ class ExploreCanadaBayApp extends StatelessWidget {
     required this.account,
     required this.preferences,
     required this.settlement,
+    required this.communityChallenge,
   });
 
   @override
@@ -80,6 +95,8 @@ class ExploreCanadaBayApp extends StatelessWidget {
       builder: (context, _) {
         AppThemeColors.mode = account.themeMode;
         unawaited(passport.switchOwner(account.passportOwnerId));
+        unawaited(communityChallenge.switchAccount(account.userId));
+        unawaited(settlement.switchAccount(account.userId));
 
         return MaterialApp(
           title: 'Explore Canada Bay',
@@ -101,6 +118,7 @@ class ExploreCanadaBayApp extends StatelessWidget {
                   account: account,
                   preferences: preferences,
                   settlement: settlement,
+                  communityChallenge: communityChallenge,
                 )
               : OnboardingScreen(preferences: preferences, account: account),
         );
@@ -171,6 +189,7 @@ class MainShell extends StatefulWidget {
   final AccountProfileController account;
   final AppPreferencesController preferences;
   final SettlementProfileController settlement;
+  final CommunityChallengeController communityChallenge;
 
   const MainShell({
     super.key,
@@ -178,6 +197,7 @@ class MainShell extends StatefulWidget {
     required this.account,
     required this.preferences,
     required this.settlement,
+    required this.communityChallenge,
   });
 
   @override
@@ -241,6 +261,7 @@ class _MainShellState extends State<MainShell> {
   List<Widget> get _pages => [
     home.HomeScreen(
       passport: widget.passport,
+      communityChallenge: widget.communityChallenge,
       explorerName: widget.account.profileVisible
           ? widget.account.name
           : AppLocalizations(widget.preferences.locale).literal('Explorer'),
@@ -264,6 +285,7 @@ class _MainShellState extends State<MainShell> {
       onOpenJourney: () => _goToPage(_journeyIndex),
     ),
     explore.ExploreScreen(
+      isActive: _selectedIndex == _exploreIndex,
       passport: widget.passport,
       requestedRouteId: _requestedRouteId,
       routeRequestVersion: _routeRequestVersion,
@@ -275,6 +297,7 @@ class _MainShellState extends State<MainShell> {
     services.LocalServicesScreen(onOpenJourney: () => _goToPage(_journeyIndex)),
     passport_screen.PassportScreen(
       passport: widget.passport,
+      communityChallenge: widget.communityChallenge,
       explorerName: widget.account.profileVisible
           ? widget.account.name
           : AppLocalizations(widget.preferences.locale).literal('Explorer'),

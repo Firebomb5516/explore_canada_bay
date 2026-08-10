@@ -60,6 +60,19 @@ void main() {
     );
     await _pumpUntilFound(tester, find.text('Bay Run'));
 
+    final mapBadge = find.byKey(const ValueKey('map-context-badge'));
+    final mapControls = find.byKey(const ValueKey('map-control-bar'));
+    expect(mapBadge, findsOneWidget);
+    expect(mapControls, findsOneWidget);
+    expect(
+      tester.getTopLeft(mapBadge).dy,
+      closeTo(tester.getTopLeft(mapControls).dy, 0.5),
+    );
+    expect(
+      tester.getTopRight(mapBadge).dx,
+      lessThan(tester.getTopLeft(mapControls).dx),
+    );
+
     final action = find.widgetWithText(FilledButton, 'View route').first;
     expect(action, findsOneWidget);
 

@@ -9,6 +9,7 @@ import '../l10n/community_services_localizations.dart';
 import '../l10n/explore_localizations.dart';
 import '../l10n/journey_activity_localizations.dart';
 import '../models/community_item.dart';
+import '../models/community_challenge.dart';
 import '../models/environmental_story.dart';
 import '../models/local_service_item.dart';
 import '../models/passport.dart';
@@ -33,6 +34,7 @@ const _homeLogoAsset = 'assets/images/canada_bay_logo.jpg';
 
 class HomeScreen extends StatefulWidget {
   final PassportController passport;
+  final CommunityChallengeController communityChallenge;
   final VoidCallback? onOpenScan;
   final VoidCallback? onOpenExplore;
   final VoidCallback? onOpenRoutes;
@@ -51,6 +53,7 @@ class HomeScreen extends StatefulWidget {
   const HomeScreen({
     super.key,
     required this.passport,
+    required this.communityChallenge,
     this.onOpenScan,
     this.onOpenExplore,
     this.onOpenRoutes,
@@ -649,6 +652,8 @@ class _HomeScreenState extends State<HomeScreen> {
                               _buildNextStep(),
                               SizedBox(height: 12),
                               _buildJourneyStrip(),
+                              SizedBox(height: 12),
+                              _buildCommunityChallenge(),
                               SizedBox(height: 22),
 
                               desktop
@@ -663,6 +668,151 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
         ),
       ),
+    );
+  }
+
+  Widget _buildCommunityChallenge() {
+    return AnimatedBuilder(
+      animation: widget.communityChallenge,
+      builder: (context, _) {
+        final controller = widget.communityChallenge;
+        final challenge = controller.snapshot;
+        final strings = AppLocalizations.of(context);
+        final status = !controller.cloudAvailable
+            ? strings.literal('Connect Supabase to activate shared progress')
+            : !controller.isSignedIn
+            ? strings.literal('Sign in to add your activities')
+            : challenge.completed
+            ? strings.literal('Community reward unlocked!')
+            : strings.literal('Your Passport activities count automatically');
+
+        return Material(
+          color: _homeGreen.withValues(alpha: 0.12),
+          borderRadius: BorderRadius.circular(26),
+          child: InkWell(
+            onTap: _openPassport,
+            borderRadius: BorderRadius.circular(26),
+            child: Padding(
+              padding: const EdgeInsets.all(18),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    children: [
+                      Container(
+                        width: 44,
+                        height: 44,
+                        decoration: BoxDecoration(
+                          color: _homeGreen,
+                          borderRadius: BorderRadius.circular(15),
+                        ),
+                        child: const Icon(
+                          Icons.groups_2_rounded,
+                          color: Colors.white,
+                        ),
+                      ),
+                      const SizedBox(width: 12),
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              strings.literal('COMMUNITY CHALLENGE'),
+                              style: TextStyle(
+                                color: _homeGreen,
+                                fontSize: 9,
+                                letterSpacing: 1.1,
+                                fontWeight: FontWeight.w900,
+                              ),
+                            ),
+                            const SizedBox(height: 3),
+                            Text(
+                              strings.literal(challenge.title),
+                              style: TextStyle(
+                                color: _homeText,
+                                fontSize: 17,
+                                fontWeight: FontWeight.w900,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      if (controller.loading)
+                        const SizedBox.square(
+                          dimension: 18,
+                          child: CircularProgressIndicator(strokeWidth: 2),
+                        )
+                      else
+                        Icon(Icons.arrow_forward_rounded, color: _homeGreen),
+                    ],
+                  ),
+                  const SizedBox(height: 14),
+                  Row(
+                    children: [
+                      Expanded(
+                        child: Text(
+                          '${challenge.communityPoints} / ${challenge.targetPoints} ${strings.literal('community points')}',
+                          style: TextStyle(
+                            color: _homeText,
+                            fontWeight: FontWeight.w800,
+                          ),
+                        ),
+                      ),
+                      Text(
+                        '${(challenge.progress * 100).round()}%',
+                        style: TextStyle(
+                          color: _homeGreen,
+                          fontWeight: FontWeight.w900,
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 8),
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(99),
+                    child: LinearProgressIndicator(
+                      value: challenge.progress,
+                      minHeight: 9,
+                      backgroundColor: AppThemeColors.surfaceAlt,
+                      valueColor: AlwaysStoppedAnimation<Color>(_homeGreen),
+                    ),
+                  ),
+                  const SizedBox(height: 10),
+                  Row(
+                    children: [
+                      Icon(
+                        Icons.auto_awesome_rounded,
+                        size: 16,
+                        color: _homeGreen,
+                      ),
+                      const SizedBox(width: 7),
+                      Expanded(
+                        child: Text(
+                          status,
+                          style: TextStyle(
+                            color: _homeMuted,
+                            fontSize: 11,
+                            fontWeight: FontWeight.w700,
+                          ),
+                        ),
+                      ),
+                      if (controller.isSignedIn)
+                        Text(
+                          '+${challenge.personalPoints} ${strings.literal('yours')}',
+                          style: TextStyle(
+                            color: _homeGreen,
+                            fontSize: 11,
+                            fontWeight: FontWeight.w900,
+                          ),
+                        ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+          ),
+        );
+      },
     );
   }
 

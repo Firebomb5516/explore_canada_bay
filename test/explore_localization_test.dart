@@ -339,6 +339,10 @@ void main() {
           ),
         ),
       );
+      final sheetHandle = find.byKey(const ValueKey('explore-sheet-handle'));
+      await _pumpUntilFound(tester, sheetHandle);
+      await tester.tap(sheetHandle);
+      await tester.pump(const Duration(milliseconds: 400));
       await _pumpUntilFound(tester, find.text(entry.value.route));
       expect(find.text(entry.value.viewRoute), findsWidgets);
       expect(
@@ -346,9 +350,6 @@ void main() {
         isNull,
         reason: '${entry.key} compact unselected route card overflowed.',
       );
-
-      await tester.tap(find.byKey(const ValueKey('explore-sheet-handle')));
-      await tester.pump(const Duration(milliseconds: 400));
       final routeAction = find.byKey(const ValueKey('view-route:bay_run'));
       await tester.ensureVisible(routeAction);
       await tester.pump();

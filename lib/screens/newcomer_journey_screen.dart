@@ -268,6 +268,24 @@ class _NewcomerJourneyScreenState extends State<NewcomerJourneyScreen> {
                     task.id == 'find-bin-day' ||
                     task.id == 'discover-library' ||
                     task.id == 'plan-first-trip';
+                final inlineSetup = switch (task.id) {
+                  'find-bin-day' => _TutorialBinSetup(
+                    settlement: widget.settlement,
+                    saving: _savingTaskId == task.id,
+                    onSave: _saveBinNight,
+                  ),
+                  'discover-library' => _TutorialLibrarySetup(
+                    initialValue: widget.settlement.libraryCardLabel,
+                    saving: _savingTaskId == task.id,
+                    onSave: (value) => _saveLibraryCard(value, points: task.xp),
+                  ),
+                  'plan-first-trip' => _TutorialTransportSetup(
+                    settlement: widget.settlement,
+                    saving: _savingTaskId == task.id,
+                    onSave: _saveTransport,
+                  ),
+                  _ => null,
+                };
                 return _JourneyTutorialTaskPage(
                   key: ValueKey('journey-tutorial-task:${task.id}'),
                   day: _journeyDay(taskIndex),
@@ -279,6 +297,7 @@ class _NewcomerJourneyScreenState extends State<NewcomerJourneyScreen> {
                   icon: placement.icon,
                   colour: placement.colour,
                   onOpen: () => _openTutorialTask(task),
+                  inlineSetup: inlineSetup,
                   onScan:
                       task.verification == JourneyVerification.qr &&
                           widget.onOpenScanner != null
@@ -703,7 +722,6 @@ class _NewcomerJourneyScreenState extends State<NewcomerJourneyScreen> {
   }
 
   Future<void> _setUpBinNight() async {
-    final copy = JourneyLocalizations.of(context);
     final result = await showModalBottomSheet<({int weekday, bool reminder})>(
       context: context,
       useSafeArea: true,
@@ -712,45 +730,55 @@ class _NewcomerJourneyScreenState extends State<NewcomerJourneyScreen> {
       builder: (context) => _BinSetupSheet(settlement: widget.settlement),
     );
     if (result == null) return;
+    await _saveBinNight(result);
+  }
+
+  Future<void> _saveBinNight(({int weekday, bool reminder}) result) async {
+    if (_savingTaskId != null) return;
+    setState(() => _savingTaskId = 'find-bin-day');
+    final copy = JourneyLocalizations.of(context);
     var reminderEnabled = result.reminder;
-    if (reminderEnabled) {
-      reminderEnabled = await BinNotificationService.instance
-          .scheduleWeeklyReminder(
-            collectionWeekday: result.weekday,
-            title: copy.ui('binNotificationTitle'),
-            body: copy.ui('binNotificationBody'),
-            channelName: copy.ui('binNotificationChannel'),
-            channelDescription: copy.ui('binNotificationChannelDescription'),
-          );
-    } else {
-      await BinNotificationService.instance.cancelReminder();
-    }
-    await widget.settlement.saveBinCollection(
-      weekday: result.weekday,
-      reminderEnabled: reminderEnabled,
-    );
-    await _recordPracticalStep(
-      id: 'find-bin-day',
-      title: copy.ui('binActivityTitle'),
-      body: copy.message('binActivityBody', {
-        'day': copy.weekday(result.weekday),
-      }),
-      localizationArgs: {'weekday': '${result.weekday}'},
-    );
-    if (!mounted) return;
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text(
-          reminderEnabled
-              ? copy.ui('binReminderSaved')
-              : copy.ui('binDaySaved'),
+    try {
+      if (reminderEnabled) {
+        reminderEnabled = await BinNotificationService.instance
+            .scheduleWeeklyReminder(
+              collectionWeekday: result.weekday,
+              title: copy.ui('binNotificationTitle'),
+              body: copy.ui('binNotificationBody'),
+              channelName: copy.ui('binNotificationChannel'),
+              channelDescription: copy.ui('binNotificationChannelDescription'),
+            );
+      } else {
+        await BinNotificationService.instance.cancelReminder();
+      }
+      await widget.settlement.saveBinCollection(
+        weekday: result.weekday,
+        reminderEnabled: reminderEnabled,
+      );
+      await _recordPracticalStep(
+        id: 'find-bin-day',
+        title: copy.ui('binActivityTitle'),
+        body: copy.message('binActivityBody', {
+          'day': copy.weekday(result.weekday),
+        }),
+        localizationArgs: {'weekday': '${result.weekday}'},
+      );
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(
+            reminderEnabled
+                ? copy.ui('binReminderSaved')
+                : copy.ui('binDaySaved'),
+          ),
         ),
-      ),
-    );
+      );
+    } finally {
+      if (mounted) setState(() => _savingTaskId = null);
+    }
   }
 
   Future<void> _setUpLibraryCard({int points = 40}) async {
-    final copy = JourneyLocalizations.of(context);
     final label = await showModalBottomSheet<String>(
       context: context,
       useSafeArea: true,
@@ -760,22 +788,32 @@ class _NewcomerJourneyScreenState extends State<NewcomerJourneyScreen> {
           _LibrarySetupSheet(initialValue: widget.settlement.libraryCardLabel),
     );
     if (label == null) return;
-    await widget.settlement.saveLibraryCard(label);
-    await _recordPracticalStep(
-      id: 'discover-library',
-      title: copy.ui('libraryActivityTitle'),
-      body: copy.ui('libraryActivityBody'),
-      badgeId: 'library_local',
-      points: points,
-    );
-    if (!mounted) return;
-    ScaffoldMessenger.of(
-      context,
-    ).showSnackBar(SnackBar(content: Text(copy.ui('librarySaved'))));
+    await _saveLibraryCard(label, points: points);
+  }
+
+  Future<void> _saveLibraryCard(String label, {int points = 40}) async {
+    if (_savingTaskId != null) return;
+    setState(() => _savingTaskId = 'discover-library');
+    final copy = JourneyLocalizations.of(context);
+    try {
+      await widget.settlement.saveLibraryCard(label);
+      await _recordPracticalStep(
+        id: 'discover-library',
+        title: copy.ui('libraryActivityTitle'),
+        body: copy.ui('libraryActivityBody'),
+        badgeId: 'library_local',
+        points: points,
+      );
+      if (!mounted) return;
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text(copy.ui('librarySaved'))));
+    } finally {
+      if (mounted) setState(() => _savingTaskId = null);
+    }
   }
 
   Future<void> _setUpTransport() async {
-    final copy = JourneyLocalizations.of(context);
     final result = await showModalBottomSheet<({String stop, String mode})>(
       context: context,
       useSafeArea: true,
@@ -784,23 +822,34 @@ class _NewcomerJourneyScreenState extends State<NewcomerJourneyScreen> {
       builder: (context) => _TransportSetupSheet(settlement: widget.settlement),
     );
     if (result == null) return;
-    await widget.settlement.saveTransportShortcut(
-      stop: result.stop,
-      mode: result.mode,
-    );
-    await _recordPracticalStep(
-      id: 'plan-first-trip',
-      title: copy.ui('transportActivityTitle'),
-      body: copy.message('transportActivityBody', {
-        'stop': result.stop,
-        'mode': copy.transportMode(result.mode),
-      }),
-      localizationArgs: {'stop': result.stop, 'mode': result.mode},
-    );
-    if (!mounted) return;
-    ScaffoldMessenger.of(
-      context,
-    ).showSnackBar(SnackBar(content: Text(copy.ui('transportSaved'))));
+    await _saveTransport(result);
+  }
+
+  Future<void> _saveTransport(({String stop, String mode}) result) async {
+    if (_savingTaskId != null) return;
+    setState(() => _savingTaskId = 'plan-first-trip');
+    final copy = JourneyLocalizations.of(context);
+    try {
+      await widget.settlement.saveTransportShortcut(
+        stop: result.stop,
+        mode: result.mode,
+      );
+      await _recordPracticalStep(
+        id: 'plan-first-trip',
+        title: copy.ui('transportActivityTitle'),
+        body: copy.message('transportActivityBody', {
+          'stop': result.stop,
+          'mode': copy.transportMode(result.mode),
+        }),
+        localizationArgs: {'stop': result.stop, 'mode': result.mode},
+      );
+      if (!mounted) return;
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text(copy.ui('transportSaved'))));
+    } finally {
+      if (mounted) setState(() => _savingTaskId = null);
+    }
   }
 
   Future<void> _setUpCouncilReport() async {
@@ -2906,6 +2955,7 @@ class _JourneyTutorialTaskPage extends StatelessWidget {
     required this.icon,
     required this.colour,
     required this.onOpen,
+    this.inlineSetup,
     this.onScan,
     this.onComplete,
   });
@@ -2919,6 +2969,7 @@ class _JourneyTutorialTaskPage extends StatelessWidget {
   final IconData icon;
   final Color colour;
   final VoidCallback onOpen;
+  final Widget? inlineSetup;
   final VoidCallback? onScan;
   final VoidCallback? onComplete;
 
@@ -3088,27 +3139,30 @@ class _JourneyTutorialTaskPage extends StatelessWidget {
                 colour: const Color(0xFF8E68C7),
               ),
               const SizedBox(height: 20),
-              SizedBox(
-                width: double.infinity,
-                child: FilledButton.icon(
-                  key: ValueKey('journey-task-open:${task.id}'),
-                  onPressed: onOpen,
-                  style: FilledButton.styleFrom(
-                    backgroundColor: colour,
-                    foregroundColor: Colors.white,
-                    padding: const EdgeInsets.symmetric(vertical: 15),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(18),
+              if (inlineSetup != null)
+                inlineSetup!
+              else
+                SizedBox(
+                  width: double.infinity,
+                  child: FilledButton.icon(
+                    key: ValueKey('journey-task-open:${task.id}'),
+                    onPressed: onOpen,
+                    style: FilledButton.styleFrom(
+                      backgroundColor: colour,
+                      foregroundColor: Colors.white,
+                      padding: const EdgeInsets.symmetric(vertical: 15),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(18),
+                      ),
+                    ),
+                    icon: const Icon(Icons.arrow_outward_rounded),
+                    label: Text(
+                      copy.action(task),
+                      textAlign: TextAlign.center,
+                      style: const TextStyle(fontWeight: FontWeight.w900),
                     ),
                   ),
-                  icon: const Icon(Icons.arrow_outward_rounded),
-                  label: Text(
-                    copy.action(task),
-                    textAlign: TextAlign.center,
-                    style: const TextStyle(fontWeight: FontWeight.w900),
-                  ),
                 ),
-              ),
               if (onScan != null) ...[
                 const SizedBox(height: 10),
                 SizedBox(
@@ -3141,6 +3195,349 @@ class _JourneyTutorialTaskPage extends StatelessWidget {
             ],
           ),
         ),
+      ),
+    );
+  }
+}
+
+class _TutorialBinSetup extends StatefulWidget {
+  const _TutorialBinSetup({
+    required this.settlement,
+    required this.saving,
+    required this.onSave,
+  });
+
+  final SettlementProfileController settlement;
+  final bool saving;
+  final Future<void> Function(({int weekday, bool reminder})) onSave;
+
+  @override
+  State<_TutorialBinSetup> createState() => _TutorialBinSetupState();
+}
+
+class _TutorialBinSetupState extends State<_TutorialBinSetup> {
+  late int _weekday = widget.settlement.binCollectionWeekday ?? DateTime.monday;
+  late bool _reminder = widget.settlement.binReminderEnabled;
+
+  @override
+  Widget build(BuildContext context) {
+    final copy = JourneyLocalizations.of(context);
+    return _TutorialSetupCard(
+      icon: Icons.delete_outline_rounded,
+      title: copy.ui('binSheetTitle'),
+      body: copy.ui('binSheetBody'),
+      child: Column(
+        children: [
+          Align(
+            alignment: Alignment.centerLeft,
+            child: OutlinedButton.icon(
+              onPressed: () => const ExternalLinkService().open(
+                'https://www.canadabay.nsw.gov.au/residents/waste-and-recycling/my-bins',
+              ),
+              icon: const Icon(Icons.open_in_new_rounded),
+              label: Text(copy.ui('binLookup')),
+            ),
+          ),
+          const SizedBox(height: 12),
+          DropdownButtonFormField<int>(
+            initialValue: _weekday,
+            decoration: InputDecoration(labelText: copy.ui('collectionDay')),
+            items: [
+              for (var weekday = 1; weekday <= 7; weekday++)
+                DropdownMenuItem(
+                  value: weekday,
+                  child: Text(copy.weekday(weekday)),
+                ),
+            ],
+            onChanged: widget.saving
+                ? null
+                : (value) => setState(() => _weekday = value ?? _weekday),
+          ),
+          SwitchListTile.adaptive(
+            contentPadding: EdgeInsets.zero,
+            value: _reminder,
+            onChanged: widget.saving
+                ? null
+                : (value) => setState(() => _reminder = value),
+            title: Text(copy.ui('remindNightBefore')),
+            subtitle: Text(copy.ui('weeklyAtSix')),
+          ),
+          SizedBox(
+            width: double.infinity,
+            child: FilledButton.icon(
+              key: const ValueKey('tutorial-save-bin-night'),
+              onPressed: widget.saving
+                  ? null
+                  : () =>
+                        widget.onSave((weekday: _weekday, reminder: _reminder)),
+              icon: widget.saving
+                  ? const SizedBox.square(
+                      dimension: 17,
+                      child: CircularProgressIndicator(strokeWidth: 2),
+                    )
+                  : const Icon(Icons.cloud_done_rounded),
+              label: Text(copy.ui('savePassport')),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _TutorialLibrarySetup extends StatefulWidget {
+  const _TutorialLibrarySetup({
+    required this.initialValue,
+    required this.saving,
+    required this.onSave,
+  });
+
+  final String? initialValue;
+  final bool saving;
+  final Future<void> Function(String) onSave;
+
+  @override
+  State<_TutorialLibrarySetup> createState() => _TutorialLibrarySetupState();
+}
+
+class _TutorialLibrarySetupState extends State<_TutorialLibrarySetup> {
+  late final TextEditingController _controller = TextEditingController(
+    text: widget.initialValue,
+  );
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final copy = JourneyLocalizations.of(context);
+    return _TutorialSetupCard(
+      icon: Icons.local_library_rounded,
+      title: copy.ui('librarySheetTitle'),
+      body: copy.ui('librarySheetBody'),
+      child: Column(
+        children: [
+          Align(
+            alignment: Alignment.centerLeft,
+            child: OutlinedButton.icon(
+              onPressed: () => const ExternalLinkService().open(
+                'https://www.canadabay.nsw.gov.au/libraries/Membership',
+              ),
+              icon: const Icon(Icons.open_in_new_rounded),
+              label: Text(copy.ui('openLibrary')),
+            ),
+          ),
+          const SizedBox(height: 12),
+          TextField(
+            controller: _controller,
+            enabled: !widget.saving,
+            decoration: InputDecoration(
+              labelText: copy.ui('cardLabel'),
+              hintText: copy.ui('cardHint'),
+            ),
+            textInputAction: TextInputAction.done,
+          ),
+          const SizedBox(height: 7),
+          Text(
+            copy.ui('libraryPrivacy'),
+            style: TextStyle(
+              color: AppThemeColors.subtleText,
+              fontSize: 10.5,
+              height: 1.4,
+            ),
+          ),
+          const SizedBox(height: 12),
+          SizedBox(
+            width: double.infinity,
+            child: FilledButton.icon(
+              key: const ValueKey('tutorial-save-library'),
+              onPressed: widget.saving
+                  ? null
+                  : () {
+                      final value = _controller.text.trim();
+                      if (value.isNotEmpty) widget.onSave(value);
+                    },
+              icon: widget.saving
+                  ? const SizedBox.square(
+                      dimension: 17,
+                      child: CircularProgressIndicator(strokeWidth: 2),
+                    )
+                  : const Icon(Icons.cloud_done_rounded),
+              label: Text(copy.ui('savePassport')),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _TutorialTransportSetup extends StatefulWidget {
+  const _TutorialTransportSetup({
+    required this.settlement,
+    required this.saving,
+    required this.onSave,
+  });
+
+  final SettlementProfileController settlement;
+  final bool saving;
+  final Future<void> Function(({String stop, String mode})) onSave;
+
+  @override
+  State<_TutorialTransportSetup> createState() =>
+      _TutorialTransportSetupState();
+}
+
+class _TutorialTransportSetupState extends State<_TutorialTransportSetup> {
+  late final TextEditingController _controller = TextEditingController(
+    text: widget.settlement.transportStop,
+  );
+  late String _mode = widget.settlement.transportMode ?? 'Train';
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final copy = JourneyLocalizations.of(context);
+    return _TutorialSetupCard(
+      icon: Icons.directions_transit_rounded,
+      title: copy.ui('transportSheetTitle'),
+      body: copy.ui('transportSheetBody'),
+      child: Column(
+        children: [
+          Align(
+            alignment: Alignment.centerLeft,
+            child: OutlinedButton.icon(
+              onPressed: () => const ExternalLinkService().open(
+                'https://transportnsw.info/trip',
+              ),
+              icon: const Icon(Icons.open_in_new_rounded),
+              label: Text(copy.ui('openTransport')),
+            ),
+          ),
+          const SizedBox(height: 12),
+          DropdownButtonFormField<String>(
+            initialValue: _mode,
+            decoration: InputDecoration(labelText: copy.ui('travelMode')),
+            items: [
+              for (final mode in const [
+                'Train',
+                'Bus',
+                'Ferry',
+                'Light rail',
+                'Bike',
+                'Walk',
+              ])
+                DropdownMenuItem(
+                  value: mode,
+                  child: Text(copy.transportMode(mode)),
+                ),
+            ],
+            onChanged: widget.saving
+                ? null
+                : (value) => setState(() => _mode = value ?? _mode),
+          ),
+          const SizedBox(height: 12),
+          TextField(
+            controller: _controller,
+            enabled: !widget.saving,
+            decoration: InputDecoration(
+              labelText: copy.ui('stopLabel'),
+              hintText: copy.ui('stopHint'),
+            ),
+            textInputAction: TextInputAction.done,
+          ),
+          const SizedBox(height: 12),
+          SizedBox(
+            width: double.infinity,
+            child: FilledButton.icon(
+              key: const ValueKey('tutorial-save-transport'),
+              onPressed: widget.saving
+                  ? null
+                  : () {
+                      final stop = _controller.text.trim();
+                      if (stop.isNotEmpty) {
+                        widget.onSave((stop: stop, mode: _mode));
+                      }
+                    },
+              icon: widget.saving
+                  ? const SizedBox.square(
+                      dimension: 17,
+                      child: CircularProgressIndicator(strokeWidth: 2),
+                    )
+                  : const Icon(Icons.cloud_done_rounded),
+              label: Text(copy.ui('saveTransport')),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _TutorialSetupCard extends StatelessWidget {
+  const _TutorialSetupCard({
+    required this.icon,
+    required this.title,
+    required this.body,
+    required this.child,
+  });
+
+  final IconData icon;
+  final String title;
+  final String body;
+  final Widget child;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: double.infinity,
+      padding: const EdgeInsets.all(17),
+      decoration: BoxDecoration(
+        color: AppThemeColors.surfaceAlt,
+        borderRadius: BorderRadius.circular(24),
+        border: Border.all(
+          color: AppThemeColors.accentGreen.withValues(alpha: 0.25),
+        ),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              Icon(icon, color: AppThemeColors.accentGreen),
+              const SizedBox(width: 9),
+              Expanded(
+                child: Text(
+                  title,
+                  style: TextStyle(
+                    color: AppThemeColors.text,
+                    fontSize: 16,
+                    fontWeight: FontWeight.w900,
+                  ),
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 7),
+          Text(
+            body,
+            style: TextStyle(
+              color: AppThemeColors.subtleText,
+              fontSize: 11.5,
+              height: 1.4,
+            ),
+          ),
+          const SizedBox(height: 14),
+          child,
+        ],
       ),
     );
   }

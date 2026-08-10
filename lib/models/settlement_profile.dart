@@ -1,5 +1,8 @@
+import 'dart:convert';
+
 import 'package:flutter/foundation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 /// Practical details a newcomer chooses to keep on this device.
 ///
@@ -7,11 +10,24 @@ import 'package:shared_preferences/shared_preferences.dart';
 /// a useful local wallet as well as a record of exploration. Only a library card
 /// label/last digits are stored; the app never stores a library PIN.
 class SettlementProfileController extends ChangeNotifier {
-  SettlementProfileController({SharedPreferencesAsync? preferences})
-    : _preferences = preferences ?? SharedPreferencesAsync();
+  factory SettlementProfileController({
+    SharedPreferencesAsync? preferences,
+    SupabaseClient? supabase,
+    String? userId,
+  }) => SettlementProfileController._(
+    preferences ?? SharedPreferencesAsync(),
+    supabase,
+    userId,
+  );
+
+  SettlementProfileController._(
+    this._preferences,
+    this._supabase,
+    this._userId,
+  );
 
   /// Creates a non-persisting controller for previews and widget tests.
-  SettlementProfileController.memory() : _preferences = null;
+  SettlementProfileController.memory() : this._(null, null, null);
 
   static const _libraryCardKey = 'settlement.library_card_label';
   static const _binDayKey = 'settlement.bin_day';
@@ -30,6 +46,8 @@ class SettlementProfileController extends ChangeNotifier {
       value.trim().toLowerCase() == 'council issue';
 
   final SharedPreferencesAsync? _preferences;
+  final SupabaseClient? _supabase;
+  String? _userId;
 
   String? _libraryCardLabel;
   int? _binCollectionWeekday;
@@ -55,6 +73,8 @@ class SettlementProfileController extends ChangeNotifier {
   bool get hasTransportShortcut => _transportStop?.isNotEmpty ?? false;
   bool get hasCouncilReport => _councilReportReference?.isNotEmpty ?? false;
   bool get hasPetProfile => _petName?.isNotEmpty ?? false;
+  bool get cloudSyncAvailable => _supabase != null;
+  bool get isCloudAccount => _userId != null;
 
   String get binDayLabel => switch (_binCollectionWeekday) {
     DateTime.monday => 'Monday',
@@ -82,18 +102,21 @@ class SettlementProfileController extends ChangeNotifier {
       return;
     }
     try {
-      _libraryCardLabel = await preferences.getString(_libraryCardKey);
-      _binCollectionWeekday = await preferences.getInt(_binDayKey);
-      _binReminderEnabled = await preferences.getBool(_binReminderKey) ?? false;
+      await _loadLocalProfile(preferences);
       _tutorialSeen = await preferences.getBool(_tutorialSeenKey) ?? false;
-      _transportStop = await preferences.getString(_transportStopKey);
-      _transportMode = await preferences.getString(_transportModeKey);
-      _councilReportReference = await preferences.getString(_councilReportKey);
-      _councilReportType = await preferences.getString(_councilReportTypeKey);
-      _petName = await preferences.getString(_petNameKey);
+      await _loadCloudProfile();
     } on Object catch (error) {
       debugPrint('Settlement profile could not be restored: $error');
     }
+    notifyListeners();
+  }
+
+  Future<void> switchAccount(String? userId) async {
+    if (_userId == userId) return;
+    _userId = userId;
+    final preferences = _preferences;
+    if (preferences != null) await _loadLocalProfile(preferences);
+    if (userId != null) await _loadCloudProfile();
     notifyListeners();
   }
 
@@ -102,12 +125,14 @@ class SettlementProfileController extends ChangeNotifier {
     _libraryCardLabel = cleaned.isEmpty ? null : cleaned;
     notifyListeners();
     final preferences = _preferences;
-    if (preferences == null) return;
-    if (_libraryCardLabel == null) {
-      await preferences.remove(_libraryCardKey);
-    } else {
-      await preferences.setString(_libraryCardKey, _libraryCardLabel!);
+    if (preferences != null) {
+      await _writeOptional(
+        preferences,
+        _profileKey(_libraryCardKey),
+        _libraryCardLabel,
+      );
     }
+    await _pushCloudProfile();
   }
 
   Future<void> saveBinCollection({
@@ -121,17 +146,22 @@ class SettlementProfileController extends ChangeNotifier {
     _binReminderEnabled = reminderEnabled;
     notifyListeners();
     final preferences = _preferences;
-    if (preferences == null) return;
-    await Future.wait([
-      preferences.setInt(_binDayKey, weekday),
-      preferences.setBool(_binReminderKey, reminderEnabled),
-    ]);
+    if (preferences != null) {
+      await Future.wait([
+        preferences.setInt(_profileKey(_binDayKey), weekday),
+        preferences.setBool(_profileKey(_binReminderKey), reminderEnabled),
+      ]);
+    }
+    await _pushCloudProfile();
   }
 
   Future<void> setBinReminderEnabled(bool enabled) async {
     _binReminderEnabled = hasBinDay && enabled;
     notifyListeners();
-    await _preferences?.setBool(_binReminderKey, _binReminderEnabled);
+    await _preferences?.setBool(
+      _profileKey(_binReminderKey),
+      _binReminderEnabled,
+    );
   }
 
   Future<void> saveTransportShortcut({
@@ -142,21 +172,26 @@ class SettlementProfileController extends ChangeNotifier {
     _transportMode = _clean(mode);
     notifyListeners();
     final preferences = _preferences;
-    if (preferences == null) return;
-    if (_transportStop == null) {
-      await Future.wait([
-        preferences.remove(_transportStopKey),
-        preferences.remove(_transportModeKey),
-      ]);
-      return;
+    if (preferences != null) {
+      if (_transportStop == null) {
+        await Future.wait([
+          preferences.remove(_profileKey(_transportStopKey)),
+          preferences.remove(_profileKey(_transportModeKey)),
+        ]);
+      } else {
+        await Future.wait([
+          preferences.setString(
+            _profileKey(_transportStopKey),
+            _transportStop!,
+          ),
+          preferences.setString(
+            _profileKey(_transportModeKey),
+            _transportMode ?? 'Public transport',
+          ),
+        ]);
+      }
     }
-    await Future.wait([
-      preferences.setString(_transportStopKey, _transportStop!),
-      preferences.setString(
-        _transportModeKey,
-        _transportMode ?? 'Public transport',
-      ),
-    ]);
+    await _pushCloudProfile();
   }
 
   Future<void> saveCouncilReport({
@@ -169,30 +204,36 @@ class SettlementProfileController extends ChangeNotifier {
         : _clean(type) ?? defaultCouncilIssueType;
     notifyListeners();
     final preferences = _preferences;
-    if (preferences == null) return;
-    if (_councilReportReference == null) {
-      await Future.wait([
-        preferences.remove(_councilReportKey),
-        preferences.remove(_councilReportTypeKey),
-      ]);
-      return;
+    if (preferences != null) {
+      if (_councilReportReference == null) {
+        await Future.wait([
+          preferences.remove(_profileKey(_councilReportKey)),
+          preferences.remove(_profileKey(_councilReportTypeKey)),
+        ]);
+      } else {
+        await Future.wait([
+          preferences.setString(
+            _profileKey(_councilReportKey),
+            _councilReportReference!,
+          ),
+          preferences.setString(
+            _profileKey(_councilReportTypeKey),
+            _councilReportType!,
+          ),
+        ]);
+      }
     }
-    await Future.wait([
-      preferences.setString(_councilReportKey, _councilReportReference!),
-      preferences.setString(_councilReportTypeKey, _councilReportType!),
-    ]);
+    await _pushCloudProfile();
   }
 
   Future<void> savePetProfile(String name) async {
     _petName = _clean(name);
     notifyListeners();
     final preferences = _preferences;
-    if (preferences == null) return;
-    if (_petName == null) {
-      await preferences.remove(_petNameKey);
-    } else {
-      await preferences.setString(_petNameKey, _petName!);
+    if (preferences != null) {
+      await _writeOptional(preferences, _profileKey(_petNameKey), _petName);
     }
+    await _pushCloudProfile();
   }
 
   Future<void> markTutorialSeen() async {
@@ -205,5 +246,193 @@ class SettlementProfileController extends ChangeNotifier {
   static String? _clean(String value) {
     final cleaned = value.trim();
     return cleaned.isEmpty ? null : cleaned;
+  }
+
+  Future<void> _loadLocalProfile(SharedPreferencesAsync preferences) async {
+    _libraryCardLabel = await preferences.getString(
+      _profileKey(_libraryCardKey),
+    );
+    _binCollectionWeekday = await preferences.getInt(_profileKey(_binDayKey));
+    _binReminderEnabled =
+        await preferences.getBool(_profileKey(_binReminderKey)) ?? false;
+    _transportStop = await preferences.getString(
+      _profileKey(_transportStopKey),
+    );
+    _transportMode = await preferences.getString(
+      _profileKey(_transportModeKey),
+    );
+    _councilReportReference = await preferences.getString(
+      _profileKey(_councilReportKey),
+    );
+    _councilReportType = await preferences.getString(
+      _profileKey(_councilReportTypeKey),
+    );
+    _petName = await preferences.getString(_profileKey(_petNameKey));
+
+    final hasScopedProfile =
+        _libraryCardLabel != null ||
+        _binCollectionWeekday != null ||
+        _transportStop != null ||
+        _councilReportReference != null ||
+        _petName != null;
+    if (hasScopedProfile) return;
+
+    // Migrate the pre-account local profile once, then remove the unscoped
+    // values so a later account cannot accidentally inherit them.
+    _libraryCardLabel = await preferences.getString(_libraryCardKey);
+    _binCollectionWeekday = await preferences.getInt(_binDayKey);
+    _binReminderEnabled =
+        await preferences.getBool(_binReminderKey) ?? _binReminderEnabled;
+    _transportStop = await preferences.getString(_transportStopKey);
+    _transportMode = await preferences.getString(_transportModeKey);
+    _councilReportReference = await preferences.getString(_councilReportKey);
+    _councilReportType = await preferences.getString(_councilReportTypeKey);
+    _petName = await preferences.getString(_petNameKey);
+    final hasLegacyProfile =
+        _libraryCardLabel != null ||
+        _binCollectionWeekday != null ||
+        _transportStop != null ||
+        _councilReportReference != null ||
+        _petName != null;
+    if (!hasLegacyProfile) return;
+
+    await _persistCloudValuesLocally();
+    await Future.wait([
+      preferences.remove(_libraryCardKey),
+      preferences.remove(_binDayKey),
+      preferences.remove(_binReminderKey),
+      preferences.remove(_transportStopKey),
+      preferences.remove(_transportModeKey),
+      preferences.remove(_councilReportKey),
+      preferences.remove(_councilReportTypeKey),
+      preferences.remove(_petNameKey),
+    ]);
+  }
+
+  String _profileKey(String key) {
+    final owner = _userId;
+    if (owner == null) return '$key.guest';
+    final encoded = base64Url.encode(utf8.encode(owner)).replaceAll('=', '');
+    return '$key.$encoded';
+  }
+
+  Future<void> _loadCloudProfile() async {
+    final client = _supabase;
+    final userId = _userId;
+    if (client == null || userId == null) return;
+    try {
+      final row = await client
+          .from('user_settlement_profiles')
+          .select()
+          .eq('user_id', userId)
+          .maybeSingle();
+      if (row == null) {
+        await _pushCloudProfile();
+        return;
+      }
+      final weekday = row['bin_collection_weekday'];
+      _binCollectionWeekday =
+          weekday is int &&
+              weekday >= DateTime.monday &&
+              weekday <= DateTime.sunday
+          ? weekday
+          : _binCollectionWeekday;
+      _libraryCardLabel = _cloudText(row['library_card_label']);
+      _transportStop = _cloudText(row['transport_stop']);
+      _transportMode = _cloudText(row['transport_mode']);
+      _councilReportReference = _cloudText(row['council_report_reference']);
+      _councilReportType = _cloudText(row['council_report_type']);
+      _petName = _cloudText(row['pet_name']);
+      notifyListeners();
+      await _persistCloudValuesLocally();
+    } on Object catch (error) {
+      debugPrint('Account essentials could not be restored: $error');
+    }
+  }
+
+  Future<void> _pushCloudProfile() async {
+    final client = _supabase;
+    final userId = _userId;
+    if (client == null || userId == null) return;
+    try {
+      await client.from('user_settlement_profiles').upsert({
+        'user_id': userId,
+        'bin_collection_weekday': _binCollectionWeekday,
+        'library_card_label': _libraryCardLabel,
+        'transport_stop': _transportStop,
+        'transport_mode': _transportMode,
+        'council_report_reference': _councilReportReference,
+        'council_report_type': _councilReportType,
+        'pet_name': _petName,
+        'updated_at': DateTime.now().toUtc().toIso8601String(),
+      });
+    } on Object catch (error) {
+      // Local persistence remains the offline source until the next save/load.
+      debugPrint('Account essentials could not be synced: $error');
+    }
+  }
+
+  Future<void> _persistCloudValuesLocally() async {
+    final preferences = _preferences;
+    if (preferences == null) return;
+    final writes = <Future<void>>[];
+    if (_binCollectionWeekday != null) {
+      writes.add(
+        preferences.setInt(_profileKey(_binDayKey), _binCollectionWeekday!),
+      );
+    }
+    writes.add(
+      preferences.setBool(_profileKey(_binReminderKey), _binReminderEnabled),
+    );
+    writes.add(
+      _writeOptional(
+        preferences,
+        _profileKey(_libraryCardKey),
+        _libraryCardLabel,
+      ),
+    );
+    writes.add(
+      _writeOptional(
+        preferences,
+        _profileKey(_transportStopKey),
+        _transportStop,
+      ),
+    );
+    writes.add(
+      _writeOptional(
+        preferences,
+        _profileKey(_transportModeKey),
+        _transportMode,
+      ),
+    );
+    writes.add(
+      _writeOptional(
+        preferences,
+        _profileKey(_councilReportKey),
+        _councilReportReference,
+      ),
+    );
+    writes.add(
+      _writeOptional(
+        preferences,
+        _profileKey(_councilReportTypeKey),
+        _councilReportType,
+      ),
+    );
+    writes.add(_writeOptional(preferences, _profileKey(_petNameKey), _petName));
+    await Future.wait(writes);
+  }
+
+  static Future<void> _writeOptional(
+    SharedPreferencesAsync preferences,
+    String key,
+    String? value,
+  ) => value == null
+      ? preferences.remove(key)
+      : preferences.setString(key, value);
+
+  static String? _cloudText(Object? value) {
+    if (value is! String) return null;
+    return _clean(value);
   }
 }

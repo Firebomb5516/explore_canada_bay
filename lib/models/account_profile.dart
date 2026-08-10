@@ -35,6 +35,7 @@ class AccountProfileController extends ChangeNotifier {
   bool get profileVisible => _profileVisible;
   bool get showAchievements => _showAchievements;
   bool get isSignedIn => _userId != null;
+  String? get userId => _userId;
   bool get onlineAccountsAvailable => _supabase != null;
 
   /// Stable owner used to isolate device-side passport progress per account.

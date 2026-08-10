@@ -38,6 +38,7 @@ class ExploreScreen extends StatefulWidget {
   final String? requestedFilter;
   final String? requestedPlaceName;
   final int exploreRequestVersion;
+  final bool isActive;
   final TileProvider? tileProvider;
   final ExploreAssetLoader? assetLoader;
 
@@ -49,6 +50,7 @@ class ExploreScreen extends StatefulWidget {
     this.requestedFilter,
     this.requestedPlaceName,
     this.exploreRequestVersion = 0,
+    this.isActive = true,
     this.tileProvider,
     this.assetLoader,
   });
@@ -71,6 +73,7 @@ class _ExploreScreenState extends State<ExploreScreen> {
   final TextEditingController _searchController = TextEditingController();
   final DraggableScrollableController _mobileSheetController =
       DraggableScrollableController();
+  ScrollController? _mobileSheetScrollController;
   double _mobileSheetMinimumExtent = 0.14;
   double _mobileSheetMaximumExtent = 0.88;
 
@@ -158,6 +161,9 @@ class _ExploreScreenState extends State<ExploreScreen> {
     if (widget.exploreRequestVersion != oldWidget.exploreRequestVersion) {
       _queueExploreRequest();
     }
+    if (widget.isActive != oldWidget.isActive) {
+      _revealMapOnMobile();
+    }
   }
 
   @override
@@ -170,6 +176,10 @@ class _ExploreScreenState extends State<ExploreScreen> {
   void _revealMapOnMobile() {
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       if (!mounted || !_mobileSheetController.isAttached) return;
+      final scrollController = _mobileSheetScrollController;
+      if (scrollController != null && scrollController.hasClients) {
+        scrollController.jumpTo(0);
+      }
       await _mobileSheetController.animateTo(
         _mobileSheetMinimumExtent,
         duration: const Duration(milliseconds: 280),
@@ -1722,15 +1732,38 @@ class _ExploreScreenState extends State<ExploreScreen> {
               // in a draggable sheet so newcomers can inspect the map first,
               // then pull routes and places up without navigating away.
               final collapsedSheetHeight = constraints.maxHeight < 360
-                  ? 88.0
-                  : 96.0;
+                  ? 76.0
+                  : 82.0;
               final minimumSheetExtent =
                   (collapsedSheetHeight / constraints.maxHeight)
-                      .clamp(0.12, 0.42)
+                      .clamp(0.10, 0.42)
                       .toDouble();
-              final maximumSheetExtent = constraints.maxHeight < 520
+              final panelContentWidth = constraints.maxWidth - 32;
+              final narrowPanel = panelContentWidth < 320;
+              final textScale = MediaQuery.textScalerOf(context).scale(16) / 16;
+              final scaledTextAllowance = ((textScale - 1).clamp(0.0, 1.0) * 72)
+                  .toDouble();
+              final desiredExpandedHeight =
+                  collapsedSheetHeight +
+                  342 +
+                  (selectedRoute == null
+                      ? 0
+                      : narrowPanel
+                      ? 126
+                      : 78) +
+                  (loadingWarning == null ? 0 : 68) +
+                  scaledTextAllowance;
+              final maximumSheetCeiling = constraints.maxHeight < 520
                   ? 0.94
-                  : 0.88;
+                  : 0.76;
+              final minimumExpandedExtent = math.max(
+                minimumSheetExtent + 0.18,
+                0.42,
+              );
+              final maximumSheetExtent =
+                  (desiredExpandedHeight / constraints.maxHeight)
+                      .clamp(minimumExpandedExtent, maximumSheetCeiling)
+                      .toDouble();
               _mobileSheetMinimumExtent = minimumSheetExtent;
               _mobileSheetMaximumExtent = maximumSheetExtent;
 
@@ -1754,8 +1787,10 @@ class _ExploreScreenState extends State<ExploreScreen> {
                       snap: true,
                       shouldCloseOnMinExtent: false,
                       builder: (context, scrollController) {
+                        _mobileSheetScrollController = scrollController;
                         return _buildMobileExplorerSheet(
                           scrollController: scrollController,
+                          collapsedHeight: collapsedSheetHeight,
                         );
                       },
                     ),
@@ -1775,6 +1810,7 @@ class _ExploreScreenState extends State<ExploreScreen> {
 
   Widget _buildMobileExplorerSheet({
     required ScrollController scrollController,
+    required double collapsedHeight,
   }) {
     return Material(
       color: Colors.transparent,
@@ -1799,7 +1835,12 @@ class _ExploreScreenState extends State<ExploreScreen> {
           physics: const ClampingScrollPhysics(),
           keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
           slivers: [
-            SliverToBoxAdapter(child: _buildMobileSheetHandle()),
+            SliverToBoxAdapter(
+              child: SizedBox(
+                height: collapsedHeight,
+                child: _buildMobileSheetHandle(),
+              ),
+            ),
             SliverPadding(
               padding: EdgeInsets.fromLTRB(16, 8, 16, 20),
               sliver: SliverToBoxAdapter(
@@ -1820,13 +1861,10 @@ class _ExploreScreenState extends State<ExploreScreen> {
                     SizedBox(height: selectedRoute == null ? 17 : 12),
                     _buildResultsHeader(),
                     SizedBox(height: 10),
-                    SizedBox(
-                      height: 132,
-                      child: AnimatedSwitcher(
-                        duration: Duration(milliseconds: 240),
-                        switchInCurve: Curves.easeOutCubic,
-                        child: _buildDiscoveryContent(desktop: false),
-                      ),
+                    AnimatedSwitcher(
+                      duration: Duration(milliseconds: 240),
+                      switchInCurve: Curves.easeOutCubic,
+                      child: _buildMobileDiscoveryContent(),
                     ),
                   ],
                 ),
@@ -1839,16 +1877,25 @@ class _ExploreScreenState extends State<ExploreScreen> {
   }
 
   Widget _buildMobileSheetHandle() {
+    final selectedItem = selectedMapItem == null
+        ? null
+        : _resolvedDisplayItem(selectedMapItem!);
     final route = selectedRoute;
-    final title = route == null
+    final title = selectedItem != null
+        ? selectedItem.title
+        : route == null
         ? _exploreL10n.text('exploreTitle')
         : _asText(
             _contentFor(route)['title'],
             _exploreL10n.text('selectedRoute'),
           );
-    final subtitle = route == null
+    final subtitle = selectedItem != null
+        ? selectedItem.subtitle
+        : route == null
         ? _exploreL10n.text('startAdventure')
         : _exploreL10n.text('currentRoute');
+    final accent = selectedItem?.colour ?? _green;
+    final leadingIcon = selectedItem?.icon ?? Icons.route_rounded;
 
     return Material(
       color: Colors.transparent,
@@ -1856,7 +1903,7 @@ class _ExploreScreenState extends State<ExploreScreen> {
         key: const ValueKey('explore-sheet-handle'),
         onTap: _toggleMobileExplorerSheet,
         child: Padding(
-          padding: EdgeInsets.fromLTRB(16, 10, 12, 10),
+          padding: EdgeInsets.fromLTRB(16, 8, 12, 8),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
@@ -1868,17 +1915,20 @@ class _ExploreScreenState extends State<ExploreScreen> {
                   borderRadius: BorderRadius.circular(99),
                 ),
               ),
-              SizedBox(height: 8),
+              SizedBox(height: 6),
               Row(
+                key: selectedItem == null
+                    ? null
+                    : const ValueKey('selected-map-sheet-summary'),
                 children: [
                   Container(
                     width: 36,
                     height: 36,
                     decoration: BoxDecoration(
-                      color: _green.withValues(alpha: 0.14),
+                      color: accent.withValues(alpha: 0.14),
                       shape: BoxShape.circle,
                     ),
-                    child: Icon(Icons.route_rounded, color: _green, size: 19),
+                    child: Icon(leadingIcon, color: accent, size: 19),
                   ),
                   SizedBox(width: 10),
                   Expanded(
@@ -1909,12 +1959,48 @@ class _ExploreScreenState extends State<ExploreScreen> {
                       ],
                     ),
                   ),
-                  SizedBox(width: 8),
-                  Icon(
-                    Icons.keyboard_arrow_up_rounded,
-                    color: _textSecondary,
-                    size: 26,
-                  ),
+                  if (selectedItem != null && selectedItem.data != null)
+                    IconButton(
+                      tooltip: _exploreL10n.text('placeDetails'),
+                      constraints: const BoxConstraints.tightFor(
+                        width: 40,
+                        height: 40,
+                      ),
+                      padding: EdgeInsets.zero,
+                      onPressed: () => _showPlaceDetails(selectedItem),
+                      icon: Icon(
+                        Icons.info_outline_rounded,
+                        color: accent,
+                        size: 20,
+                      ),
+                    ),
+                  if (selectedItem != null)
+                    IconButton(
+                      tooltip: _exploreL10n.text('close'),
+                      constraints: const BoxConstraints.tightFor(
+                        width: 40,
+                        height: 40,
+                      ),
+                      padding: EdgeInsets.zero,
+                      onPressed: () {
+                        setState(() {
+                          selectedMapItem = null;
+                        });
+                      },
+                      icon: Icon(
+                        Icons.close_rounded,
+                        color: _textSecondary,
+                        size: 20,
+                      ),
+                    )
+                  else ...[
+                    SizedBox(width: 8),
+                    Icon(
+                      Icons.keyboard_arrow_up_rounded,
+                      color: _textSecondary,
+                      size: 26,
+                    ),
+                  ],
                 ],
               ),
             ],
@@ -2448,6 +2534,80 @@ class _ExploreScreenState extends State<ExploreScreen> {
     return _buildRouteList(desktop: desktop);
   }
 
+  Widget _buildMobileDiscoveryContent() {
+    if (loading && routes.isEmpty && locations.isEmpty) {
+      return SizedBox(
+        key: const ValueKey('mobile-discovery-loading'),
+        height: 132,
+        child: Center(child: CircularProgressIndicator(color: _green)),
+      );
+    }
+
+    final searching = searchQuery.trim().isNotEmpty;
+    final placesOnly =
+        selectedFilter != 'all' &&
+        selectedFilter != 'routes' &&
+        selectedFilter != 'cycling';
+    final entries = <Widget>[];
+
+    if (searching) {
+      for (final route in visibleRoutes) {
+        entries.add(_buildRouteCard(route));
+      }
+      for (final location in visibleLocations) {
+        entries.add(_buildPlaceCard(location));
+      }
+    } else if (placesOnly) {
+      for (final location in visibleLocations) {
+        entries.add(_buildPlaceCard(location));
+      }
+    } else {
+      for (final route in visibleRoutes) {
+        entries.add(_buildRouteCard(route));
+      }
+    }
+
+    if (entries.isEmpty) {
+      return SizedBox(
+        key: ValueKey(
+          searching ? 'mobile-search-empty' : 'mobile-discovery-empty',
+        ),
+        height: 132,
+        child: _EmptyState(
+          icon: searching
+              ? Icons.search_off_rounded
+              : placesOnly
+              ? Icons.location_off_rounded
+              : Icons.route_rounded,
+          title: searching
+              ? _exploreL10n.text('noMatches')
+              : placesOnly
+              ? _exploreL10n.text('nothingHere')
+              : _exploreL10n.text('noRoutes'),
+          message: searching
+              ? _exploreL10n.text('tryShorterSearch')
+              : placesOnly
+              ? _exploreL10n.text('tryDifferentCategory')
+              : _exploreL10n.text('tryAnotherSearch'),
+        ),
+      );
+    }
+
+    return Column(
+      key: searching
+          ? ValueKey('search-$searchQuery-false')
+          : placesOnly
+          ? ValueKey('place-list-$selectedFilter-false')
+          : const ValueKey('route-list-mobile'),
+      children: [
+        for (var index = 0; index < entries.length; index++) ...[
+          entries[index],
+          if (index != entries.length - 1) SizedBox(height: 10),
+        ],
+      ],
+    );
+  }
+
   Widget _buildRouteList({required bool desktop}) {
     if (visibleRoutes.isEmpty) {
       return _EmptyState(
@@ -2473,7 +2633,7 @@ class _ExploreScreenState extends State<ExploreScreen> {
 
     return LayoutBuilder(
       builder: (context, constraints) {
-        final cardWidth = math.min(292.0, constraints.maxWidth);
+        final cardWidth = math.min(268.0, constraints.maxWidth);
         return ListView.separated(
           key: ValueKey('route-list-mobile'),
           scrollDirection: Axis.horizontal,
@@ -2504,7 +2664,7 @@ class _ExploreScreenState extends State<ExploreScreen> {
 
     return LayoutBuilder(
       builder: (context, constraints) {
-        final mobileCardWidth = math.min(250.0, constraints.maxWidth);
+        final mobileCardWidth = math.min(240.0, constraints.maxWidth);
         return ListView.separated(
           key: ValueKey('place-list-$selectedFilter-$desktop'),
           scrollDirection: desktop ? Axis.vertical : Axis.horizontal,
@@ -2538,7 +2698,7 @@ class _ExploreScreenState extends State<ExploreScreen> {
 
     return LayoutBuilder(
       builder: (context, constraints) {
-        final mobileCardWidth = math.min(292.0, constraints.maxWidth);
+        final mobileCardWidth = math.min(268.0, constraints.maxWidth);
         return ListView.separated(
           key: ValueKey('search-$searchQuery-$desktop'),
           scrollDirection: desktop ? Axis.vertical : Axis.horizontal,
@@ -2852,8 +3012,6 @@ class _ExploreScreenState extends State<ExploreScreen> {
     return LayoutBuilder(
       builder: (context, constraints) {
         final padding = desktop ? EdgeInsets.all(46) : EdgeInsets.all(22);
-        final narrowMap = !desktop && constraints.maxWidth < 360;
-
         final calculatedZoom = _calculateFitZoom(
           Size(constraints.maxWidth, constraints.maxHeight),
           padding,
@@ -2953,44 +3111,36 @@ class _ExploreScreenState extends State<ExploreScreen> {
                     MarkerLayer(markers: _buildMarkers()),
 
                     _MapAttribution(
-                      bottomInset: desktop
-                          ? 0
-                          : mobileBottomInset +
-                                (selectedMapItem == null ? 0 : 92),
+                      bottomInset: desktop ? 0 : mobileBottomInset,
                     ),
                   ],
                 ),
               ),
 
-              Positioned(
-                top: 16,
-                left: 16,
-                right: desktop
-                    ? null
-                    : narrowMap
-                    ? 174
-                    : 166,
-                child: AnimatedSwitcher(
-                  duration: Duration(milliseconds: 220),
-                  child: _MapBadge(
-                    key: ValueKey(_asText(selectedRoute?['id'], 'all')),
-                    title: selectedRoute == null
-                        ? _exploreL10n.text('canadaBay')
-                        : _asText(
-                            _contentFor(selectedRoute!)['title'],
-                            _exploreL10n.text('selectedRoute'),
-                          ),
-                    subtitle: selectedRoute == null
-                        ? _exploreL10n.text('placesInView', {
-                            'count': mapItems.length,
-                          })
-                        : _exploreL10n.text('routeStops', {
-                            'count': selectedRouteWaypoints.length,
-                          }),
-                    compact: narrowMap,
+              if (desktop)
+                Positioned(
+                  top: 16,
+                  left: 16,
+                  child: AnimatedSwitcher(
+                    duration: Duration(milliseconds: 220),
+                    child: _MapBadge(
+                      key: ValueKey(_asText(selectedRoute?['id'], 'all')),
+                      title: selectedRoute == null
+                          ? _exploreL10n.text('canadaBay')
+                          : _asText(
+                              _contentFor(selectedRoute!)['title'],
+                              _exploreL10n.text('selectedRoute'),
+                            ),
+                      subtitle: selectedRoute == null
+                          ? _exploreL10n.text('placesInView', {
+                              'count': mapItems.length,
+                            })
+                          : _exploreL10n.text('routeStops', {
+                              'count': selectedRouteWaypoints.length,
+                            }),
+                    ),
                   ),
                 ),
-              ),
 
               Positioned(
                 top: 16,
@@ -3007,12 +3157,11 @@ class _ExploreScreenState extends State<ExploreScreen> {
                 ),
               ),
 
-              if (selectedMapItem != null)
+              if (selectedMapItem != null && desktop)
                 Positioned(
                   left: 16,
-                  right: desktop ? null : 16,
-                  bottom: desktop ? 16 : mobileBottomInset + 12,
-                  width: desktop ? 360 : null,
+                  bottom: 16,
+                  width: 360,
                   child: _buildMapItemCard(
                     _resolvedDisplayItem(selectedMapItem!),
                   ),
@@ -3693,14 +3842,8 @@ class _EmptyState extends StatelessWidget {
 class _MapBadge extends StatelessWidget {
   final String title;
   final String subtitle;
-  final bool compact;
 
-  const _MapBadge({
-    super.key,
-    required this.title,
-    required this.subtitle,
-    this.compact = false,
-  });
+  const _MapBadge({super.key, required this.title, required this.subtitle});
 
   @override
   Widget build(BuildContext context) {
@@ -3715,65 +3858,61 @@ class _MapBadge extends StatelessWidget {
     );
 
     return Semantics(
+      key: const ValueKey('map-context-badge'),
       label: '$title. $subtitle',
-      excludeSemantics: compact,
-      child: Tooltip(
-        message: compact ? '$title · $subtitle' : '',
+      child: Material(
+        color: AppThemeColors.surface.withValues(alpha: 0.96),
+        borderRadius: BorderRadius.circular(18),
         child: Container(
-          constraints: BoxConstraints(maxWidth: 260),
-          padding: EdgeInsets.symmetric(horizontal: 10, vertical: 9),
+          constraints: BoxConstraints(maxWidth: 240, minHeight: 52),
+          padding: EdgeInsets.symmetric(horizontal: 9, vertical: 8),
           decoration: BoxDecoration(
-            color: _navy.withValues(alpha: 0.92),
-            border: Border(
-              left: BorderSide(color: _green, width: 3),
-              top: BorderSide(color: AppThemeColors.border),
-              bottom: BorderSide(color: AppThemeColors.border),
-            ),
+            borderRadius: BorderRadius.circular(18),
+            border: Border.all(color: AppThemeColors.border),
             boxShadow: [
               BoxShadow(
                 color: AppThemeColors.shadow,
-                blurRadius: 9,
-                offset: Offset(0, 4),
+                blurRadius: 14,
+                offset: Offset(0, 6),
               ),
             ],
           ),
-          child: compact
-              ? compass
-              : Row(
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              compass,
+              SizedBox(width: 9),
+              Flexible(
+                child: Column(
                   mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    compass,
-                    SizedBox(width: 9),
-                    Flexible(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            title,
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                            style: TextStyle(
-                              color: _textPrimary,
-                              fontSize: 11.5,
-                              fontWeight: FontWeight.w900,
-                            ),
-                          ),
-                          SizedBox(height: 2),
-                          Text(
-                            subtitle,
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                            style: TextStyle(
-                              color: _textSecondary,
-                              fontSize: 9,
-                              fontWeight: FontWeight.w600,
-                            ),
-                          ),
-                        ],
+                    Text(
+                      title,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: TextStyle(
+                        color: _textPrimary,
+                        fontSize: 12,
+                        fontWeight: FontWeight.w900,
+                      ),
+                    ),
+                    SizedBox(height: 2),
+                    Text(
+                      subtitle,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: TextStyle(
+                        color: _textSecondary,
+                        fontSize: 9.5,
+                        fontWeight: FontWeight.w700,
                       ),
                     ),
                   ],
                 ),
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -3833,6 +3972,7 @@ class _MapControlBar extends StatelessWidget {
   Widget build(BuildContext context) {
     final l10n = ExploreLocalizations.of(context);
     return Material(
+      key: const ValueKey('map-control-bar'),
       color: _navy.withValues(alpha: 0.94),
       borderRadius: BorderRadius.circular(20),
       child: Container(
