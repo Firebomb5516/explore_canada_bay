@@ -9,8 +9,14 @@ create table if not exists public.user_settlement_profiles (
   council_report_reference text check (char_length(council_report_reference) <= 100),
   council_report_type text check (char_length(council_report_type) <= 100),
   pet_name text check (char_length(pet_name) <= 80),
+  journey_resume_page smallint not null default 0 check (journey_resume_page between 0 and 50),
+  journey_started_at date,
   updated_at timestamptz not null default now()
 );
+
+alter table public.user_settlement_profiles
+  add column if not exists journey_resume_page smallint not null default 0,
+  add column if not exists journey_started_at date;
 
 alter table public.user_settlement_profiles enable row level security;
 

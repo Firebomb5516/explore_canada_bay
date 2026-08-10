@@ -38,6 +38,9 @@ class SettlementProfileController extends ChangeNotifier {
   static const _councilReportKey = 'settlement.council_report';
   static const _councilReportTypeKey = 'settlement.council_report_type';
   static const _petNameKey = 'settlement.pet_name';
+  static const _journeyReminderKey = 'settlement.journey_reminders';
+  static const _journeyResumePageKey = 'settlement.journey_resume_page';
+  static const _journeyStartedAtKey = 'settlement.journey_started_at';
   static const defaultCouncilIssueType = 'council-issue';
 
   static bool isDefaultCouncilIssueType(String? value) =>
@@ -58,6 +61,9 @@ class SettlementProfileController extends ChangeNotifier {
   String? _councilReportReference;
   String? _councilReportType;
   String? _petName;
+  bool _journeyRemindersEnabled = false;
+  int _journeyResumePage = 0;
+  DateTime? _journeyStartedAt;
 
   String? get libraryCardLabel => _libraryCardLabel;
   int? get binCollectionWeekday => _binCollectionWeekday;
@@ -73,6 +79,9 @@ class SettlementProfileController extends ChangeNotifier {
   bool get hasTransportShortcut => _transportStop?.isNotEmpty ?? false;
   bool get hasCouncilReport => _councilReportReference?.isNotEmpty ?? false;
   bool get hasPetProfile => _petName?.isNotEmpty ?? false;
+  bool get journeyRemindersEnabled => _journeyRemindersEnabled;
+  int get journeyResumePage => _journeyResumePage;
+  DateTime? get journeyStartedAt => _journeyStartedAt;
   bool get cloudSyncAvailable => _supabase != null;
   bool get isCloudAccount => _userId != null;
 
@@ -243,6 +252,36 @@ class SettlementProfileController extends ChangeNotifier {
     await _preferences?.setBool(_tutorialSeenKey, true);
   }
 
+  Future<void> setJourneyRemindersEnabled(bool enabled) async {
+    _journeyRemindersEnabled = enabled;
+    notifyListeners();
+    await _preferences?.setBool(_profileKey(_journeyReminderKey), enabled);
+  }
+
+  Future<void> saveJourneyResumePage(int page) async {
+    _journeyResumePage = page.clamp(0, 50);
+    notifyListeners();
+    await _preferences?.setInt(
+      _profileKey(_journeyResumePageKey),
+      _journeyResumePage,
+    );
+    await _pushCloudProfile();
+  }
+
+  Future<DateTime> ensureJourneyStarted() async {
+    final existing = _journeyStartedAt;
+    if (existing != null) return existing;
+    final now = DateTime.now();
+    _journeyStartedAt = DateTime(now.year, now.month, now.day);
+    notifyListeners();
+    await _preferences?.setString(
+      _profileKey(_journeyStartedAtKey),
+      _journeyStartedAt!.toIso8601String(),
+    );
+    await _pushCloudProfile();
+    return _journeyStartedAt!;
+  }
+
   static String? _clean(String value) {
     final cleaned = value.trim();
     return cleaned.isEmpty ? null : cleaned;
@@ -268,6 +307,13 @@ class SettlementProfileController extends ChangeNotifier {
       _profileKey(_councilReportTypeKey),
     );
     _petName = await preferences.getString(_profileKey(_petNameKey));
+    _journeyRemindersEnabled =
+        await preferences.getBool(_profileKey(_journeyReminderKey)) ?? false;
+    _journeyResumePage =
+        await preferences.getInt(_profileKey(_journeyResumePageKey)) ?? 0;
+    _journeyStartedAt = DateTime.tryParse(
+      await preferences.getString(_profileKey(_journeyStartedAtKey)) ?? '',
+    );
 
     final hasScopedProfile =
         _libraryCardLabel != null ||
@@ -343,6 +389,12 @@ class SettlementProfileController extends ChangeNotifier {
       _councilReportReference = _cloudText(row['council_report_reference']);
       _councilReportType = _cloudText(row['council_report_type']);
       _petName = _cloudText(row['pet_name']);
+      _journeyResumePage = row['journey_resume_page'] is int
+          ? (row['journey_resume_page'] as int).clamp(0, 50)
+          : _journeyResumePage;
+      _journeyStartedAt =
+          DateTime.tryParse(row['journey_started_at']?.toString() ?? '') ??
+          _journeyStartedAt;
       notifyListeners();
       await _persistCloudValuesLocally();
     } on Object catch (error) {
@@ -364,6 +416,8 @@ class SettlementProfileController extends ChangeNotifier {
         'council_report_reference': _councilReportReference,
         'council_report_type': _councilReportType,
         'pet_name': _petName,
+        'journey_resume_page': _journeyResumePage,
+        'journey_started_at': _journeyStartedAt?.toIso8601String(),
         'updated_at': DateTime.now().toUtc().toIso8601String(),
       });
     } on Object catch (error) {
@@ -420,6 +474,20 @@ class SettlementProfileController extends ChangeNotifier {
       ),
     );
     writes.add(_writeOptional(preferences, _profileKey(_petNameKey), _petName));
+    writes.add(
+      preferences.setInt(
+        _profileKey(_journeyResumePageKey),
+        _journeyResumePage,
+      ),
+    );
+    if (_journeyStartedAt != null) {
+      writes.add(
+        preferences.setString(
+          _profileKey(_journeyStartedAtKey),
+          _journeyStartedAt!.toIso8601String(),
+        ),
+      );
+    }
     await Future.wait(writes);
   }
 

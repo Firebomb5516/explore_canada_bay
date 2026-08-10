@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart' hide Text;
 import 'package:flutter/services.dart';
 
@@ -8,6 +10,8 @@ import '../models/passport.dart';
 import '../models/settlement_profile.dart';
 import '../services/bin_notification_service.dart';
 import '../services/external_link_service.dart';
+import '../services/journey_calendar_service.dart';
+import '../services/journey_reminder_service.dart';
 import '../services/newcomer_journey_repository.dart';
 import '../theme/app_theme.dart';
 import '../widgets/localized_text.dart';
@@ -159,22 +163,56 @@ class NewcomerJourneyScreen extends StatefulWidget {
 class _NewcomerJourneyScreenState extends State<NewcomerJourneyScreen> {
   late Future<NewcomerJourneyCatalog> _catalog;
   late final PageController _tutorialController;
+  OverlayEntry? _quickMessageEntry;
   String? _savingTaskId;
   _JourneyNeed _selectedNeed = _JourneyNeed.settle;
   int _tutorialPage = 0;
   bool _showOverview = false;
+  bool _updatingReminders = false;
 
   @override
   void initState() {
     super.initState();
     _catalog = widget.repository.loadCatalog();
-    _tutorialController = PageController();
+    _tutorialPage = widget.settlement.journeyResumePage.clamp(0, 14);
+    _tutorialController = PageController(initialPage: _tutorialPage);
   }
 
   @override
   void dispose() {
+    final quickMessageEntry = _quickMessageEntry;
+    _quickMessageEntry = null;
+    if (quickMessageEntry?.mounted ?? false) {
+      quickMessageEntry!.remove();
+    }
     _tutorialController.dispose();
     super.dispose();
+  }
+
+  void _showQuickMessage(String message, {bool isError = false}) {
+    final overlay = Overlay.maybeOf(context, rootOverlay: true);
+    if (overlay == null) return;
+
+    final previousEntry = _quickMessageEntry;
+    _quickMessageEntry = null;
+    if (previousEntry?.mounted ?? false) {
+      previousEntry!.remove();
+    }
+
+    late final OverlayEntry entry;
+    entry = OverlayEntry(
+      builder: (context) => _JourneyQuickMessage(
+        message: message,
+        isError: isError,
+        onDismiss: () {
+          if (!identical(_quickMessageEntry, entry)) return;
+          _quickMessageEntry = null;
+          if (entry.mounted) entry.remove();
+        },
+      ),
+    );
+    _quickMessageEntry = entry;
+    overlay.insert(entry);
   }
 
   @override
@@ -244,6 +282,10 @@ class _NewcomerJourneyScreenState extends State<NewcomerJourneyScreen> {
                   return _JourneyTutorialIntro(
                     completed: completed,
                     total: tasks.length,
+                    remindersEnabled: widget.settlement.journeyRemindersEnabled,
+                    updatingReminders: _updatingReminders,
+                    onRemindersChanged: (enabled) =>
+                        _setJourneyReminders(enabled, tasks),
                   );
                 }
                 if (page == totalPages - 1) {
@@ -298,6 +340,8 @@ class _NewcomerJourneyScreenState extends State<NewcomerJourneyScreen> {
                   colour: placement.colour,
                   onOpen: () => _openTutorialTask(task),
                   inlineSetup: inlineSetup,
+                  onAddCalendar: () =>
+                      _addTaskToCalendar(task, _journeyDay(taskIndex)),
                   onScan:
                       task.verification == JourneyVerification.qr &&
                           widget.onOpenScanner != null
@@ -342,8 +386,88 @@ class _NewcomerJourneyScreenState extends State<NewcomerJourneyScreen> {
               }
               _moveTutorialTo(_tutorialPage + 1);
             },
+            onCallItADay: _tutorialPage > 0 && _tutorialPage < totalPages - 1
+                ? () => _callItADay(totalPages)
+                : null,
           ),
         ],
+      ),
+    );
+  }
+
+  Future<void> _callItADay(int totalPages) async {
+    final nextPage = (_tutorialPage + 1).clamp(0, totalPages - 1);
+    await widget.settlement.saveJourneyResumePage(nextPage);
+    if (!mounted) return;
+    final openHome = widget.onOpenHome;
+    if (openHome != null) {
+      openHome();
+    } else {
+      setState(() => _showOverview = true);
+    }
+  }
+
+  Future<void> _setJourneyReminders(
+    bool enabled,
+    List<NewcomerJourneyTask> tasks,
+  ) async {
+    if (_updatingReminders) return;
+    setState(() => _updatingReminders = true);
+    final copy = JourneyLocalizations.of(context);
+    var saved = false;
+    if (enabled) {
+      final prompts = <String>[];
+      for (var day = 1; day <= 30; day++) {
+        var taskIndex = 0;
+        for (var index = 0; index < tasks.length; index++) {
+          if (_journeyDay(index) <= day) taskIndex = index;
+        }
+        prompts.add(
+          copy.message('dailyReminderPrompt', {
+            'day': day,
+            'goal': copy.title(tasks[taskIndex]),
+          }),
+        );
+      }
+      saved = await JourneyReminderService.instance.scheduleThirtyDays(
+        title: copy.ui('journeyNotificationTitle'),
+        dailyPrompts: prompts,
+        channelName: copy.ui('journeyNotificationChannel'),
+        channelDescription: copy.ui('journeyNotificationChannelDescription'),
+      );
+    } else {
+      await JourneyReminderService.instance.cancelAll();
+    }
+    await widget.settlement.setJourneyRemindersEnabled(enabled && saved);
+    if (!mounted) return;
+    setState(() => _updatingReminders = false);
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(
+          enabled && saved
+              ? copy.ui('journeyRemindersOn')
+              : enabled
+              ? copy.ui('journeyRemindersUnavailable')
+              : copy.ui('journeyRemindersOff'),
+        ),
+      ),
+    );
+  }
+
+  Future<void> _addTaskToCalendar(NewcomerJourneyTask task, int day) async {
+    final copy = JourneyLocalizations.of(context);
+    final start = await widget.settlement.ensureJourneyStarted();
+    final opened = await const JourneyCalendarService().addGoal(
+      task: task,
+      journeyStart: start,
+      day: day,
+    );
+    if (!mounted) return;
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(
+          copy.ui(opened ? 'calendarOpened' : 'calendarUnavailable'),
+        ),
       ),
     );
   }
@@ -764,14 +888,8 @@ class _NewcomerJourneyScreenState extends State<NewcomerJourneyScreen> {
         localizationArgs: {'weekday': '${result.weekday}'},
       );
       if (!mounted) return;
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(
-            reminderEnabled
-                ? copy.ui('binReminderSaved')
-                : copy.ui('binDaySaved'),
-          ),
-        ),
+      _showQuickMessage(
+        reminderEnabled ? copy.ui('binReminderSaved') : copy.ui('binDaySaved'),
       );
     } finally {
       if (mounted) setState(() => _savingTaskId = null);
@@ -805,9 +923,7 @@ class _NewcomerJourneyScreenState extends State<NewcomerJourneyScreen> {
         points: points,
       );
       if (!mounted) return;
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(SnackBar(content: Text(copy.ui('librarySaved'))));
+      _showQuickMessage(copy.ui('librarySaved'));
     } finally {
       if (mounted) setState(() => _savingTaskId = null);
     }
@@ -844,9 +960,7 @@ class _NewcomerJourneyScreenState extends State<NewcomerJourneyScreen> {
         localizationArgs: {'stop': result.stop, 'mode': result.mode},
       );
       if (!mounted) return;
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(SnackBar(content: Text(copy.ui('transportSaved'))));
+      _showQuickMessage(copy.ui('transportSaved'));
     } finally {
       if (mounted) setState(() => _savingTaskId = null);
     }
@@ -869,9 +983,7 @@ class _NewcomerJourneyScreenState extends State<NewcomerJourneyScreen> {
       type: result.type,
     );
     if (!mounted) return;
-    ScaffoldMessenger.of(
-      context,
-    ).showSnackBar(SnackBar(content: Text(copy.ui('councilSaved'))));
+    _showQuickMessage(copy.ui('councilSaved'));
   }
 
   Future<void> _setUpPet() async {
@@ -887,9 +999,7 @@ class _NewcomerJourneyScreenState extends State<NewcomerJourneyScreen> {
     if (name == null) return;
     await widget.settlement.savePetProfile(name);
     if (!mounted) return;
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text(copy.message('petSaved', {'name': name}))),
-    );
+    _showQuickMessage(copy.message('petSaved', {'name': name}));
   }
 
   Future<void> _recordPracticalStep({
@@ -939,11 +1049,7 @@ class _NewcomerJourneyScreenState extends State<NewcomerJourneyScreen> {
     if (!opened && mounted) {
       await Clipboard.setData(ClipboardData(text: url));
       if (!mounted) return;
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(JourneyLocalizations.of(context).ui('linkCopied')),
-        ),
-      );
+      _showQuickMessage(JourneyLocalizations.of(context).ui('linkCopied'));
     }
   }
 
@@ -966,26 +1072,21 @@ class _NewcomerJourneyScreenState extends State<NewcomerJourneyScreen> {
         ),
       );
       if (!mounted) return;
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(
-            result.badgeJustEarned
-                ? copy.message('badgeCompleted', {
-                    'badge':
-                        result.badge?.localizedName(copy.languageCode) ??
-                        'Passport',
-                  })
-                : copy.ui('journeySavedMessage'),
-          ),
-        ),
+      _showQuickMessage(
+        result.badgeJustEarned
+            ? copy.message('badgeCompleted', {
+                'badge':
+                    result.badge?.localizedName(copy.languageCode) ??
+                    'Passport',
+              })
+            : copy.ui('journeySavedMessage'),
       );
     } on Object catch (error) {
       debugPrint('Journey completion error: $error');
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text(JourneyLocalizations.of(context).ui('saveError')),
-          ),
+        _showQuickMessage(
+          JourneyLocalizations.of(context).ui('saveError'),
+          isError: true,
         );
       }
     } finally {
@@ -996,6 +1097,142 @@ class _NewcomerJourneyScreenState extends State<NewcomerJourneyScreen> {
   static String _formatDate(DateTime date) =>
       '${date.day.toString().padLeft(2, '0')}/'
       '${date.month.toString().padLeft(2, '0')}/${date.year}';
+}
+
+class _JourneyQuickMessage extends StatefulWidget {
+  const _JourneyQuickMessage({
+    required this.message,
+    required this.isError,
+    required this.onDismiss,
+  });
+
+  final String message;
+  final bool isError;
+  final VoidCallback onDismiss;
+
+  @override
+  State<_JourneyQuickMessage> createState() => _JourneyQuickMessageState();
+}
+
+class _JourneyQuickMessageState extends State<_JourneyQuickMessage>
+    with SingleTickerProviderStateMixin {
+  Timer? _dismissTimer;
+  late final AnimationController _controller = AnimationController(
+    vsync: this,
+    duration: const Duration(milliseconds: 160),
+    reverseDuration: const Duration(milliseconds: 120),
+  );
+  late final Animation<double> _opacity = CurvedAnimation(
+    parent: _controller,
+    curve: Curves.easeOutCubic,
+    reverseCurve: Curves.easeInCubic,
+  );
+  late final Animation<Offset> _position = Tween<Offset>(
+    begin: const Offset(0, -0.35),
+    end: Offset.zero,
+  ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeOutCubic));
+
+  @override
+  void initState() {
+    super.initState();
+    _controller.forward();
+    _dismissTimer = Timer(const Duration(milliseconds: 1400), _dismissMessage);
+  }
+
+  Future<void> _dismissMessage() async {
+    if (!mounted) return;
+    await _controller.reverse();
+    if (mounted) widget.onDismiss();
+  }
+
+  @override
+  void dispose() {
+    _dismissTimer?.cancel();
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final accent = widget.isError
+        ? Theme.of(context).colorScheme.error
+        : AppThemeColors.accentGreen;
+
+    return Positioned(
+      top: 0,
+      left: 0,
+      right: 0,
+      child: SafeArea(
+        bottom: false,
+        minimum: const EdgeInsets.fromLTRB(12, 10, 12, 0),
+        child: IgnorePointer(
+          child: Align(
+            alignment: Alignment.topCenter,
+            child: FadeTransition(
+              opacity: _opacity,
+              child: SlideTransition(
+                position: _position,
+                child: ConstrainedBox(
+                  constraints: const BoxConstraints(maxWidth: 420),
+                  child: Material(
+                    key: const ValueKey('journey-quick-message'),
+                    color: AppThemeColors.surface.withValues(alpha: 0.97),
+                    borderRadius: BorderRadius.circular(16),
+                    elevation: 0,
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 13,
+                        vertical: 11,
+                      ),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(16),
+                        border: Border.all(
+                          color: accent.withValues(alpha: 0.30),
+                        ),
+                        boxShadow: [
+                          BoxShadow(
+                            color: AppThemeColors.shadow,
+                            blurRadius: 14,
+                            offset: const Offset(0, 5),
+                          ),
+                        ],
+                      ),
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Icon(
+                            widget.isError
+                                ? Icons.error_outline_rounded
+                                : Icons.check_circle_rounded,
+                            color: accent,
+                            size: 19,
+                          ),
+                          const SizedBox(width: 9),
+                          Flexible(
+                            child: Text(
+                              widget.message,
+                              maxLines: 2,
+                              overflow: TextOverflow.ellipsis,
+                              style: TextStyle(
+                                color: AppThemeColors.text,
+                                fontSize: 12.5,
+                                height: 1.25,
+                                fontWeight: FontWeight.w800,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
 }
 
 class _SectionHeading extends StatelessWidget {
@@ -2284,12 +2521,15 @@ class _BinSetupSheetState extends State<_BinSetupSheet> {
           onChanged: (value) => setState(() => _weekday = value ?? _weekday),
         ),
         const SizedBox(height: 10),
-        SwitchListTile.adaptive(
-          contentPadding: EdgeInsets.zero,
-          value: _reminder,
-          onChanged: (value) => setState(() => _reminder = value),
-          title: Text(copy.ui('remindNightBefore')),
-          subtitle: Text(copy.ui('weeklyAtSix')),
+        Material(
+          color: Colors.transparent,
+          child: SwitchListTile.adaptive(
+            contentPadding: EdgeInsets.zero,
+            value: _reminder,
+            onChanged: (value) => setState(() => _reminder = value),
+            title: Text(copy.ui('remindNightBefore')),
+            subtitle: Text(copy.ui('weeklyAtSix')),
+          ),
         ),
         const SizedBox(height: 14),
         SizedBox(
@@ -2787,10 +3027,19 @@ class _JourneyTutorialHeader extends StatelessWidget {
 }
 
 class _JourneyTutorialIntro extends StatelessWidget {
-  const _JourneyTutorialIntro({required this.completed, required this.total});
+  const _JourneyTutorialIntro({
+    required this.completed,
+    required this.total,
+    required this.remindersEnabled,
+    required this.updatingReminders,
+    required this.onRemindersChanged,
+  });
 
   final int completed;
   final int total;
+  final bool remindersEnabled;
+  final bool updatingReminders;
+  final ValueChanged<bool> onRemindersChanged;
 
   @override
   Widget build(BuildContext context) {
@@ -2897,6 +3146,33 @@ class _JourneyTutorialIntro extends StatelessWidget {
                 body: copy.ui('tutorialProgressBody'),
                 colour: AppThemeColors.accentGreen,
               ),
+              const SizedBox(height: 14),
+              Container(
+                decoration: BoxDecoration(
+                  color: AppThemeColors.surface,
+                  borderRadius: BorderRadius.circular(22),
+                  border: Border.all(color: AppThemeColors.border),
+                ),
+                child: Material(
+                  color: Colors.transparent,
+                  borderRadius: BorderRadius.circular(22),
+                  child: SwitchListTile.adaptive(
+                    value: remindersEnabled,
+                    onChanged: updatingReminders ? null : onRemindersChanged,
+                    secondary: updatingReminders
+                        ? const SizedBox.square(
+                            dimension: 21,
+                            child: CircularProgressIndicator(strokeWidth: 2),
+                          )
+                        : const Icon(Icons.notifications_active_rounded),
+                    title: Text(
+                      copy.ui('dailyJourneyReminders'),
+                      style: const TextStyle(fontWeight: FontWeight.w900),
+                    ),
+                    subtitle: Text(copy.ui('dailyJourneyRemindersBody')),
+                  ),
+                ),
+              ),
             ],
           ),
         ),
@@ -2956,6 +3232,7 @@ class _JourneyTutorialTaskPage extends StatelessWidget {
     required this.colour,
     required this.onOpen,
     this.inlineSetup,
+    this.onAddCalendar,
     this.onScan,
     this.onComplete,
   });
@@ -2970,6 +3247,7 @@ class _JourneyTutorialTaskPage extends StatelessWidget {
   final Color colour;
   final VoidCallback onOpen;
   final Widget? inlineSetup;
+  final VoidCallback? onAddCalendar;
   final VoidCallback? onScan;
   final VoidCallback? onComplete;
 
@@ -3163,6 +3441,18 @@ class _JourneyTutorialTaskPage extends StatelessWidget {
                     ),
                   ),
                 ),
+              if (onAddCalendar != null) ...[
+                const SizedBox(height: 10),
+                SizedBox(
+                  width: double.infinity,
+                  child: OutlinedButton.icon(
+                    key: ValueKey('journey-add-calendar:${task.id}'),
+                    onPressed: onAddCalendar,
+                    icon: const Icon(Icons.calendar_month_rounded),
+                    label: Text(copy.ui('addGoalToCalendar')),
+                  ),
+                ),
+              ],
               if (onScan != null) ...[
                 const SizedBox(height: 10),
                 SizedBox(
@@ -3253,14 +3543,17 @@ class _TutorialBinSetupState extends State<_TutorialBinSetup> {
                 ? null
                 : (value) => setState(() => _weekday = value ?? _weekday),
           ),
-          SwitchListTile.adaptive(
-            contentPadding: EdgeInsets.zero,
-            value: _reminder,
-            onChanged: widget.saving
-                ? null
-                : (value) => setState(() => _reminder = value),
-            title: Text(copy.ui('remindNightBefore')),
-            subtitle: Text(copy.ui('weeklyAtSix')),
+          Material(
+            color: Colors.transparent,
+            child: SwitchListTile.adaptive(
+              contentPadding: EdgeInsets.zero,
+              value: _reminder,
+              onChanged: widget.saving
+                  ? null
+                  : (value) => setState(() => _reminder = value),
+              title: Text(copy.ui('remindNightBefore')),
+              subtitle: Text(copy.ui('weeklyAtSix')),
+            ),
           ),
           SizedBox(
             width: double.infinity,
@@ -3781,12 +4074,14 @@ class _JourneyTutorialNavigation extends StatelessWidget {
     required this.totalPages,
     required this.onBack,
     required this.onNext,
+    this.onCallItADay,
   });
 
   final int currentPage;
   final int totalPages;
   final VoidCallback? onBack;
   final VoidCallback onNext;
+  final VoidCallback? onCallItADay;
 
   @override
   Widget build(BuildContext context) {
@@ -3810,70 +4105,100 @@ class _JourneyTutorialNavigation extends StatelessWidget {
             ),
           ],
         ),
-        child: Row(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
           children: [
-            IconButton.outlined(
-              key: const ValueKey('journey-tutorial-back'),
-              tooltip: copy.ui('tutorialBack'),
-              onPressed: onBack,
-              icon: const Icon(Icons.arrow_back_rounded),
-            ),
-            const SizedBox(width: 10),
-            Expanded(
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Text(
-                    copy.ui('tutorialSwipeHint'),
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                    style: TextStyle(
-                      color: AppThemeColors.subtleText,
-                      fontSize: 9.5,
-                      fontWeight: FontWeight.w700,
+            Row(
+              children: [
+                IconButton.outlined(
+                  key: const ValueKey('journey-tutorial-back'),
+                  tooltip: copy.ui('tutorialBack'),
+                  onPressed: onBack,
+                  icon: const Icon(Icons.arrow_back_rounded),
+                ),
+                const SizedBox(width: 10),
+                Expanded(
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Text(
+                        copy.ui('tutorialSwipeHint'),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: TextStyle(
+                          color: AppThemeColors.subtleText,
+                          fontSize: 9.5,
+                          fontWeight: FontWeight.w700,
+                        ),
+                      ),
+                      const SizedBox(height: 5),
+                      ClipRRect(
+                        borderRadius: BorderRadius.circular(99),
+                        child: LinearProgressIndicator(
+                          minHeight: 4,
+                          value: (currentPage + 1) / totalPages,
+                          backgroundColor: AppThemeColors.surfaceStrong,
+                          color: AppThemeColors.accentBlue,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                const SizedBox(width: 10),
+                FilledButton.icon(
+                  key: const ValueKey('journey-tutorial-next'),
+                  onPressed: onNext,
+                  style: FilledButton.styleFrom(
+                    backgroundColor: AppThemeColors.accentGreen,
+                    foregroundColor: AppThemeColors.isDark
+                        ? const Color(0xFF061C31)
+                        : Colors.white,
+                    minimumSize: const Size(112, 48),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(16),
                     ),
                   ),
-                  const SizedBox(height: 5),
-                  ClipRRect(
-                    borderRadius: BorderRadius.circular(99),
-                    child: LinearProgressIndicator(
-                      minHeight: 4,
-                      value: (currentPage + 1) / totalPages,
-                      backgroundColor: AppThemeColors.surfaceStrong,
-                      color: AppThemeColors.accentBlue,
+                  icon: Icon(
+                    lastPage ? Icons.home_rounded : Icons.arrow_forward_rounded,
+                  ),
+                  label: Text(
+                    copy.ui(
+                      lastPage
+                          ? 'tutorialFinish'
+                          : firstPage
+                          ? 'tutorialStart'
+                          : onCallItADay != null
+                          ? 'nextDay'
+                          : 'tutorialNext',
+                    ),
+                    style: const TextStyle(fontWeight: FontWeight.w900),
+                  ),
+                ),
+              ],
+            ),
+            if (onCallItADay != null) ...[
+              const SizedBox(height: 8),
+              SizedBox(
+                width: double.infinity,
+                child: FilledButton.icon(
+                  key: const ValueKey('journey-call-it-a-day'),
+                  onPressed: onCallItADay,
+                  style: FilledButton.styleFrom(
+                    backgroundColor: AppThemeColors.accentBlue,
+                    foregroundColor: Colors.white,
+                    minimumSize: const Size.fromHeight(50),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(16),
                     ),
                   ),
-                ],
-              ),
-            ),
-            const SizedBox(width: 10),
-            FilledButton.icon(
-              key: const ValueKey('journey-tutorial-next'),
-              onPressed: onNext,
-              style: FilledButton.styleFrom(
-                backgroundColor: AppThemeColors.accentGreen,
-                foregroundColor: AppThemeColors.isDark
-                    ? const Color(0xFF061C31)
-                    : Colors.white,
-                minimumSize: const Size(112, 48),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(16),
+                  icon: const Icon(Icons.nightlight_round),
+                  label: Text(
+                    copy.ui('callItADay'),
+                    style: const TextStyle(fontWeight: FontWeight.w900),
+                  ),
                 ),
               ),
-              icon: Icon(
-                lastPage ? Icons.home_rounded : Icons.arrow_forward_rounded,
-              ),
-              label: Text(
-                copy.ui(
-                  lastPage
-                      ? 'tutorialFinish'
-                      : firstPage
-                      ? 'tutorialStart'
-                      : 'tutorialNext',
-                ),
-                style: const TextStyle(fontWeight: FontWeight.w900),
-              ),
-            ),
+            ],
           ],
         ),
       ),
