@@ -1,0 +1,110 @@
+[
+  {
+    "id": "powells_creek_badu_mangroves",
+    "name": "Powells Creek and Badu Mangroves",
+    "type": "biodiversity",
+    "category": "Waterways",
+    "description": "Discover an urban wetland corridor where mangroves, saltmarsh and waterways support native birds and aquatic life.",
+    "learningPrompt": "Look for the transition between open water, mangroves and saltmarsh.",
+    "lat": -33.843638,
+    "lng": 151.079816,
+    "officialUrl": "https://www.canadabay.nsw.gov.au/sites/default/files/2025-09/FINAL_2025%20BIODIVERSITY%20ACTION%20PLAN_FA.pdf",
+    "sourceLabel": "City of Canada Bay Biodiversity Action Plan",
+    "translations": {
+      "zh": {"name": "鲍威尔斯溪与巴杜红树林", "category": "水道", "description": "探索一条城市湿地廊道，红树林、盐沼和水道在这里为本地鸟类与水生生物提供栖息地。", "learningPrompt": "观察开阔水面、红树林与盐沼之间的变化。", "sourceLabel": "加拿大湾市生物多样性行动计划"},
+      "ko": {"name": "파월스 크리크와 바두 맹그로브", "category": "수로", "description": "맹그로브와 염습지, 수로가 토종 새와 수생 생물을 지탱하는 도시 습지 통로입니다.", "learningPrompt": "넓은 수면에서 맹그로브와 염습지로 이어지는 변화를 살펴보세요.", "sourceLabel": "캐나다 베이시 생물다양성 실행계획"},
+      "it": {"name": "Powells Creek e mangrovie di Badu", "category": "Corsi d’acqua", "description": "Scopri un corridoio umido urbano in cui mangrovie, paludi salmastre e corsi d’acqua sostengono uccelli nativi e vita acquatica.", "learningPrompt": "Osserva il passaggio tra acqua aperta, mangrovie e palude salmastra.", "sourceLabel": "Piano d’azione per la biodiversità della Città di Canada Bay"},
+      "hi": {"name": "पॉवेल्स क्रीक और बाडू मैंग्रोव", "category": "जलमार्ग", "description": "एक शहरी आर्द्रभूमि गलियारा, जहाँ मैंग्रोव, लवण-दलदल और जलमार्ग देशी पक्षियों व जलीय जीवों को सहारा देते हैं।", "learningPrompt": "खुले पानी, मैंग्रोव और लवण-दलदल के बीच बदलाव देखें।", "sourceLabel": "सिटी ऑफ़ कनाडा बे जैव विविधता कार्य योजना"}
+    }
+  },
+  {
+    "id": "parramatta_river_foreshore",
+    "name": "Parramatta River Foreshore",
+    "type": "biodiversity",
+    "category": "Waterways",
+    "description": "The Parramatta River is Canada Bay's major ecological corridor, connecting foreshore parks and habitat across the northern edge of the city.",
+    "learningPrompt": "Notice how vegetation along the bank creates shelter and stabilises the shoreline.",
+    "lat": -33.838260,
+    "lng": 151.111429,
+    "officialUrl": "https://www.canadabay.nsw.gov.au/sites/default/files/2025-09/FINAL_2025%20BIODIVERSITY%20ACTION%20PLAN_FA.pdf",
+    "sourceLabel": "City of Canada Bay Biodiversity Action Plan",
+    "translations": {
+      "zh": {"name": "帕拉马塔河滨", "category": "水道", "description": "帕拉马塔河是加拿大湾主要的生态廊道，连接城市北缘的滨水公园和栖息地。", "learningPrompt": "留意岸边植被如何提供庇护并稳定河岸。", "sourceLabel": "加拿大湾市生物多样性行动计划"},
+      "ko": {"name": "파라마타강 수변", "category": "수로", "description": "파라마타강은 캐나다 베이 북쪽의 수변 공원과 서식지를 잇는 주요 생태 통로입니다.", "learningPrompt": "강둑 식생이 생물에게 은신처를 주고 물가를 안정시키는 모습을 살펴보세요.", "sourceLabel": "캐나다 베이시 생물다양성 실행계획"},
+      "it": {"name": "Lungofiume del Parramatta", "category": "Corsi d’acqua", "description": "Il Parramatta è il principale corridoio ecologico di Canada Bay e collega parchi e habitat lungo il margine settentrionale della città.", "learningPrompt": "Nota come la vegetazione delle sponde offre riparo e stabilizza il terreno.", "sourceLabel": "Piano d’azione per la biodiversità della Città di Canada Bay"},
+      "hi": {"name": "पैरामैटा नदी तट", "category": "जलमार्ग", "description": "पैरामैटा नदी कनाडा बे का प्रमुख पारिस्थितिक गलियारा है, जो शहर के उत्तरी किनारे के पार्कों और आवासों को जोड़ता है।", "learningPrompt": "देखें कि किनारे की वनस्पति आश्रय देकर तट को कैसे स्थिर करती है।", "sourceLabel": "सिटी ऑफ़ कनाडा बे जैव विविधता कार्य योजना"}
+    }
+  },
+  {
+    "id": "sisters_bay_saltmarsh",
+    "name": "Sisters Bay Saltmarsh",
+    "type": "biodiversity",
+    "category": "Habitat",
+    "description": "Remnant coastal sandstone vegetation, mangroves and saltmarsh provide habitat around Sisters Bay and Half Moon Bay.",
+    "learningPrompt": "Saltmarsh can be easy to overlook. Stay on paths and observe it without stepping into habitat.",
+    "lat": -33.8617,
+    "lng": 151.1453,
+    "officialUrl": "https://www.canadabay.nsw.gov.au/event/sisters-bay-bushcare",
+    "sourceLabel": "City of Canada Bay Bushcare",
+    "translations": {
+      "zh": {"name": "姐妹湾盐沼", "category": "栖息地", "description": "残存的海岸砂岩植被、红树林和盐沼为姐妹湾与半月湾周边提供栖息地。", "learningPrompt": "盐沼很容易被忽略。请留在步道上，不要踏入栖息地。", "sourceLabel": "加拿大湾市丛林养护计划"},
+      "ko": {"name": "시스터스 베이 염습지", "category": "서식지", "description": "남아 있는 해안 사암 식생과 맹그로브, 염습지가 시스터스 베이와 하프 문 베이 주변의 서식지를 이룹니다.", "learningPrompt": "염습지는 눈에 잘 띄지 않습니다. 길을 벗어나지 말고 서식지 안으로 들어가지 마세요.", "sourceLabel": "캐나다 베이시 부시케어"},
+      "it": {"name": "Palude salmastra di Sisters Bay", "category": "Habitat", "description": "Vegetazione costiera su arenaria, mangrovie e paludi salmastre residue offrono habitat intorno a Sisters Bay e Half Moon Bay.", "learningPrompt": "La palude salmastra è facile da ignorare: resta sui sentieri e osservala senza calpestarla.", "sourceLabel": "Programma Bushcare della Città di Canada Bay"},
+      "hi": {"name": "सिस्टर्स बे लवण-दलदल", "category": "आवास", "description": "बची हुई तटीय बलुआ-पत्थर वनस्पति, मैंग्रोव और लवण-दलदल सिस्टर्स बे व हाफ़ मून बे के आसपास आवास देते हैं।", "learningPrompt": "लवण-दलदल आसानी से अनदेखा हो जाता है। रास्ते पर रहें और आवास में न उतरें।", "sourceLabel": "सिटी ऑफ़ कनाडा बे बुशकेयर"}
+    }
+  },
+  {
+    "id": "yaralla_turpentine_forest",
+    "name": "Yaralla Estate Turpentine Forest",
+    "type": "biodiversity",
+    "category": "Restoration",
+    "description": "Yaralla Estate protects an important remnant of Sydney Turpentine Ironbark Forest and demonstrates long-term bush regeneration.",
+    "learningPrompt": "Compare the layered native vegetation with nearby cleared urban landscapes.",
+    "lat": -33.8396,
+    "lng": 151.0992,
+    "officialUrl": "https://www.canadabay.nsw.gov.au/news/endangered-forest-restored",
+    "sourceLabel": "City of Canada Bay Council",
+    "translations": {
+      "zh": {"name": "亚拉拉庄园松脂铁皮桉森林", "category": "生态修复", "description": "亚拉拉庄园保护着重要的悉尼松脂铁皮桉森林残片，并展示长期丛林再生工作。", "learningPrompt": "比较层次丰富的本地植被与附近开阔的城市景观。", "sourceLabel": "加拿大湾市议会"},
+      "ko": {"name": "야랄라 저택 터펜타인 숲", "category": "복원", "description": "야랄라 저택은 중요한 시드니 터펜타인–아이언바크 숲 잔존지를 보호하며 장기적인 숲 복원을 보여 줍니다.", "learningPrompt": "여러 층의 토종 식생과 주변의 정리된 도시 경관을 비교해 보세요.", "sourceLabel": "캐나다 베이시 의회"},
+      "it": {"name": "Foresta di turpentine di Yaralla Estate", "category": "Ripristino", "description": "Yaralla Estate protegge un importante residuo della foresta Sydney Turpentine-Ironbark e mostra una rigenerazione a lungo termine.", "learningPrompt": "Confronta gli strati di vegetazione nativa con i vicini paesaggi urbani aperti.", "sourceLabel": "Consiglio della Città di Canada Bay"},
+      "hi": {"name": "याराला एस्टेट टर्पेंटाइन वन", "category": "पुनर्स्थापन", "description": "याराला एस्टेट सिडनी टर्पेंटाइन–आयरनबार्क वन के महत्वपूर्ण अवशेष को सुरक्षित रखता और लंबे पुनर्जीवन को दिखाता है।", "learningPrompt": "परतदार देशी वनस्पति की तुलना पास के साफ़ शहरी दृश्य से करें।", "sourceLabel": "सिटी ऑफ़ कनाडा बे काउंसिल"}
+    }
+  },
+  {
+    "id": "local_native_species",
+    "name": "Local Native Plant Habitat",
+    "type": "biodiversity",
+    "category": "Native plants",
+    "description": "Locally native trees, shrubs and groundcovers are adapted to local conditions and provide food and habitat for wildlife.",
+    "learningPrompt": "Look for different vegetation layers: canopy, shrubs and groundcover each support different species.",
+    "lat": -33.8563,
+    "lng": 151.1045,
+    "officialUrl": "https://www.canadabay.nsw.gov.au/council/sustainable-council/our-urban-tree-canopy/local-species",
+    "sourceLabel": "City of Canada Bay Council",
+    "translations": {
+      "zh": {"name": "本地原生植物栖息地", "category": "原生植物", "description": "本地原生乔木、灌木与地被植物适应当地环境，并为野生动物提供食物和栖息地。", "learningPrompt": "寻找树冠、灌木和地被等不同植被层；每一层都支持不同物种。", "sourceLabel": "加拿大湾市议会"},
+      "ko": {"name": "지역 토종식물 서식지", "category": "토종식물", "description": "지역의 나무와 관목, 지피식물은 환경에 잘 적응하며 야생동물에게 먹이와 서식지를 제공합니다.", "learningPrompt": "수관, 관목, 지피층을 찾아보세요. 각 층은 서로 다른 생물을 돕습니다.", "sourceLabel": "캐나다 베이시 의회"},
+      "it": {"name": "Habitat di piante native locali", "category": "Piante native", "description": "Alberi, arbusti e tappezzanti locali sono adattati alle condizioni del luogo e offrono cibo e habitat alla fauna.", "learningPrompt": "Cerca i diversi strati: chioma, arbusti e copertura del suolo sostengono specie diverse.", "sourceLabel": "Consiglio della Città di Canada Bay"},
+      "hi": {"name": "स्थानीय देशी पौधों का आवास", "category": "देशी पौधे", "description": "स्थानीय पेड़, झाड़ियाँ और भूमि-आवरण यहाँ की परिस्थितियों के अनुकूल हैं और वन्यजीवों को भोजन व आवास देते हैं।", "learningPrompt": "छतरी, झाड़ी और भूमि-आवरण की अलग परतें देखें; हर परत अलग प्रजातियों को सहारा देती है।", "sourceLabel": "सिटी ऑफ़ कनाडा बे काउंसिल"}
+    }
+  },
+  {
+    "id": "canada_bay_bushcare",
+    "name": "Join Canada Bay Bushcare",
+    "type": "biodiversity",
+    "category": "Volunteer",
+    "description": "Bushcare volunteers help restore and maintain natural areas while learning skills and meeting other local residents.",
+    "learningPrompt": "Explore the site, then use the official source to learn how to join a supervised group.",
+    "lat": -33.8431,
+    "lng": 151.1181,
+    "officialUrl": "https://www.canadabay.nsw.gov.au/community/get-involved/bushcare",
+    "sourceLabel": "City of Canada Bay Council",
+    "translations": {
+      "zh": {"name": "加入加拿大湾丛林养护", "category": "志愿服务", "description": "丛林养护志愿者在学习技能、结识居民的同时，帮助修复和维护自然区域。", "learningPrompt": "先探索地点，再通过官方来源了解如何加入有指导的团队。", "sourceLabel": "加拿大湾市议会"},
+      "ko": {"name": "캐나다 베이 부시케어 참여", "category": "자원봉사", "description": "부시케어 봉사자는 기술을 배우고 이웃을 만나며 자연 지역의 복원과 관리를 돕습니다.", "learningPrompt": "현장을 살펴본 뒤 공식 안내에서 지도받는 모임에 참여하는 방법을 확인하세요.", "sourceLabel": "캐나다 베이시 의회"},
+      "it": {"name": "Partecipa al Bushcare di Canada Bay", "category": "Volontariato", "description": "I volontari Bushcare aiutano a ripristinare e curare le aree naturali, imparando competenze e conoscendo altri residenti.", "learningPrompt": "Esplora il sito e poi consulta la fonte ufficiale per unirti a un gruppo supervisionato.", "sourceLabel": "Consiglio della Città di Canada Bay"},
+      "hi": {"name": "कनाडा बे बुशकेयर से जुड़ें", "category": "स्वयंसेवा", "description": "बुशकेयर स्वयंसेवक कौशल सीखते और स्थानीय लोगों से मिलते हुए प्राकृतिक क्षेत्रों की बहाली व देखभाल करते हैं।", "learningPrompt": "स्थान देखें, फिर आधिकारिक स्रोत से निर्देशित समूह में जुड़ने का तरीका जानें।", "sourceLabel": "सिटी ऑफ़ कनाडा बे काउंसिल"}
+    }
+  }
+]

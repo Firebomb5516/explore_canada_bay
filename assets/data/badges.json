@@ -1,0 +1,200 @@
+[
+  {
+    "id": "nature_trail",
+    "name": "Nature Trail",
+    "description": "Discover parks, wildlife and native habitats around Canada Bay.",
+    "category": "Nature",
+    "collection": "Outdoor Explorer",
+    "rarity": "Uncommon",
+    "target": 5,
+    "image": "",
+    "accentColor": "#00B87A",
+    "translations": {
+      "zh": {"name": "自然步道", "description": "探索加拿大湾周边的公园、野生动物和原生栖息地。", "category": "自然", "collection": "户外探索者", "rarity": "不常见"},
+      "ko": {"name": "자연 탐방로", "description": "캐나다 베이 주변의 공원, 야생동물 및 토착 서식지를 발견하세요.", "category": "자연", "collection": "야외 탐험가", "rarity": "고급"},
+      "it": {"name": "Sentiero natura", "description": "Scopri parchi, fauna selvatica e habitat nativi intorno a Canada Bay.", "category": "Natura", "collection": "Esploratore all’aperto", "rarity": "Non comune"},
+      "hi": {"name": "प्रकृति पथ", "description": "कनाडा बे के आसपास पार्क, वन्यजीव और स्थानीय आवास खोजें।", "category": "प्रकृति", "collection": "बाहरी खोजकर्ता", "rarity": "असामान्य"}
+    },
+    "sortOrder": 1
+  },
+  {
+    "id": "food_finder",
+    "name": "Food Finder",
+    "description": "Taste your way through local cafes, restaurants and community favourites.",
+    "category": "Food",
+    "collection": "Local Life",
+    "rarity": "Common",
+    "target": 5,
+    "image": "",
+    "accentColor": "#FFB74D",
+    "translations": {
+      "zh": {"name": "美食发现者", "description": "品尝本地咖啡馆、餐厅和社区人气美食。", "category": "美食", "collection": "本地生活", "rarity": "常见"},
+      "ko": {"name": "맛집 탐험가", "description": "지역 카페, 레스토랑 및 커뮤니티 인기 메뉴를 맛보세요.", "category": "음식", "collection": "지역 생활", "rarity": "일반"},
+      "it": {"name": "Cercatore di sapori", "description": "Assaggia caffè, ristoranti e specialità amate dalla comunità locale.", "category": "Cibo", "collection": "Vita locale", "rarity": "Comune"},
+      "hi": {"name": "भोजन खोजकर्ता", "description": "स्थानीय कैफ़े, रेस्तराँ और समुदाय के पसंदीदा स्वाद चखें।", "category": "भोजन", "collection": "स्थानीय जीवन", "rarity": "सामान्य"}
+    },
+    "sortOrder": 2
+  },
+  {
+    "id": "heritage_hunter",
+    "name": "Heritage Hunter",
+    "description": "Uncover the stories behind Canada Bay's historic places and landmarks.",
+    "category": "Heritage",
+    "collection": "Local Life",
+    "rarity": "Rare",
+    "target": 4,
+    "image": "",
+    "accentColor": "#5FA8FF",
+    "translations": {
+      "zh": {"name": "历史探索者", "description": "发掘加拿大湾历史地点和地标背后的故事。", "category": "历史文化", "collection": "本地生活", "rarity": "稀有"},
+      "ko": {"name": "유산 탐험가", "description": "캐나다 베이의 역사적인 장소와 명소에 담긴 이야기를 발견하세요.", "category": "문화유산", "collection": "지역 생활", "rarity": "희귀"},
+      "it": {"name": "Cacciatore di storia", "description": "Scopri le storie dei luoghi storici e dei monumenti di Canada Bay.", "category": "Patrimonio", "collection": "Vita locale", "rarity": "Raro"},
+      "hi": {"name": "विरासत खोजकर्ता", "description": "कनाडा बे के ऐतिहासिक स्थानों और स्थलों की कहानियाँ जानें।", "category": "विरासत", "collection": "स्थानीय जीवन", "rarity": "दुर्लभ"}
+    },
+    "sortOrder": 3
+  },
+  {
+    "id": "foreshore_walker",
+    "name": "Foreshore Walker",
+    "description": "Complete waterside walks and discover Canada Bay's foreshore.",
+    "category": "Walking",
+    "collection": "Outdoor Explorer",
+    "rarity": "Rare",
+    "target": 3,
+    "image": "",
+    "accentColor": "#64C8DC",
+    "translations": {
+      "zh": {"name": "滨水步行者", "description": "完成滨水步行路线，探索加拿大湾海滨。", "category": "步行", "collection": "户外探索者", "rarity": "稀有"},
+      "ko": {"name": "해안 산책가", "description": "물가 산책로를 완주하고 캐나다 베이의 해안을 발견하세요.", "category": "걷기", "collection": "야외 탐험가", "rarity": "희귀"},
+      "it": {"name": "Camminatore sul litorale", "description": "Completa passeggiate sull’acqua e scopri il litorale di Canada Bay.", "category": "Camminata", "collection": "Esploratore all’aperto", "rarity": "Raro"},
+      "hi": {"name": "तट पथ यात्री", "description": "पानी किनारे की सैर पूरी करें और कनाडा बे का तट खोजें।", "category": "पैदल यात्रा", "collection": "बाहरी खोजकर्ता", "rarity": "दुर्लभ"}
+    },
+    "sortOrder": 4
+  },
+  {
+    "id": "library_local",
+    "name": "Library Local",
+    "description": "Visit local libraries and discover programs, learning spaces and community resources.",
+    "category": "Library",
+    "collection": "Community Life",
+    "rarity": "Common",
+    "target": 3,
+    "image": "",
+    "accentColor": "#8B78E6",
+    "translations": {
+      "zh": {"name": "图书馆常客", "description": "参观本地图书馆，发现活动、学习空间和社区资源。", "category": "图书馆", "collection": "社区生活", "rarity": "常见"},
+      "ko": {"name": "도서관 이웃", "description": "지역 도서관을 방문해 프로그램, 학습 공간 및 커뮤니티 자료를 발견하세요.", "category": "도서관", "collection": "커뮤니티 생활", "rarity": "일반"},
+      "it": {"name": "Amico della biblioteca", "description": "Visita le biblioteche locali e scopri programmi, spazi di studio e risorse della comunità.", "category": "Biblioteca", "collection": "Vita di comunità", "rarity": "Comune"},
+      "hi": {"name": "स्थानीय पुस्तकालय साथी", "description": "स्थानीय पुस्तकालय जाएँ और कार्यक्रम, अध्ययन स्थान व सामुदायिक संसाधन खोजें।", "category": "पुस्तकालय", "collection": "सामुदायिक जीवन", "rarity": "सामान्य"}
+    },
+    "sortOrder": 5
+  },
+  {
+    "id": "community_participant",
+    "name": "Community Participant",
+    "description": "Take part in local events, programs, markets or neighbourhood activities.",
+    "category": "Community",
+    "collection": "Community Life",
+    "rarity": "Uncommon",
+    "target": 5,
+    "image": "",
+    "accentColor": "#A47AE8",
+    "translations": {
+      "zh": {"name": "社区参与者", "description": "参加本地活动、项目、市集或邻里活动。", "category": "社区", "collection": "社区生活", "rarity": "不常见"},
+      "ko": {"name": "커뮤니티 참여자", "description": "지역 행사, 프로그램, 시장 또는 이웃 활동에 참여하세요.", "category": "커뮤니티", "collection": "커뮤니티 생활", "rarity": "고급"},
+      "it": {"name": "Partecipante della comunità", "description": "Partecipa a eventi, programmi, mercati o attività di quartiere.", "category": "Comunità", "collection": "Vita di comunità", "rarity": "Non comune"},
+      "hi": {"name": "समुदाय सहभागी", "description": "स्थानीय कार्यक्रम, गतिविधि, बाज़ार या पड़ोस के आयोजन में भाग लें।", "category": "समुदाय", "collection": "सामुदायिक जीवन", "rarity": "असामान्य"}
+    },
+    "sortOrder": 6
+  },
+  {
+    "id": "bushcare_helper",
+    "name": "Bushcare Helper",
+    "description": "Learn about habitat restoration and participate in supervised environmental volunteering.",
+    "category": "Volunteer",
+    "collection": "Community Life",
+    "rarity": "Rare",
+    "target": 3,
+    "image": "",
+    "accentColor": "#54B96B",
+    "translations": {
+      "zh": {"name": "丛林养护助手", "description": "了解栖息地修复，并参加有指导的环境志愿服务。", "category": "志愿服务", "collection": "社区生活", "rarity": "稀有"},
+      "ko": {"name": "숲 돌봄 도우미", "description": "서식지 복원을 배우고 지도하에 진행되는 환경 봉사활동에 참여하세요.", "category": "봉사", "collection": "커뮤니티 생활", "rarity": "희귀"},
+      "it": {"name": "Aiutante del bushcare", "description": "Impara il ripristino degli habitat e partecipa al volontariato ambientale supervisionato.", "category": "Volontariato", "collection": "Vita di comunità", "rarity": "Raro"},
+      "hi": {"name": "प्रकृति देखभाल सहायक", "description": "आवास पुनर्स्थापन सीखें और निगरानी वाले पर्यावरण स्वयंसेवा में भाग लें।", "category": "स्वयंसेवा", "collection": "सामुदायिक जीवन", "rarity": "दुर्लभ"}
+    },
+    "sortOrder": 7
+  },
+  {
+    "id": "local_supporter",
+    "name": "Local Supporter",
+    "description": "Discover independent shops, neighbourhood centres and local businesses.",
+    "category": "Business",
+    "collection": "Local Life",
+    "rarity": "Uncommon",
+    "target": 5,
+    "image": "",
+    "accentColor": "#F29E4C",
+    "translations": {
+      "zh": {"name": "本地支持者", "description": "发现独立商店、邻里中心和本地商家。", "category": "商业", "collection": "本地生活", "rarity": "不常见"},
+      "ko": {"name": "지역 상권 후원자", "description": "독립 상점, 이웃 센터 및 지역 사업체를 발견하세요.", "category": "지역 상권", "collection": "지역 생활", "rarity": "고급"},
+      "it": {"name": "Sostenitore locale", "description": "Scopri negozi indipendenti, centri di quartiere e attività locali.", "category": "Attività locali", "collection": "Vita locale", "rarity": "Non comune"},
+      "hi": {"name": "स्थानीय समर्थक", "description": "स्वतंत्र दुकानें, पड़ोस केंद्र और स्थानीय व्यवसाय खोजें।", "category": "व्यवसाय", "collection": "स्थानीय जीवन", "rarity": "असामान्य"}
+    },
+    "sortOrder": 8
+  },
+  {
+    "id": "public_art_explorer",
+    "name": "Public Art Explorer",
+    "description": "Find public art and learn the stories connected to local places.",
+    "category": "Art",
+    "collection": "Culture and Stories",
+    "rarity": "Rare",
+    "target": 4,
+    "image": "",
+    "accentColor": "#D977C8",
+    "translations": {
+      "zh": {"name": "公共艺术探索者", "description": "寻找公共艺术，了解与本地点相关的故事。", "category": "艺术", "collection": "文化与故事", "rarity": "稀有"},
+      "ko": {"name": "공공미술 탐험가", "description": "공공미술을 찾고 지역 장소와 연결된 이야기를 알아보세요.", "category": "예술", "collection": "문화와 이야기", "rarity": "희귀"},
+      "it": {"name": "Esploratore d’arte pubblica", "description": "Trova l’arte pubblica e scopri le storie legate ai luoghi locali.", "category": "Arte", "collection": "Cultura e storie", "rarity": "Raro"},
+      "hi": {"name": "सार्वजनिक कला खोजकर्ता", "description": "सार्वजनिक कला खोजें और स्थानीय स्थानों से जुड़ी कहानियाँ जानें।", "category": "कला", "collection": "संस्कृति और कहानियाँ", "rarity": "दुर्लभ"}
+    },
+    "sortOrder": 9
+  },
+  {
+    "id": "civic_ready",
+    "name": "Civic Ready",
+    "description": "Learn how to access essential council facilities and trusted local services.",
+    "category": "Civic",
+    "collection": "Settling In",
+    "rarity": "Uncommon",
+    "target": 4,
+    "image": "",
+    "accentColor": "#3F8FD2",
+    "translations": {
+      "zh": {"name": "市政生活达人", "description": "了解如何使用重要市政设施和可靠的本地服务。", "category": "市政", "collection": "安居生活", "rarity": "不常见"},
+      "ko": {"name": "생활 행정 준비", "description": "필수 시의회 시설과 신뢰할 수 있는 지역 서비스를 이용하는 방법을 알아보세요.", "category": "생활 행정", "collection": "정착하기", "rarity": "고급"},
+      "it": {"name": "Pronto per i servizi civici", "description": "Scopri come accedere alle strutture comunali essenziali e ai servizi locali affidabili.", "category": "Servizi civici", "collection": "Ambientarsi", "rarity": "Non comune"},
+      "hi": {"name": "नागरिक रूप से तैयार", "description": "आवश्यक काउंसिल सुविधाओं और भरोसेमंद स्थानीय सेवाओं तक पहुँचना जानें।", "category": "नागरिक", "collection": "बसना", "rarity": "असामान्य"}
+    },
+    "sortOrder": 10
+  },
+  {
+    "id": "water_wise",
+    "name": "Water Wise",
+    "description": "Learn the essential pool and beach safety guidance used across New South Wales.",
+    "category": "Safety",
+    "collection": "Settling In",
+    "rarity": "Uncommon",
+    "target": 2,
+    "image": "",
+    "accentColor": "#22A9D6",
+    "translations": {
+      "zh": {"name": "水上安全达人", "description": "学习新南威尔士州通用的重要泳池和海滩安全指南。", "category": "安全", "collection": "安居生活", "rarity": "不常见"},
+      "ko": {"name": "물 안전 지킴이", "description": "뉴사우스웨일스 전역에서 사용하는 필수 수영장 및 해변 안전 지침을 배우세요.", "category": "안전", "collection": "정착하기", "rarity": "고급"},
+      "it": {"name": "Esperto di sicurezza in acqua", "description": "Impara le indicazioni essenziali per la sicurezza in piscina e in spiaggia nel Nuovo Galles del Sud.", "category": "Sicurezza", "collection": "Ambientarsi", "rarity": "Non comune"},
+      "hi": {"name": "जल सुरक्षा जानकार", "description": "न्यू साउथ वेल्स में उपयोग होने वाले ज़रूरी पूल और समुद्र तट सुरक्षा निर्देश सीखें।", "category": "सुरक्षा", "collection": "बसना", "rarity": "असामान्य"}
+    },
+    "sortOrder": 11
+  }
+]

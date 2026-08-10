@@ -1,0 +1,435 @@
+{
+  "schemaVersion": 1,
+  "lastReviewed": "2026-07-24",
+  "services": [
+    {
+      "id": "bin-collection",
+      "title": "Bin collection",
+      "category": "waste",
+      "summary": "Check collection days, bin rules and replacement options for your address.",
+      "details": "City of Canada Bay provides address-based collection information and guidance for household waste, recycling and garden-organics bins. Check the official page before putting bins out because collection arrangements can change around public holidays.",
+      "actionLabel": "Check bin information",
+      "sourceLabel": "City of Canada Bay Council",
+      "officialUrl": "https://www.canadabay.nsw.gov.au/residents/waste-and-recycling/my-bins",
+      "phone": "1300 551 659",
+      "isEssential": true,
+      "isEmergency": false,
+      "translations": {
+        "zh": {"title":"垃圾桶收集","summary":"查询您住址的收集日、垃圾桶规则和更换方式。","details":"加拿大湾市提供按地址查询的生活垃圾、回收和园艺有机垃圾信息。公共假日期间安排可能改变，请在推出垃圾桶前查看官方页面。","actionLabel":"查看垃圾桶信息","highlights":["查找您的收集日","了解每种垃圾桶可放物品","申请新垃圾桶或更换垃圾桶"],"keywords":["垃圾","回收","园艺垃圾","收集日","漏收"]},
+        "ko": {"title":"쓰레기통 수거","summary":"주소별 수거일, 분리배출 규칙과 교체 방법을 확인하세요.","details":"캐나다 베이시는 주소에 따른 일반 쓰레기, 재활용 및 정원 유기물 수거 정보를 제공합니다. 공휴일에는 일정이 바뀔 수 있으므로 배출 전에 공식 페이지를 확인하세요.","actionLabel":"쓰레기통 정보 확인","highlights":["수거일 찾기","쓰레기통별 배출 품목 확인","새 통 또는 교체 통 신청"],"keywords":["쓰레기","재활용","정원 폐기물","수거일","미수거"]},
+        "it": {"title":"Raccolta dei bidoni","summary":"Controlla giorni di raccolta, regole e sostituzioni per il tuo indirizzo.","details":"La City of Canada Bay fornisce informazioni per indirizzo su rifiuti domestici, riciclaggio e organico da giardino. Gli orari possono cambiare nei festivi: controlla la pagina ufficiale prima di esporre i bidoni.","actionLabel":"Controlla le informazioni sui bidoni","highlights":["Trova il giorno di raccolta","Scopri cosa va in ogni bidone","Richiedi un bidone nuovo o sostitutivo"],"keywords":["rifiuti","riciclaggio","verde","giorno di raccolta","mancato ritiro"]},
+        "hi": {"title":"कचरा डिब्बा संग्रह","summary":"अपने पते का संग्रह दिन, डिब्बे के नियम और बदलने के विकल्प देखें।","details":"सिटी ऑफ़ कनाडा बे पते के अनुसार घरेलू कचरा, पुनर्चक्रण और बगीचे के जैविक कचरे की जानकारी देती है। सार्वजनिक छुट्टियों में व्यवस्था बदल सकती है, इसलिए डिब्बे बाहर रखने से पहले आधिकारिक पृष्ठ देखें।","actionLabel":"डिब्बे की जानकारी देखें","highlights":["अपना संग्रह दिन खोजें","जानें कि हर डिब्बे में क्या जाता है","नया या बदला हुआ डिब्बा माँगें"],"keywords":["कचरा","पुनर्चक्रण","हरा कचरा","संग्रह दिन","छूटा संग्रह"]}
+      },
+      "sortOrder": 10,
+      "highlights": [
+        "Find your collection day",
+        "Learn what belongs in each bin",
+        "Request a new or replacement bin"
+      ],
+      "keywords": [
+        "rubbish",
+        "garbage",
+        "green waste",
+        "collection day",
+        "missed bin"
+      ]
+    },
+    {
+      "id": "recycling-stations",
+      "title": "Recycling and problem waste",
+      "category": "waste",
+      "summary": "Find safe drop-off points for batteries, globes, phones, cartridges and other problem waste.",
+      "details": "Council recycling stations accept selected household items that should not go into kerbside bins. The official list includes locations such as Concord Library, Five Dock Library and The Learning Space in Rhodes. Always check accepted items before travelling.",
+      "actionLabel": "Find a recycling station",
+      "sourceLabel": "City of Canada Bay Council",
+      "officialUrl": "https://www.canadabay.nsw.gov.au/residents/waste-and-recycling/what-goes-where/recycling-stations",
+      "isEssential": false,
+      "isEmergency": false,
+      "translations": {
+        "zh": {"title":"回收和特殊废物","summary":"查找电池、灯泡、手机、墨盒等特殊废物的安全投放点。","details":"市政回收站接收不应放入路边垃圾桶的指定家居物品。地点包括 Concord 图书馆、五船坞图书馆和 Rhodes 的 The Learning Space；出发前请确认接收品目。","actionLabel":"查找回收站","highlights":["家用电池和手机","灯泡和打印机墨盒","社区回收中心链接"],"keywords":["电池","电子废物","灯泡","投放","回收站"]},
+        "ko": {"title":"재활용 및 유해 생활폐기물","summary":"배터리, 전구, 휴대전화, 카트리지 등을 안전하게 버릴 곳을 찾으세요.","details":"시의회 재활용 거점은 일반 수거함에 넣으면 안 되는 일부 가정용품을 받습니다. Concord Library, Five Dock Library와 Rhodes의 The Learning Space 등이 있으며 방문 전 품목을 확인하세요.","actionLabel":"재활용 거점 찾기","highlights":["가정용 배터리와 휴대전화","전구와 프린터 카트리지","커뮤니티 재활용 센터 안내"],"keywords":["배터리","전자 폐기물","전구","수거 거점","재활용"]},
+        "it": {"title":"Riciclaggio e rifiuti problematici","summary":"Trova punti sicuri per batterie, lampadine, telefoni, cartucce e altri rifiuti speciali.","details":"Le stazioni comunali accettano alcuni articoli che non vanno nei bidoni domestici. Tra i punti ci sono Concord Library, Five Dock Library e The Learning Space a Rhodes; verifica sempre i materiali accettati.","actionLabel":"Trova una stazione di riciclaggio","highlights":["Batterie domestiche e cellulari","Lampadine e cartucce per stampanti","Collegamenti ai centri di riciclaggio"],"keywords":["batterie","rifiuti elettronici","lampadine","consegna","riciclaggio"]},
+        "hi": {"title":"पुनर्चक्रण और विशेष कचरा","summary":"बैटरी, बल्ब, फ़ोन, कार्ट्रिज और अन्य विशेष कचरे के सुरक्षित जमा केंद्र खोजें।","details":"काउंसिल के पुनर्चक्रण केंद्र चुनिंदा घरेलू सामान लेते हैं जो सड़क किनारे डिब्बों में नहीं जाना चाहिए। Concord Library, Five Dock Library और Rhodes का The Learning Space शामिल हैं; जाने से पहले स्वीकृत वस्तुएँ देखें।","actionLabel":"पुनर्चक्रण केंद्र खोजें","highlights":["घरेलू बैटरी और मोबाइल फ़ोन","बल्ब और प्रिंटर कार्ट्रिज","सामुदायिक पुनर्चक्रण केंद्र लिंक"],"keywords":["बैटरी","ई-कचरा","बल्ब","जमा केंद्र","पुनर्चक्रण"]}
+      },
+      "sortOrder": 20,
+      "highlights": [
+        "Household batteries and mobile phones",
+        "Light globes and printer cartridges",
+        "Links to community recycling centres"
+      ],
+      "keywords": [
+        "battery",
+        "batteries",
+        "e-waste",
+        "electronics",
+        "light bulbs",
+        "drop off"
+      ]
+    },
+    {
+      "id": "park-barbecues",
+      "title": "Council BBQs and picnic areas",
+      "category": "parks",
+      "summary": "Find parks with barbecues, shelters, picnic tables and family facilities.",
+      "details": "Council's park directory lists facilities across the local government area. BBQ locations include Cabarita Park, Bayview Park, Five Dock Park, Rodd Park, Timbrell Park, Wangal Reserve and other waterfront parks. Facilities can be unavailable during maintenance, so confirm details on the official directory.",
+      "actionLabel": "Browse park facilities",
+      "sourceLabel": "City of Canada Bay Council",
+      "officialUrl": "https://www.canadabay.nsw.gov.au/lifestyle/parklands-and-waterways/parks",
+      "isEssential": false,
+      "isEmergency": false,
+      "translations": {
+        "zh": {"title":"市政烧烤和野餐区","summary":"查找设有烧烤炉、遮蔽处、野餐桌和家庭设施的公园。","details":"市政公园目录列出本区设施，包括 Cabarita Park、Bayview Park、Five Dock Park、Rodd Park、Timbrell Park 和 Wangal Reserve。维护期间设施可能关闭，请先确认。","actionLabel":"浏览公园设施","highlights":["按城区浏览公园","查看烧烤和野餐设施","查找游乐场和无障碍设施"],"keywords":["烧烤","野餐","遮蔽处","游乐场","家庭"]},
+        "ko": {"title":"시의회 바비큐 및 피크닉 공간","summary":"바비큐, 쉼터, 피크닉 테이블과 가족 시설이 있는 공원을 찾으세요.","details":"시의회 공원 목록에는 Cabarita Park, Bayview Park, Five Dock Park, Rodd Park, Timbrell Park와 Wangal Reserve 등이 있습니다. 정비 중 이용이 제한될 수 있어 미리 확인하세요.","actionLabel":"공원 시설 둘러보기","highlights":["지역별 공원 찾기","바비큐와 피크닉 시설 확인","놀이터와 접근 가능한 시설 찾기"],"keywords":["바비큐","피크닉","쉼터","놀이터","가족"]},
+        "it": {"title":"Barbecue comunali e aree picnic","summary":"Trova parchi con barbecue, ripari, tavoli da picnic e strutture per famiglie.","details":"La directory comunale include Cabarita Park, Bayview Park, Five Dock Park, Rodd Park, Timbrell Park e Wangal Reserve. Le strutture possono chiudere per manutenzione, quindi verifica prima della visita.","actionLabel":"Consulta le strutture dei parchi","highlights":["Cerca parchi per sobborgo","Controlla barbecue e aree picnic","Trova parchi giochi e servizi accessibili"],"keywords":["barbecue","picnic","riparo","parco giochi","famiglie"]},
+        "hi": {"title":"काउंसिल बारबेक्यू और पिकनिक क्षेत्र","summary":"बारबेक्यू, छाया, पिकनिक मेज़ और पारिवारिक सुविधाओं वाले पार्क खोजें।","details":"काउंसिल निर्देशिका में Cabarita Park, Bayview Park, Five Dock Park, Rodd Park, Timbrell Park और Wangal Reserve जैसे स्थान हैं। रखरखाव में सुविधाएँ बंद हो सकती हैं, इसलिए पहले जाँचें।","actionLabel":"पार्क सुविधाएँ देखें","highlights":["उपनगर के अनुसार पार्क देखें","बारबेक्यू और पिकनिक सुविधाएँ जाँचें","खेल मैदान और सुलभ सुविधाएँ खोजें"],"keywords":["बारबेक्यू","पिकनिक","छाया","खेल मैदान","परिवार"]}
+      },
+      "sortOrder": 30,
+      "highlights": [
+        "Browse parks by suburb",
+        "Check BBQ and picnic facilities",
+        "Find playgrounds and accessible amenities"
+      ],
+      "keywords": [
+        "barbecue",
+        "bbq",
+        "picnic",
+        "shelter",
+        "playground",
+        "family"
+      ]
+    },
+    {
+      "id": "libraries",
+      "title": "Libraries and learning spaces",
+      "category": "libraries",
+      "summary": "Visit Concord, Five Dock or The Learning Space at Rhodes to learn, connect and study.",
+      "details": "City of Canada Bay has three library locations. Concord and Five Dock provide physical collections, study spaces and programs. The Learning Space at Rhodes focuses on technology, creative learning and digital equipment. Membership is free; confirm current opening hours and public-holiday changes on the official page.",
+      "actionLabel": "Check library hours",
+      "sourceLabel": "City of Canada Bay Libraries",
+      "officialUrl": "https://www.canadabay.nsw.gov.au/libraries/Location-and-opening-hours",
+      "phone": "02 9911 6210",
+      "isEssential": true,
+      "isEmergency": false,
+      "translations": {
+        "zh": {"title":"图书馆和学习空间","summary":"到 Concord、五船坞或 Rhodes 的 The Learning Space 学习、交流和自习。","details":"加拿大湾有三个图书馆地点。Concord 和五船坞提供馆藏、学习空间和活动；Rhodes 的 The Learning Space 注重科技与创意学习。会员免费，请确认开放时间。","actionLabel":"查看图书馆开放时间","highlights":["Concord Library — Flavelle Street 60号","Five Dock Library — Garfield Street 4–12号","The Learning Space — Rhodes Shoreline Drive 30号"],"keywords":["图书","学习","无线网络","打印","图书馆"]},
+        "ko": {"title":"도서관과 학습 공간","summary":"Concord, Five Dock 또는 Rhodes의 The Learning Space에서 배우고 교류하며 공부하세요.","details":"Canada Bay에는 도서관 세 곳이 있습니다. Concord와 Five Dock에는 자료, 학습 공간과 프로그램이 있고 The Learning Space는 기술과 창의 학습에 중점을 둡니다. 회원 가입은 무료입니다.","actionLabel":"도서관 운영 시간 확인","highlights":["Concord Library — 60 Flavelle Street","Five Dock Library — 4–12 Garfield Street","The Learning Space — 30 Shoreline Drive, Rhodes"],"keywords":["책","공부","와이파이","인쇄","도서관"]},
+        "it": {"title":"Biblioteche e spazi di apprendimento","summary":"Visita Concord, Five Dock o The Learning Space a Rhodes per imparare, incontrarti e studiare.","details":"Canada Bay ha tre biblioteche. Concord e Five Dock offrono collezioni, studio e programmi; The Learning Space punta su tecnologia e creatività. L’iscrizione è gratuita: controlla gli orari aggiornati.","actionLabel":"Controlla gli orari delle biblioteche","highlights":["Concord Library — 60 Flavelle Street","Five Dock Library — 4–12 Garfield Street","The Learning Space — 30 Shoreline Drive, Rhodes"],"keywords":["libri","studio","wifi","stampa","biblioteca"]},
+        "hi": {"title":"पुस्तकालय और सीखने के स्थान","summary":"सीखने, मिलने और पढ़ने के लिए Concord, Five Dock या Rhodes के The Learning Space जाएँ।","details":"Canada Bay में तीन पुस्तकालय हैं। Concord और Five Dock में संग्रह, अध्ययन स्थान और कार्यक्रम हैं; The Learning Space तकनीक व रचनात्मक सीखने पर केंद्रित है। सदस्यता मुफ़्त है; समय जाँचें।","actionLabel":"पुस्तकालय का समय देखें","highlights":["Concord Library — 60 Flavelle Street","Five Dock Library — 4–12 Garfield Street","The Learning Space — 30 Shoreline Drive, Rhodes"],"keywords":["किताबें","पढ़ाई","वाई-फ़ाई","प्रिंटिंग","पुस्तकालय"]}
+      },
+      "sortOrder": 40,
+      "highlights": [
+        "Concord Library — 60 Flavelle Street",
+        "Five Dock Library — 4–12 Garfield Street",
+        "The Learning Space — 30 Shoreline Drive, Rhodes"
+      ],
+      "keywords": [
+        "books",
+        "study",
+        "wifi",
+        "printing",
+        "rhodes",
+        "concord",
+        "five dock"
+      ]
+    },
+    {
+      "id": "public-transport",
+      "title": "Public transport",
+      "category": "transport",
+      "summary": "Plan train, bus, ferry, light rail, walking and cycling journeys with live service information.",
+      "details": "Transport for NSW's Trip Planner compares available travel options and provides current departures, accessibility filters and disruption information. Use it for Rhodes, North Strathfield and Concord West stations, local buses, and Parramatta River ferry wharves.",
+      "actionLabel": "Open Trip Planner",
+      "sourceLabel": "Transport for NSW",
+      "officialUrl": "https://transportnsw.info/trip",
+      "isEssential": true,
+      "isEmergency": false,
+      "translations": {
+        "zh": {"title":"公共交通","summary":"使用实时信息规划火车、巴士、渡轮、轻轨、步行和骑行路线。","details":"Transport for NSW Trip Planner 比较出行方式，并提供实时班次、无障碍筛选和中断信息，可用于 Rhodes、North Strathfield、Concord West、本地巴士和 Parramatta River 渡轮。","actionLabel":"打开 Trip Planner","highlights":["比较公共交通和主动出行","查看实时班次和中断","筛选无障碍服务"],"keywords":["火车","巴士","渡轮","Opal","时刻表"]},
+        "ko": {"title":"대중교통","summary":"실시간 정보로 기차, 버스, 페리, 경전철, 도보와 자전거 여정을 계획하세요.","details":"Transport for NSW Trip Planner는 이동 방법을 비교하고 출발 정보, 접근성 필터와 운행 장애를 제공합니다. Rhodes, North Strathfield, Concord West, 버스와 Parramatta River 페리에 이용하세요.","actionLabel":"Trip Planner 열기","highlights":["대중교통과 능동 이동 비교","실시간 출발 및 장애 확인","접근 가능한 서비스 필터"],"keywords":["기차","버스","페리","Opal","시간표"]},
+        "it": {"title":"Trasporto pubblico","summary":"Pianifica viaggi in treno, autobus, traghetto, metro leggera, a piedi e in bici con dati aggiornati.","details":"Il Trip Planner di Transport for NSW confronta opzioni, partenze, accessibilità e interruzioni per Rhodes, North Strathfield, Concord West, autobus locali e traghetti sul Parramatta River.","actionLabel":"Apri Trip Planner","highlights":["Confronta trasporto pubblico e attivo","Vedi partenze e interruzioni in tempo reale","Filtra i servizi accessibili"],"keywords":["treno","autobus","traghetto","Opal","orario"]},
+        "hi": {"title":"सार्वजनिक परिवहन","summary":"लाइव जानकारी से ट्रेन, बस, फ़ेरी, लाइट रेल, पैदल और साइकिल यात्राएँ बनाएँ।","details":"Transport for NSW Trip Planner विकल्पों, वर्तमान प्रस्थान, सुलभता और व्यवधान की तुलना करता है। Rhodes, North Strathfield, Concord West, स्थानीय बस और Parramatta River फ़ेरी के लिए उपयोग करें।","actionLabel":"Trip Planner खोलें","highlights":["सार्वजनिक और सक्रिय परिवहन की तुलना","लाइव प्रस्थान और व्यवधान देखें","सुलभ सेवाएँ फ़िल्टर करें"],"keywords":["ट्रेन","बस","फ़ेरी","Opal","समय-सारणी"]}
+      },
+      "sortOrder": 50,
+      "highlights": [
+        "Compare public and active transport",
+        "See live departures and disruptions",
+        "Filter for accessible services"
+      ],
+      "keywords": [
+        "train",
+        "bus",
+        "ferry",
+        "opal",
+        "station",
+        "wharf",
+        "timetable"
+      ]
+    },
+    {
+      "id": "parking-permits",
+      "title": "Parking and permits",
+      "category": "parking",
+      "summary": "Check permit eligibility, apply for resident or visitor permits, and understand local parking options.",
+      "details": "Council manages resident, visitor, business and selected park parking permits. Eligibility depends on the address, permit area and available off-street parking. Street signs and restrictions always apply, so use the official page for current rules and applications.",
+      "actionLabel": "View parking services",
+      "sourceLabel": "City of Canada Bay Council",
+      "officialUrl": "https://www.canadabay.nsw.gov.au/community/parking-and-transport/parking-and-permits",
+      "phone": "02 9911 6555",
+      "isEssential": false,
+      "isEmergency": false,
+      "translations": {
+        "zh": {"title":"停车和许可证","summary":"查询资格、申请居民或访客许可证，并了解本地停车选择。","details":"市政管理居民、访客、商业和部分公园停车证。资格取决于地址、许可区和路外车位；道路标志和限制始终适用，请查看官方最新规则。","actionLabel":"查看停车服务","highlights":["查询地址资格","申请居民和访客停车证","查看公园和商业许可证信息"],"keywords":["停车","许可证","居民停车","访客停车","停车区"]},
+        "ko": {"title":"주차와 허가증","summary":"자격을 확인하고 주민·방문자 허가증을 신청하며 지역 주차 방법을 알아보세요.","details":"시의회는 주민, 방문자, 사업체와 일부 공원 허가증을 관리합니다. 자격은 주소, 구역과 노외 주차에 따라 다르며 도로 표지와 제한이 항상 우선합니다.","actionLabel":"주차 서비스 보기","highlights":["주소 자격 확인","주민 및 방문자 허가증 신청","공원과 사업체 허가 정보 확인"],"keywords":["주차","허가증","주민 주차","방문자 주차","주차 구역"]},
+        "it": {"title":"Parcheggi e permessi","summary":"Verifica l’idoneità, richiedi permessi per residenti o visitatori e scopri le opzioni locali.","details":"Il Comune gestisce permessi per residenti, visitatori, attività e alcuni parchi. L’idoneità dipende da indirizzo, zona e parcheggio privato; segnaletica e restrizioni stradali restano sempre valide.","actionLabel":"Vedi i servizi di parcheggio","highlights":["Verifica l’idoneità dell’indirizzo","Richiedi permessi per residenti e visitatori","Consulta permessi per parchi e imprese"],"keywords":["parcheggio","permesso","residenti","visitatori","zona"]},
+        "hi": {"title":"पार्किंग और परमिट","summary":"योग्यता जाँचें, निवासी या आगंतुक परमिट लें और स्थानीय पार्किंग विकल्प समझें।","details":"काउंसिल निवासी, आगंतुक, व्यवसाय और चुने हुए पार्क परमिट संभालती है। योग्यता पते, परमिट क्षेत्र और ऑफ़-स्ट्रीट पार्किंग पर निर्भर है; सड़क संकेत और प्रतिबंध हमेशा लागू होते हैं।","actionLabel":"पार्किंग सेवाएँ देखें","highlights":["पते की योग्यता जाँचें","निवासी और आगंतुक परमिट लें","पार्क और व्यवसाय परमिट जानकारी देखें"],"keywords":["पार्किंग","परमिट","निवासी पार्किंग","आगंतुक पार्किंग","पार्किंग क्षेत्र"]}
+      },
+      "sortOrder": 60,
+      "highlights": [
+        "Check address eligibility",
+        "Apply for resident and visitor permits",
+        "Access park and business permit information"
+      ],
+      "keywords": [
+        "car",
+        "permit",
+        "resident parking",
+        "visitor parking",
+        "parking zone"
+      ]
+    },
+    {
+      "id": "public-toilets",
+      "title": "Public toilets",
+      "category": "amenities",
+      "summary": "Find nearby public and accessible toilets, opening hours and available facilities.",
+      "details": "The Australian Government's National Public Toilet Map lists facilities across Canada Bay and the rest of Australia. Search by place, address or current location, then filter for accessibility, baby-change facilities, opening hours and other amenities.",
+      "actionLabel": "Find a public toilet",
+      "sourceLabel": "Australian Government — National Public Toilet Map",
+      "officialUrl": "https://toiletmap.gov.au/",
+      "isEssential": true,
+      "isEmergency": false,
+      "translations": {
+        "zh": {"title":"公共厕所","summary":"查找附近公共及无障碍厕所、开放时间和设施。","details":"澳大利亚政府 National Public Toilet Map 列出加拿大湾及全国设施。可按地点、地址或当前位置搜索，并筛选无障碍、婴儿护理、开放时间等。","actionLabel":"查找公共厕所","highlights":["按地址或当前位置搜索","筛选无障碍设施","查看开放时间和设备"],"keywords":["厕所","洗手间","无障碍","婴儿护理","开放时间"]},
+        "ko": {"title":"공중화장실","summary":"가까운 공중·장애인 화장실의 운영 시간과 시설을 찾으세요.","details":"호주 정부 National Public Toilet Map에서 Canada Bay와 전국 시설을 장소, 주소 또는 현재 위치로 검색하고 접근성, 기저귀 교환대와 운영 시간 등을 필터링할 수 있습니다.","actionLabel":"공중화장실 찾기","highlights":["주소 또는 현재 위치로 검색","접근 가능한 시설 필터","운영 시간과 편의시설 확인"],"keywords":["화장실","공중화장실","접근성","기저귀 교환","운영 시간"]},
+        "it": {"title":"Bagni pubblici","summary":"Trova bagni pubblici e accessibili, orari e servizi disponibili nelle vicinanze.","details":"La National Public Toilet Map del Governo australiano elenca strutture a Canada Bay e nel Paese. Cerca per luogo, indirizzo o posizione e filtra accessibilità, fasciatoi e orari.","actionLabel":"Trova un bagno pubblico","highlights":["Cerca per indirizzo o posizione","Filtra le strutture accessibili","Controlla orari e servizi"],"keywords":["bagno","toilette","accessibile","fasciatoio","orari"]},
+        "hi": {"title":"सार्वजनिक शौचालय","summary":"पास के सार्वजनिक और सुलभ शौचालय, समय और उपलब्ध सुविधाएँ खोजें।","details":"ऑस्ट्रेलियाई सरकार का National Public Toilet Map Canada Bay और देशभर की सुविधाएँ दिखाता है। स्थान, पता या वर्तमान जगह से खोजें और सुलभता, शिशु बदलने व समय के फ़िल्टर लगाएँ।","actionLabel":"सार्वजनिक शौचालय खोजें","highlights":["पते या वर्तमान स्थान से खोजें","सुलभ सुविधाएँ फ़िल्टर करें","समय और सुविधाएँ देखें"],"keywords":["शौचालय","बाथरूम","सुलभ","शिशु बदलना","समय"]}
+      },
+      "sortOrder": 70,
+      "highlights": [
+        "Search by address or current location",
+        "Filter for accessible facilities",
+        "Check opening hours and amenities"
+      ],
+      "keywords": [
+        "toilet",
+        "bathroom",
+        "restroom",
+        "accessible",
+        "baby change",
+        "mlak"
+      ]
+    },
+    {
+      "id": "emergency-help",
+      "title": "Emergency help",
+      "category": "emergency",
+      "summary": "Call Triple Zero (000) for a serious, urgent or life-threatening police, fire or medical emergency.",
+      "details": "Call Triple Zero (000) if someone is seriously injured, needs urgent medical help, life or property is threatened, or you witness a serious crime or accident. For non-urgent police assistance call 131 444. For flood, storm or tsunami assistance that is not life-threatening, call NSW SES on 132 500. This app cannot contact emergency services for you.",
+      "actionLabel": "Read official emergency guidance",
+      "sourceLabel": "NSW Government",
+      "officialUrl": "https://www.nsw.gov.au/emergency/emergency-services",
+      "phone": "000",
+      "isEssential": true,
+      "isEmergency": true,
+      "translations": {
+        "zh": {"title":"紧急求助","summary":"如遇严重、紧急或危及生命的警察、消防或医疗事件，请拨打000。","details":"有人严重受伤、急需医疗帮助、生命或财产受威胁，或发生严重罪案或事故时拨打000。非紧急警务拨131 444；非危及生命的洪水、风暴或海啸援助拨 NSW SES 132 500。本应用无法代您联系紧急服务。","actionLabel":"阅读官方紧急指引","highlights":["000 — 紧急警察、消防或医疗事件","131 444 — 非紧急警务协助","132 500 — NSW SES 洪水、风暴或海啸援助"],"keywords":["救护车","警察","消防","000","危险"]},
+        "ko": {"title":"긴급 도움","summary":"심각하거나 긴급하거나 생명을 위협하는 경찰·소방·의료 상황에는 000으로 전화하세요.","details":"심각한 부상, 긴급 의료, 생명·재산 위협 또는 중대한 범죄·사고에는 000으로 전화하세요. 비긴급 경찰은 131 444, 생명을 위협하지 않는 홍수·폭풍·쓰나미 지원은 NSW SES 132 500입니다. 앱은 대신 연락할 수 없습니다.","actionLabel":"공식 긴급 안내 읽기","highlights":["000 — 긴급 경찰·소방·의료","131 444 — 비긴급 경찰 지원","132 500 — NSW SES 홍수·폭풍·쓰나미 지원"],"keywords":["구급차","경찰","소방","000","위험"]},
+        "it": {"title":"Aiuto di emergenza","summary":"Chiama lo 000 per un’emergenza grave, urgente o potenzialmente letale di polizia, incendio o salute.","details":"Chiama lo 000 per ferite gravi, assistenza medica urgente, minacce a persone o proprietà, reati o incidenti gravi. Per polizia non urgente chiama 131 444; per alluvioni, tempeste o tsunami non letali NSW SES al 132 500. L’app non può chiamare per te.","actionLabel":"Leggi la guida ufficiale alle emergenze","highlights":["000 — emergenza urgente di polizia, incendio o salute","131 444 — assistenza di polizia non urgente","132 500 — NSW SES per alluvioni, tempeste o tsunami"],"keywords":["ambulanza","polizia","incendio","000","pericolo"]},
+        "hi": {"title":"आपातकालीन मदद","summary":"गंभीर, तत्काल या जानलेवा पुलिस, आग या चिकित्सा स्थिति में 000 पर कॉल करें।","details":"गंभीर चोट, तत्काल चिकित्सा, जीवन या संपत्ति के खतरे, गंभीर अपराध या दुर्घटना में 000 कॉल करें। गैर-तत्काल पुलिस के लिए 131 444; गैर-जानलेवा बाढ़, तूफ़ान या सुनामी में NSW SES 132 500। ऐप आपकी ओर से संपर्क नहीं कर सकता।","actionLabel":"आधिकारिक आपातकालीन निर्देश पढ़ें","highlights":["000 — तत्काल पुलिस, आग या चिकित्सा आपातकाल","131 444 — गैर-तत्काल पुलिस सहायता","132 500 — NSW SES बाढ़, तूफ़ान या सुनामी मदद"],"keywords":["एम्बुलेंस","पुलिस","आग","000","खतरा"]}
+      },
+      "sortOrder": 0,
+      "highlights": [
+        "000 — urgent police, fire or medical emergency",
+        "131 444 — non-urgent police assistance",
+        "132 500 — NSW SES flood, storm or tsunami help"
+      ],
+      "keywords": [
+        "ambulance",
+        "police",
+        "fire",
+        "triple zero",
+        "000",
+        "ses",
+        "danger"
+      ]
+    },
+    {
+      "id": "report-council-issue",
+      "title": "Report a council issue",
+      "category": "council",
+      "summary": "Report illegal dumping, road or footpath damage and other local issues through Council's official form.",
+      "details": "Use City of Canada Bay's official form so your report reaches the correct team. Include an exact location and clear photo where requested. For illegal parking, call Council on 9911 6555. For missed, damaged or missing bins, call the Waste Hotline on 1300 551 659.",
+      "actionLabel": "Report an issue online",
+      "sourceLabel": "City of Canada Bay Council",
+      "officialUrl": "https://cityofcanadabay.snapforms.com.au/form/report-an-issue",
+      "phone": "02 9911 6555",
+      "isEssential": true,
+      "isEmergency": false,
+      "translations": {
+        "zh": {"title":"报告市政问题","summary":"通过市政官方表格报告非法倾倒、道路或人行道损坏等问题。","details":"使用加拿大湾市官方表格并提供准确地点和清晰照片。非法停车请拨9911 6555；垃圾桶漏收、损坏或遗失请拨 Waste Hotline 1300 551 659。","actionLabel":"在线报告问题","highlights":["非法倾倒","道路、路缘、标志和人行道损坏","其他本地维护问题"],"keywords":["坑洞","人行道","倾倒","投诉","维护"]},
+        "ko": {"title":"시의회 문제 신고","summary":"불법 투기, 도로·보도 파손 등 지역 문제를 공식 양식으로 신고하세요.","details":"City of Canada Bay 공식 양식에 정확한 위치와 선명한 사진을 넣으세요. 불법 주차는 9911 6555, 미수거·파손·분실된 쓰레기통은 Waste Hotline 1300 551 659로 문의하세요.","actionLabel":"온라인으로 문제 신고","highlights":["불법 투기","도로, 연석, 표지판과 보도 파손","기타 지역 유지보수 문제"],"keywords":["도로 파임","보도","불법 투기","민원","유지보수"]},
+        "it": {"title":"Segnala un problema al Comune","summary":"Segnala scarichi abusivi, danni a strade o marciapiedi e altri problemi tramite il modulo ufficiale.","details":"Usa il modulo della City of Canada Bay con posizione precisa e foto chiara. Per parcheggio illegale chiama 9911 6555; per bidoni mancati, danneggiati o persi chiama Waste Hotline 1300 551 659.","actionLabel":"Segnala un problema online","highlights":["Scarico abusivo","Danni a strade, cordoli, segnali e marciapiedi","Altri problemi di manutenzione locale"],"keywords":["buca","marciapiede","scarico abusivo","reclamo","manutenzione"]},
+        "hi": {"title":"काउंसिल समस्या रिपोर्ट करें","summary":"अवैध कचरा फेंकना, सड़क या फुटपाथ क्षति और स्थानीय समस्याएँ आधिकारिक फ़ॉर्म से बताएँ।","details":"सिटी ऑफ़ कनाडा बे फ़ॉर्म में सही स्थान और साफ़ फ़ोटो दें। अवैध पार्किंग के लिए 9911 6555; छूटे, टूटे या गायब डिब्बे के लिए Waste Hotline 1300 551 659 कॉल करें।","actionLabel":"समस्या ऑनलाइन रिपोर्ट करें","highlights":["अवैध कचरा फेंकना","सड़क, किनारा, संकेत और फुटपाथ क्षति","अन्य स्थानीय रखरखाव समस्याएँ"],"keywords":["गड्ढा","फुटपाथ","कचरा फेंकना","शिकायत","रखरखाव"]}
+      },
+      "sortOrder": 80,
+      "highlights": [
+        "Illegal dumping",
+        "Road, kerb, sign and footpath damage",
+        "Other local maintenance issues"
+      ],
+      "keywords": [
+        "pothole",
+        "footpath",
+        "dumping",
+        "street",
+        "complaint",
+        "maintenance",
+        "illegal parking"
+      ]
+    },
+    {
+      "id": "dog-off-leash",
+      "title": "Dog parks and off-leash areas",
+      "category": "pets",
+      "summary": "Find declared off-leash spaces and understand the rules that protect people, pets and wildlife.",
+      "details": "Dogs must remain on a leash in public unless they are in a Council-declared off-leash area. Some spaces have time restrictions, and dogs are prohibited near playgrounds, schools, public bathing areas and wildlife-protection areas. Check Council's live map and guidance before visiting.",
+      "actionLabel": "Find an off-leash area",
+      "sourceLabel": "City of Canada Bay Council",
+      "officialUrl": "https://www.canadabay.nsw.gov.au/residents/animals/local-off-leash-areas",
+      "isEssential": false,
+      "isEmergency": false,
+      "translations": {
+        "zh": {"title":"狗公园和免牵绳区","summary":"查找指定免牵绳空间，并了解保护居民、宠物和野生动物的规则。","details":"除市政指定免牵绳区外，狗在公共场所须牵绳。部分地点有时段限制，游乐场、学校、公共浴场和野生动物保护区附近禁止带狗；请先查看实时地图。","actionLabel":"查找免牵绳区","highlights":["查看市政指定免牵绳空间","查询时段和进入限制","帮助保护迁徙滨鸟"],"keywords":["狗","宠物","免牵绳","围栏","动物"]},
+        "ko": {"title":"반려견 공원과 목줄 해제 구역","summary":"지정 구역을 찾고 사람, 반려동물과 야생동물을 보호하는 규칙을 알아보세요.","details":"시의회 지정 구역 외 공공장소에서는 목줄을 해야 합니다. 일부는 시간 제한이 있고 놀이터, 학교, 공공 수영 구역과 야생동물 보호 구역 주변은 출입 금지이므로 실시간 지도를 확인하세요.","actionLabel":"목줄 해제 구역 찾기","highlights":["시의회 지정 구역 보기","시간과 출입 제한 확인","이동성 물새 보호하기"],"keywords":["개","반려동물","목줄 해제","울타리","동물"]},
+        "it": {"title":"Parchi per cani e aree senza guinzaglio","summary":"Trova le aree autorizzate e impara le regole che proteggono persone, animali e fauna.","details":"I cani devono restare al guinzaglio salvo nelle aree comunali designate. Alcune hanno limiti orari e i cani sono vietati vicino a giochi, scuole, zone balneari e aree faunistiche; controlla la mappa aggiornata.","actionLabel":"Trova un’area senza guinzaglio","highlights":["Vedi le aree designate dal Comune","Controlla orari e restrizioni","Aiuta a proteggere gli uccelli migratori"],"keywords":["cane","animale domestico","senza guinzaglio","recintato","animali"]},
+        "hi": {"title":"डॉग पार्क और बिना पट्टे वाले क्षेत्र","summary":"निर्धारित स्थान खोजें और लोगों, पालतू जानवरों व वन्यजीवों की सुरक्षा के नियम समझें।","details":"काउंसिल-निर्धारित क्षेत्र के अलावा सार्वजनिक जगह पर कुत्ता पट्टे पर रहे। कुछ स्थानों में समय सीमा है और खेल मैदान, स्कूल, सार्वजनिक स्नान व वन्यजीव क्षेत्रों के पास कुत्ते निषिद्ध हैं; लाइव मानचित्र देखें।","actionLabel":"बिना पट्टे वाला क्षेत्र खोजें","highlights":["काउंसिल-निर्धारित क्षेत्र देखें","समय और प्रवेश प्रतिबंध जाँचें","प्रवासी तटीय पक्षियों की रक्षा करें"],"keywords":["कुत्ता","पालतू","बिना पट्टा","बाड़","जानवर"]}
+      },
+      "sortOrder": 90,
+      "highlights": [
+        "View Council-declared off-leash spaces",
+        "Check time and access restrictions",
+        "Help protect migratory shorebirds"
+      ],
+      "keywords": [
+        "dog",
+        "puppy",
+        "pet",
+        "off leash",
+        "fenced",
+        "animal"
+      ]
+    },
+    {
+      "id": "interpreting-help",
+      "title": "Interpreting and language help",
+      "category": "council",
+      "summary": "Learn how to ask for an interpreter when contacting government and essential services.",
+      "details": "The Translating and Interpreting Service, TIS National, provides interpreting support for people who do not speak English confidently. Many government agencies and participating organisations can arrange an interpreter. Check the official guidance for how the service works and any applicable costs.",
+      "actionLabel": "View interpreting help",
+      "sourceLabel": "Australian Government — TIS National",
+      "officialUrl": "https://www.tisnational.gov.au/en/Non-English-speakers",
+      "phone": "131 450",
+      "isEssential": true,
+      "isEmergency": false,
+      "translations": {
+        "zh": {"title":"口译和语言帮助","summary":"了解联系政府和基本服务时如何申请口译员。","details":"TIS National 为英语沟通不自信的人提供口译支持。许多政府机构和参与组织可安排口译；请查看官方说明了解使用方式和可能费用。","actionLabel":"查看口译帮助","highlights":["请机构安排口译员","支持多种语言","致电前查看官方说明"],"keywords":["口译","翻译","语言","普通话","中文"]},
+        "ko": {"title":"통역과 언어 지원","summary":"정부 및 필수 서비스에 연락할 때 통역을 요청하는 방법을 알아보세요.","details":"TIS National은 영어가 익숙하지 않은 사람에게 통역을 제공합니다. 많은 정부 기관과 참여 단체가 통역을 주선할 수 있으므로 이용 방법과 비용은 공식 안내에서 확인하세요.","actionLabel":"통역 지원 보기","highlights":["기관에 통역 주선 요청","다양한 언어 지원","전화 전 공식 안내 확인"],"keywords":["통역","번역","언어","한국어","TIS"]},
+        "it": {"title":"Aiuto linguistico e interpretariato","summary":"Scopri come chiedere un interprete quando contatti servizi pubblici ed essenziali.","details":"TIS National offre interpretariato a chi non parla inglese con sicurezza. Molti enti pubblici e organizzazioni possono organizzare un interprete; consulta la guida ufficiale per modalità e possibili costi.","actionLabel":"Vedi l’aiuto per l’interpretariato","highlights":["Chiedi all’organizzazione di predisporre un interprete","Assistenza in molte lingue","Consulta la guida prima di chiamare"],"keywords":["interprete","traduzione","lingua","italiano","TIS"]},
+        "hi": {"title":"दुभाषिया और भाषा सहायता","summary":"सरकारी और आवश्यक सेवाओं से संपर्क करते समय दुभाषिया माँगना सीखें।","details":"TIS National उन लोगों को दुभाषिया सहायता देता है जिन्हें अंग्रेज़ी बोलने में आत्मविश्वास नहीं। कई सरकारी एजेंसियाँ और संस्थाएँ दुभाषिया तय कर सकती हैं; तरीका व शुल्क आधिकारिक निर्देश में देखें।","actionLabel":"दुभाषिया सहायता देखें","highlights":["संस्था से दुभाषिया तय करने को कहें","कई भाषाओं में सहायता","कॉल से पहले आधिकारिक निर्देश देखें"],"keywords":["दुभाषिया","अनुवाद","भाषा","हिंदी","TIS"]}
+      },
+      "sortOrder": 42,
+      "highlights": [
+        "Ask an organisation to arrange an interpreter",
+        "Support across many languages",
+        "Use official guidance before calling"
+      ],
+      "keywords": ["interpreter", "translation", "language", "mandarin", "chinese", "口译"]
+    },
+    {
+      "id": "medicare-enrolment",
+      "title": "Medicare enrolment",
+      "category": "council",
+      "summary": "Check whether your residency or visa circumstances may allow you to enrol in Medicare.",
+      "details": "Medicare is Australia's public health insurance system. Eligibility and required documents depend on citizenship, residency, visa status and reciprocal health-care arrangements. Services Australia provides the authoritative eligibility and enrolment steps, including online enrolment through myGov for eligible people.",
+      "actionLabel": "Check Medicare eligibility",
+      "sourceLabel": "Services Australia",
+      "officialUrl": "https://www.servicesaustralia.gov.au/enrolling-medicare?context=60092",
+      "isEssential": true,
+      "isEmergency": false,
+      "translations": {
+        "zh": {"title":"Medicare 登记","summary":"查询您的居留或签证情况是否允许加入 Medicare。","details":"Medicare 是澳大利亚公共医疗保险。资格和文件取决于公民身份、居留、签证和互惠医疗安排；Services Australia 提供权威资格和登记步骤，合资格者可通过 myGov 在线申请。","actionLabel":"查询 Medicare 资格","highlights":["查询谁可以登记","准备身份证明和签证文件","合资格可在线申请"],"keywords":["医疗","医生","健康","myGov","Medicare卡"]},
+        "ko": {"title":"Medicare 가입","summary":"거주 또는 비자 상황에 따라 Medicare에 가입할 수 있는지 확인하세요.","details":"Medicare는 호주의 공공 건강보험입니다. 자격과 서류는 시민권, 거주, 비자와 상호 의료 협정에 따라 다르며 Services Australia가 공식 가입 절차와 myGov 온라인 신청을 안내합니다.","actionLabel":"Medicare 자격 확인","highlights":["가입 대상 확인","신분 및 비자 서류 준비","자격이 되면 온라인 신청"],"keywords":["건강","의사","의료","myGov","Medicare 카드"]},
+        "it": {"title":"Iscrizione a Medicare","summary":"Verifica se la tua residenza o il tuo visto consentono l’iscrizione a Medicare.","details":"Medicare è l’assicurazione sanitaria pubblica australiana. Idoneità e documenti dipendono da cittadinanza, residenza, visto e accordi reciproci; Services Australia fornisce i passaggi ufficiali e, per chi può, l’iscrizione tramite myGov.","actionLabel":"Verifica l’idoneità a Medicare","highlights":["Controlla chi può iscriversi","Prepara documenti di identità e visto","Presenta domanda online se idoneo"],"keywords":["salute","medico","sanità","myGov","tessera Medicare"]},
+        "hi": {"title":"Medicare नामांकन","summary":"जाँचें कि आपकी निवास या वीज़ा स्थिति Medicare में नामांकन की अनुमति देती है या नहीं।","details":"Medicare ऑस्ट्रेलिया की सार्वजनिक स्वास्थ्य बीमा प्रणाली है। योग्यता व दस्तावेज़ नागरिकता, निवास, वीज़ा और पारस्परिक स्वास्थ्य समझौतों पर निर्भर हैं; Services Australia आधिकारिक चरण और योग्य लोगों के लिए myGov आवेदन बताता है।","actionLabel":"Medicare योग्यता जाँचें","highlights":["देखें कौन नामांकन कर सकता है","पहचान और वीज़ा दस्तावेज़ तैयार करें","योग्य हों तो ऑनलाइन आवेदन करें"],"keywords":["स्वास्थ्य","डॉक्टर","चिकित्सा","myGov","Medicare कार्ड"]}
+      },
+      "sortOrder": 44,
+      "highlights": [
+        "Check who can enrol",
+        "Prepare identity and visa documents",
+        "Apply online if eligible"
+      ],
+      "keywords": ["health", "doctor", "medical", "mygov", "medicare card"]
+    },
+    {
+      "id": "english-support",
+      "title": "Free English-learning support",
+      "category": "libraries",
+      "summary": "Explore government-funded English tuition, online learning and community conversation opportunities.",
+      "details": "The Adult Migrant English Program provides free English tuition to eligible migrants and humanitarian entrants. Options can include face-to-face, online and distance learning, and free child care may be available for children under school age during face-to-face classes. Eligibility and time limits depend on individual circumstances.",
+      "actionLabel": "Explore AMEP",
+      "sourceLabel": "Australian Government — Department of Home Affairs",
+      "officialUrl": "https://immi.homeaffairs.gov.au/settling-in-australia/amep",
+      "isEssential": true,
+      "isEmergency": false,
+      "translations": {
+        "zh": {"title":"免费英语学习支持","summary":"探索政府资助的英语课程、在线学习和社区会话机会。","details":"Adult Migrant English Program 为合资格移民和人道入境者提供免费英语课程，可包括面授、在线和远程学习；面授期间学龄前儿童可能可获免费托儿。资格和期限因人而异。","actionLabel":"探索 AMEP","highlights":["合资格移民免费课程","灵活面授和远程选择","提供多语言信息"],"keywords":["英语","AMEP","语言","课程","会话"]},
+        "ko": {"title":"무료 영어 학습 지원","summary":"정부 지원 영어 수업, 온라인 학습과 지역 회화 기회를 살펴보세요.","details":"Adult Migrant English Program은 자격이 되는 이민자와 인도적 입국자에게 무료 영어 교육을 제공합니다. 대면, 온라인과 원격 수업이 있으며 대면 수업 중 미취학 아동의 무료 돌봄이 가능할 수 있습니다.","actionLabel":"AMEP 알아보기","highlights":["자격 대상 이민자 무료 수업","유연한 대면 및 원격 선택","여러 언어로 제공되는 정보"],"keywords":["영어","AMEP","언어","수업","회화"]},
+        "it": {"title":"Sostegno gratuito per imparare l’inglese","summary":"Scopri corsi finanziati dal governo, apprendimento online e conversazione nella comunità.","details":"L’Adult Migrant English Program offre inglese gratuito a migranti e persone con ingresso umanitario idonei. Può includere lezioni in presenza, online e a distanza, con possibile assistenza gratuita per bambini piccoli durante le lezioni.","actionLabel":"Scopri AMEP","highlights":["Lezioni gratuite per migranti idonei","Opzioni flessibili in presenza e a distanza","Informazioni in più lingue"],"keywords":["inglese","AMEP","lingua","corso","conversazione"]},
+        "hi": {"title":"मुफ़्त अंग्रेज़ी सीखने की सहायता","summary":"सरकारी अंग्रेज़ी ट्यूशन, ऑनलाइन सीखने और सामुदायिक बातचीत के अवसर देखें।","details":"Adult Migrant English Program योग्य प्रवासियों और मानवीय प्रवेश वालों को मुफ़्त अंग्रेज़ी सिखाता है। आमने-सामने, ऑनलाइन व दूरस्थ विकल्प हो सकते हैं और कक्षा के दौरान छोटे बच्चों के लिए मुफ़्त देखभाल मिल सकती है।","actionLabel":"AMEP देखें","highlights":["योग्य प्रवासियों के लिए मुफ़्त पढ़ाई","लचीले आमने-सामने और दूरस्थ विकल्प","कई भाषाओं में जानकारी"],"keywords":["अंग्रेज़ी","AMEP","भाषा","कक्षा","बातचीत"]}
+      },
+      "sortOrder": 46,
+      "highlights": [
+        "Free tuition for eligible migrants",
+        "Flexible face-to-face and remote options",
+        "Information available in multiple languages"
+      ],
+      "keywords": ["english", "amep", "language", "class", "conversation", "migrant"]
+    },
+    {
+      "id": "renting-rights",
+      "title": "Renting rights in NSW",
+      "category": "council",
+      "summary": "Understand leases, bonds, rent, repairs, privacy and where to get help with a tenancy problem.",
+      "details": "NSW residential tenancy rules set rights and responsibilities for tenants and landlords. The official guide explains tenancy agreements, rental bonds, rent payments, repairs, access to the property, ending a tenancy and dispute support. Rules change, so confirm current requirements on the NSW Government website.",
+      "actionLabel": "Read the renting guide",
+      "sourceLabel": "NSW Government — Fair Trading",
+      "officialUrl": "https://www.nsw.gov.au/housing-and-construction/renting-a-place-to-live",
+      "phone": "13 32 20",
+      "isEssential": true,
+      "isEmergency": false,
+      "translations": {
+        "zh": {"title":"新州租房权利","summary":"了解租约、押金、租金、维修、隐私和租赁问题求助渠道。","details":"新州住宅租赁规则规定租客和房东的权利与责任。官方指南说明租约、押金、付款、维修、进入房屋、结束租赁和争议支持；规则会变化，请查看新州政府网站。","actionLabel":"阅读租房指南","highlights":["了解租约和押金","学习维修和进入房屋规则","查找投诉和争议支持"],"keywords":["租房","租客","租约","押金","房东"]},
+        "ko": {"title":"NSW 임차 권리","summary":"계약, 보증금, 임대료, 수리, 사생활과 임대 문제 지원을 알아보세요.","details":"NSW 주거 임대 규정은 세입자와 임대인의 권리·의무를 정합니다. 공식 안내에서 계약, 보증금, 임대료, 수리, 출입, 계약 종료와 분쟁 지원을 확인하고 최신 규정은 NSW Government에서 확인하세요.","actionLabel":"임대 안내 읽기","highlights":["계약과 보증금 이해","수리와 출입 규칙 확인","민원 및 분쟁 지원 찾기"],"keywords":["임대","세입자","계약","보증금","임대인"]},
+        "it": {"title":"Diritti degli inquilini nel NSW","summary":"Comprendi contratto, deposito, affitto, riparazioni, privacy e aiuto per problemi di locazione.","details":"Le regole del NSW definiscono diritti e doveri di inquilini e proprietari. La guida ufficiale copre contratti, depositi, pagamenti, riparazioni, accesso, fine locazione e controversie; verifica sempre le regole attuali sul sito NSW Government.","actionLabel":"Leggi la guida all’affitto","highlights":["Comprendi contratto e deposito","Impara le regole su riparazioni e accesso","Trova aiuto per reclami e controversie"],"keywords":["affitto","inquilino","contratto","deposito","proprietario"]},
+        "hi": {"title":"NSW में किराएदार अधिकार","summary":"लीज़, बॉन्ड, किराया, मरम्मत, गोपनीयता और किरायेदारी समस्या में मदद समझें।","details":"NSW आवासीय किरायेदारी नियम किराएदार व मकान मालिक के अधिकार और जिम्मेदारियाँ तय करते हैं। आधिकारिक गाइड समझौता, बॉन्ड, भुगतान, मरम्मत, प्रवेश, किराया समाप्ति और विवाद सहायता बताती है; नए नियम NSW Government वेबसाइट पर देखें।","actionLabel":"किराया गाइड पढ़ें","highlights":["अपनी लीज़ और बॉन्ड समझें","मरम्मत और प्रवेश के नियम जानें","शिकायत और विवाद सहायता पाएँ"],"keywords":["किराया","किराएदार","लीज़","बॉन्ड","मकान मालिक"]}
+      },
+      "sortOrder": 48,
+      "highlights": [
+        "Understand your lease and bond",
+        "Learn the rules for repairs and access",
+        "Find complaint and dispute support"
+      ],
+      "keywords": ["rent", "rental", "tenant", "lease", "bond", "landlord", "repairs"]
+    }
+  ]
+}
