@@ -347,7 +347,12 @@ void main() {
         reason: '${entry.key} compact unselected route card overflowed.',
       );
 
-      await tester.tap(find.byKey(const ValueKey('view-route:bay_run')));
+      await tester.tap(find.byKey(const ValueKey('explore-sheet-handle')));
+      await tester.pump(const Duration(milliseconds: 400));
+      final routeAction = find.byKey(const ValueKey('view-route:bay_run'));
+      await tester.ensureVisible(routeAction);
+      await tester.pump();
+      await tester.tap(routeAction);
       await tester.pump(const Duration(milliseconds: 200));
       expect(find.text(entry.value.viewing), findsOneWidget);
       expect(

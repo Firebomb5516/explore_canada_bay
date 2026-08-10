@@ -64,7 +64,7 @@ void main() {
     AppThemeColors.mode = ThemeMode.light;
   });
 
-  testWidgets('portrait Explore keeps map and discovery actions usable', (
+  testWidgets('portrait Explore opens route cards over a full-screen map', (
     tester,
   ) async {
     await tester.binding.setSurfaceSize(const Size(390, 844));
@@ -76,15 +76,31 @@ void main() {
       find.byKey(const ValueKey('route-list-mobile')),
     );
 
-    expect(find.byKey(const ValueKey('explore-mobile-split')), findsOneWidget);
+    expect(
+      find.byKey(const ValueKey('explore-mobile-map-stack')),
+      findsOneWidget,
+    );
+    expect(find.byKey(const ValueKey('explore-route-sheet')), findsOneWidget);
     expect(find.byKey(const ValueKey('route-list-desktop')), findsNothing);
 
     final mapRect = tester.getRect(find.byKey(const ValueKey('explore-map')));
-    final panelRect = tester.getRect(
+    final collapsedPanelRect = tester.getRect(
       find.byKey(const ValueKey('explorer-panel')),
     );
-    expect(mapRect.height, greaterThanOrEqualTo(210));
-    expect(mapRect.bottom, lessThanOrEqualTo(panelRect.top));
+    expect(mapRect.height, greaterThan(600));
+    expect(mapRect.bottom, closeTo(collapsedPanelRect.bottom, 0.5));
+    expect(collapsedPanelRect.height, inInclusiveRange(90, 105));
+    expect(mapRect.overlaps(collapsedPanelRect), isTrue);
+
+    await tester.drag(
+      find.byKey(const ValueKey('explore-sheet-handle')),
+      const Offset(0, -520),
+    );
+    await tester.pumpAndSettle();
+    final expandedPanelRect = tester.getRect(
+      find.byKey(const ValueKey('explorer-panel')),
+    );
+    expect(expandedPanelRect.height, greaterThan(500));
 
     await tester.drag(
       find.byKey(const ValueKey('explore-filter-list')),
@@ -101,12 +117,17 @@ void main() {
     );
 
     await tester.tap(find.text('Cabarita Park'));
-    await tester.pump(const Duration(milliseconds: 350));
+    await tester.pumpAndSettle();
 
     final placeCard = find.byKey(const ValueKey('map-place-card'));
     final attribution = find.byKey(const ValueKey('map-attribution'));
+    final returnedPanelRect = tester.getRect(
+      find.byKey(const ValueKey('explorer-panel')),
+    );
     expect(placeCard, findsOneWidget);
     expect(attribution, findsOneWidget);
+    expect(returnedPanelRect.height, inInclusiveRange(90, 105));
+    expect(tester.getRect(placeCard).bottom, lessThan(returnedPanelRect.top));
     expect(
       tester.getRect(placeCard).overlaps(tester.getRect(attribution)),
       isFalse,
@@ -118,7 +139,7 @@ void main() {
     expect(tester.takeException(), isNull);
   });
 
-  testWidgets('small phone scrolls the flow without shrinking the map', (
+  testWidgets('small phone sheet collapses back to the selected route map', (
     tester,
   ) async {
     await tester.binding.setSurfaceSize(const Size(320, 568));
@@ -128,11 +149,26 @@ void main() {
     final routeAction = find.byKey(const ValueKey('view-route:bay_run'));
     await _pumpUntilFound(tester, routeAction);
 
-    expect(find.byKey(const ValueKey('explore-mobile-scroll')), findsOneWidget);
+    expect(
+      find.byKey(const ValueKey('explore-mobile-map-stack')),
+      findsOneWidget,
+    );
     expect(
       tester.getSize(find.byKey(const ValueKey('explore-map'))).height,
-      greaterThanOrEqualTo(240),
+      greaterThan(450),
     );
+
+    final collapsedHeight = tester
+        .getSize(find.byKey(const ValueKey('explorer-panel')))
+        .height;
+    expect(collapsedHeight, inInclusiveRange(90, 105));
+    expect(routeAction.hitTestable(), findsNothing);
+
+    await tester.drag(
+      find.byKey(const ValueKey('explore-sheet-handle')),
+      const Offset(0, -420),
+    );
+    await tester.pumpAndSettle();
 
     await tester.ensureVisible(routeAction);
     await tester.pump();
@@ -148,13 +184,23 @@ void main() {
       tester,
       find.byKey(const ValueKey('selected-route-card')),
     );
-    await tester.pump(const Duration(milliseconds: 400));
+    await tester.pump();
+    await tester.pump(const Duration(milliseconds: 600));
 
     expect(
       tester.getSize(find.byKey(const ValueKey('explore-map'))).height,
-      greaterThanOrEqualTo(240),
+      greaterThan(450),
+    );
+    expect(
+      tester.getSize(find.byKey(const ValueKey('explorer-panel'))).height,
+      inInclusiveRange(90, 105),
     );
 
+    await tester.drag(
+      find.byKey(const ValueKey('explore-sheet-handle')),
+      const Offset(0, -420),
+    );
+    await tester.pump(const Duration(milliseconds: 500));
     final fitRoute = find.byTooltip('Show route');
     await tester.ensureVisible(fitRoute);
     await tester.pump();
@@ -164,7 +210,7 @@ void main() {
     expect(tester.takeException(), isNull);
   });
 
-  testWidgets('compact landscape still exposes the panel below the map', (
+  testWidgets('compact landscape keeps a draggable handle over the full map', (
     tester,
   ) async {
     await tester.binding.setSurfaceSize(const Size(568, 320));
@@ -174,15 +220,28 @@ void main() {
     final routeAction = find.byKey(const ValueKey('view-route:bay_run'));
     await _pumpUntilFound(tester, routeAction);
 
-    expect(find.byKey(const ValueKey('explore-mobile-scroll')), findsOneWidget);
+    expect(
+      find.byKey(const ValueKey('explore-mobile-map-stack')),
+      findsOneWidget,
+    );
     final mapRect = tester.getRect(find.byKey(const ValueKey('explore-map')));
-    final panelRect = tester.getRect(
+    final collapsedPanelRect = tester.getRect(
       find.byKey(const ValueKey('explorer-panel')),
     );
-    expect(mapRect.height, greaterThanOrEqualTo(190));
-    expect(mapRect.bottom, lessThanOrEqualTo(panelRect.top));
-    expect(panelRect.top, lessThan(320 - 70));
+    expect(mapRect.height, closeTo(250, 0.5));
+    expect(mapRect.bottom, closeTo(collapsedPanelRect.bottom, 0.5));
+    expect(collapsedPanelRect.height, inInclusiveRange(84, 94));
+    expect(mapRect.overlaps(collapsedPanelRect), isTrue);
 
+    await tester.drag(
+      find.byKey(const ValueKey('explore-sheet-handle')),
+      const Offset(0, -180),
+    );
+    await tester.pumpAndSettle();
+    expect(
+      tester.getSize(find.byKey(const ValueKey('explorer-panel'))).height,
+      greaterThan(collapsedPanelRect.height),
+    );
     await tester.ensureVisible(routeAction);
     await tester.pump();
     expect(routeAction.hitTestable(), findsOneWidget);

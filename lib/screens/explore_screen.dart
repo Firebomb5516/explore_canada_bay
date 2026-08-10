@@ -1399,6 +1399,7 @@ class _ExploreScreenState extends State<ExploreScreen> {
     setState(() {
       selectedMapItem = item;
     });
+    _revealMapOnMobile();
   }
 
   List<_MapItem> _boundDiscoveriesFor(_MapItem place) {
@@ -1717,81 +1718,49 @@ class _ExploreScreenState extends State<ExploreScreen> {
                 );
               }
 
-              // Mobile always keeps the map and discovery panel in one clear
-              // top-to-bottom flow. When a short phone, landscape rotation, or
-              // the keyboard cannot fit both at usable sizes, the whole flow
-              // scrolls instead of shrinking either section into an unusable
-              // sliver.
-              final panelContentWidth = constraints.maxWidth - 52;
-              final narrowPanel = panelContentWidth < 300;
-              final textScale = MediaQuery.textScalerOf(context).scale(16) / 16;
-              final scaledTextAllowance = ((textScale - 1).clamp(0.0, 1.0) * 90)
-                  .toDouble();
-              final explorerHeight =
-                  394.0 +
-                  (selectedRoute == null
-                      ? 0
-                      : narrowPanel
-                      ? 126
-                      : 78) +
-                  (loadingWarning == null ? 0 : 68) +
-                  scaledTextAllowance;
-              const minimumMapHeight = 210.0;
-              const outerTopPadding = 10.0;
-              const sectionGap = 10.0;
-              final splitMapHeight =
-                  constraints.maxHeight -
-                  outerTopPadding -
-                  sectionGap -
-                  explorerHeight;
+              // The mobile map is the primary canvas. Discovery controls live
+              // in a draggable sheet so newcomers can inspect the map first,
+              // then pull routes and places up without navigating away.
+              final collapsedSheetHeight = constraints.maxHeight < 360
+                  ? 88.0
+                  : 96.0;
+              final minimumSheetExtent =
+                  (collapsedSheetHeight / constraints.maxHeight)
+                      .clamp(0.12, 0.42)
+                      .toDouble();
+              final maximumSheetExtent = constraints.maxHeight < 520
+                  ? 0.94
+                  : 0.88;
+              _mobileSheetMinimumExtent = minimumSheetExtent;
+              _mobileSheetMaximumExtent = maximumSheetExtent;
 
-              if (splitMapHeight < minimumMapHeight) {
-                final availableMapWidth = math.max(
-                  0.0,
-                  constraints.maxWidth - 20,
-                );
-                final landscape = constraints.maxWidth > constraints.maxHeight;
-                final scrollMapHeight = landscape
-                    ? (constraints.maxHeight * 0.72)
-                          .clamp(190.0, 240.0)
-                          .toDouble()
-                    : (availableMapWidth * 9 / 16)
-                          .clamp(240.0, 320.0)
-                          .toDouble();
-
-                return ListView(
-                  key: const ValueKey('explore-mobile-scroll'),
-                  controller: _mobileScrollController,
-                  padding: EdgeInsets.fromLTRB(10, 10, 10, 10),
-                  keyboardDismissBehavior:
-                      ScrollViewKeyboardDismissBehavior.onDrag,
-                  children: [
-                    SizedBox(
-                      height: scrollMapHeight,
-                      child: _buildMapPanel(desktop: false),
+              return Stack(
+                key: const ValueKey('explore-mobile-map-stack'),
+                children: [
+                  Positioned.fill(
+                    child: _buildMapPanel(
+                      desktop: false,
+                      fullBleed: true,
+                      mobileBottomInset: collapsedSheetHeight,
                     ),
-                    SizedBox(height: sectionGap),
-                    SizedBox(
-                      height: explorerHeight,
-                      child: _buildExplorerPanel(desktop: false),
+                  ),
+                  Positioned.fill(
+                    child: DraggableScrollableSheet(
+                      key: const ValueKey('explore-route-sheet'),
+                      controller: _mobileSheetController,
+                      initialChildSize: minimumSheetExtent,
+                      minChildSize: minimumSheetExtent,
+                      maxChildSize: maximumSheetExtent,
+                      snap: true,
+                      shouldCloseOnMinExtent: false,
+                      builder: (context, scrollController) {
+                        return _buildMobileExplorerSheet(
+                          scrollController: scrollController,
+                        );
+                      },
                     ),
-                  ],
-                );
-              }
-
-              return Padding(
-                key: const ValueKey('explore-mobile-split'),
-                padding: EdgeInsets.fromLTRB(10, 10, 10, 0),
-                child: Column(
-                  children: [
-                    Expanded(child: _buildMapPanel(desktop: false)),
-                    SizedBox(height: 10),
-                    SizedBox(
-                      height: explorerHeight,
-                      child: _buildExplorerPanel(desktop: false),
-                    ),
-                  ],
-                ),
+                  ),
+                ],
               );
             },
           ),
@@ -1803,6 +1772,157 @@ class _ExploreScreenState extends State<ExploreScreen> {
   // ---------------------------------------------------------------------------
   // EXPLORER PANEL
   // ---------------------------------------------------------------------------
+
+  Widget _buildMobileExplorerSheet({
+    required ScrollController scrollController,
+  }) {
+    return Material(
+      color: Colors.transparent,
+      elevation: 18,
+      shadowColor: AppThemeColors.shadow,
+      borderRadius: BorderRadius.vertical(top: Radius.circular(28)),
+      clipBehavior: Clip.antiAlias,
+      child: Container(
+        key: const ValueKey('explorer-panel'),
+        decoration: BoxDecoration(
+          color: AppThemeColors.surface,
+          borderRadius: BorderRadius.vertical(top: Radius.circular(28)),
+          border: Border(
+            top: BorderSide(color: AppThemeColors.border),
+            left: BorderSide(color: AppThemeColors.border),
+            right: BorderSide(color: AppThemeColors.border),
+          ),
+        ),
+        child: CustomScrollView(
+          key: const ValueKey('mobile-explorer-scroll'),
+          controller: scrollController,
+          physics: const ClampingScrollPhysics(),
+          keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
+          slivers: [
+            SliverToBoxAdapter(child: _buildMobileSheetHandle()),
+            SliverPadding(
+              padding: EdgeInsets.fromLTRB(16, 8, 16, 20),
+              sliver: SliverToBoxAdapter(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    _buildSearchField(),
+                    SizedBox(height: 12),
+                    _buildFilterBar(),
+                    if (loadingWarning != null) ...[
+                      SizedBox(height: 10),
+                      _buildWarning(),
+                    ],
+                    if (selectedRoute != null) ...[
+                      SizedBox(height: 10),
+                      _buildSelectedRouteCard(),
+                    ],
+                    SizedBox(height: selectedRoute == null ? 17 : 12),
+                    _buildResultsHeader(),
+                    SizedBox(height: 10),
+                    SizedBox(
+                      height: 132,
+                      child: AnimatedSwitcher(
+                        duration: Duration(milliseconds: 240),
+                        switchInCurve: Curves.easeOutCubic,
+                        child: _buildDiscoveryContent(desktop: false),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildMobileSheetHandle() {
+    final route = selectedRoute;
+    final title = route == null
+        ? _exploreL10n.text('exploreTitle')
+        : _asText(
+            _contentFor(route)['title'],
+            _exploreL10n.text('selectedRoute'),
+          );
+    final subtitle = route == null
+        ? _exploreL10n.text('startAdventure')
+        : _exploreL10n.text('currentRoute');
+
+    return Material(
+      color: Colors.transparent,
+      child: InkWell(
+        key: const ValueKey('explore-sheet-handle'),
+        onTap: _toggleMobileExplorerSheet,
+        child: Padding(
+          padding: EdgeInsets.fromLTRB(16, 10, 12, 10),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Container(
+                width: 52,
+                height: 5,
+                decoration: BoxDecoration(
+                  color: _textSecondary.withValues(alpha: 0.45),
+                  borderRadius: BorderRadius.circular(99),
+                ),
+              ),
+              SizedBox(height: 8),
+              Row(
+                children: [
+                  Container(
+                    width: 36,
+                    height: 36,
+                    decoration: BoxDecoration(
+                      color: _green.withValues(alpha: 0.14),
+                      shape: BoxShape.circle,
+                    ),
+                    child: Icon(Icons.route_rounded, color: _green, size: 19),
+                  ),
+                  SizedBox(width: 10),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          title,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: TextStyle(
+                            color: _textPrimary,
+                            fontSize: 14,
+                            fontWeight: FontWeight.w900,
+                          ),
+                        ),
+                        SizedBox(height: 2),
+                        Text(
+                          subtitle,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: TextStyle(
+                            color: _mutedText,
+                            fontSize: 9.5,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  SizedBox(width: 8),
+                  Icon(
+                    Icons.keyboard_arrow_up_rounded,
+                    color: _textSecondary,
+                    size: 26,
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
 
   Widget _buildExplorerPanel({required bool desktop}) {
     return Container(
@@ -2724,7 +2844,11 @@ class _ExploreScreenState extends State<ExploreScreen> {
   // MAP PANEL
   // ---------------------------------------------------------------------------
 
-  Widget _buildMapPanel({required bool desktop}) {
+  Widget _buildMapPanel({
+    required bool desktop,
+    bool fullBleed = false,
+    double mobileBottomInset = 0,
+  }) {
     return LayoutBuilder(
       builder: (context, constraints) {
         final padding = desktop ? EdgeInsets.all(46) : EdgeInsets.all(22);
@@ -2742,15 +2866,19 @@ class _ExploreScreenState extends State<ExploreScreen> {
           key: const ValueKey('explore-map'),
           clipBehavior: Clip.antiAlias,
           decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(desktop ? 34 : 28),
-            border: Border.all(color: AppThemeColors.border),
-            boxShadow: [
-              BoxShadow(
-                color: AppThemeColors.shadow,
-                blurRadius: 30,
-                offset: Offset(0, 14),
-              ),
-            ],
+            borderRadius: fullBleed
+                ? BorderRadius.zero
+                : BorderRadius.circular(desktop ? 34 : 28),
+            border: fullBleed ? null : Border.all(color: AppThemeColors.border),
+            boxShadow: fullBleed
+                ? const []
+                : [
+                    BoxShadow(
+                      color: AppThemeColors.shadow,
+                      blurRadius: 30,
+                      offset: Offset(0, 14),
+                    ),
+                  ],
           ),
           child: Stack(
             children: [
@@ -2824,7 +2952,12 @@ class _ExploreScreenState extends State<ExploreScreen> {
 
                     MarkerLayer(markers: _buildMarkers()),
 
-                    _MapAttribution(),
+                    _MapAttribution(
+                      bottomInset: desktop
+                          ? 0
+                          : mobileBottomInset +
+                                (selectedMapItem == null ? 0 : 92),
+                    ),
                   ],
                 ),
               ),
@@ -2878,7 +3011,7 @@ class _ExploreScreenState extends State<ExploreScreen> {
                 Positioned(
                   left: 16,
                   right: desktop ? null : 16,
-                  bottom: desktop ? 16 : 40,
+                  bottom: desktop ? 16 : mobileBottomInset + 12,
                   width: desktop ? 360 : null,
                   child: _buildMapItemCard(
                     _resolvedDisplayItem(selectedMapItem!),
@@ -3648,7 +3781,9 @@ class _MapBadge extends StatelessWidget {
 }
 
 class _MapAttribution extends StatelessWidget {
-  const _MapAttribution();
+  const _MapAttribution({this.bottomInset = 0});
+
+  final double bottomInset;
 
   @override
   Widget build(BuildContext context) {
@@ -3656,7 +3791,7 @@ class _MapAttribution extends StatelessWidget {
     return Align(
       alignment: Alignment.bottomRight,
       child: SafeArea(
-        minimum: EdgeInsets.all(4),
+        minimum: EdgeInsets.fromLTRB(4, 4, 4, 4 + bottomInset),
         child: Container(
           key: const ValueKey('map-attribution'),
           padding: EdgeInsets.symmetric(horizontal: 6, vertical: 4),
