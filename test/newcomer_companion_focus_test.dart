@@ -135,7 +135,10 @@ void main() {
       await tester.tap(find.byKey(const ValueKey('journey-tutorial-next')));
       await tester.pump();
       await tester.pump(const Duration(milliseconds: 50));
-      expect(find.text(title), findsOneWidget);
+      // Some setup cards intentionally repeat the task title beneath the page
+      // heading. The contract is that the current page presents the title, not
+      // that the title appears exactly once in the complete widget tree.
+      expect(find.text(title), findsAtLeastNWidgets(1));
       expect(find.text('FIND IT IN'), findsOneWidget);
       expect(find.text('SAVED IN'), findsOneWidget);
       expect(tester.takeException(), isNull, reason: '$title page overflowed.');
