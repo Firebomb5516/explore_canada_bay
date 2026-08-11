@@ -22,41 +22,7 @@ class _MemoryStore implements PassportStore {
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
 
-  Future<PassportController> pumpJourney(
-    WidgetTester tester, {
-    VoidCallback? onOpenServices,
-    VoidCallback? onOpenExplore,
-    VoidCallback? onOpenCommunity,
-    VoidCallback? onOpenScanner,
-  }) async {
-    final passport = PassportController(store: _MemoryStore());
-    await passport.load();
-    final repository = NewcomerJourneyRepository(
-      assetLoader: (_) async =>
-          File('assets/data/newcomer_journey.json').readAsStringSync(),
-    );
-    await tester.pumpWidget(
-      MaterialApp(
-        theme: ThemeData(useMaterial3: true),
-        home: MediaQuery(
-          data: const MediaQueryData(disableAnimations: true),
-          child: NewcomerJourneyScreen(
-            passport: passport,
-            settlement: SettlementProfileController.memory(),
-            repository: repository,
-            onOpenServices: onOpenServices,
-            onOpenExplore: onOpenExplore,
-            onOpenCommunity: onOpenCommunity,
-            onOpenScanner: onOpenScanner,
-          ),
-        ),
-      ),
-    );
-    await tester.pumpAndSettle();
-    return passport;
-  }
-
-  testWidgets('companion cycles through focused first-month task pages', (
+  testWidgets('companion presents every first-month task as a tutorial page', (
     tester,
   ) async {
     tester.view.devicePixelRatio = 1;
@@ -64,18 +30,23 @@ void main() {
     addTearDown(tester.view.reset);
 
     final passport = PassportController(store: _MemoryStore());
+    final settlement = SettlementProfileController.memory();
     await passport.load();
     final repository = NewcomerJourneyRepository(
       assetLoader: (_) async =>
           File('assets/data/newcomer_journey.json').readAsStringSync(),
     );
+
     await tester.pumpWidget(
       MaterialApp(
         theme: ThemeData(useMaterial3: true),
-        home: NewcomerJourneyScreen(
-          passport: passport,
-          settlement: SettlementProfileController.memory(),
-          repository: repository,
+        home: MediaQuery(
+          data: const MediaQueryData(disableAnimations: true),
+          child: NewcomerJourneyScreen(
+            passport: passport,
+            settlement: settlement,
+            repository: repository,
+          ),
         ),
       ),
     );
@@ -95,26 +66,6 @@ void main() {
       expect(find.text(feature), findsOneWidget);
     }
 
-    await tester.tap(find.byKey(const ValueKey('journey-tutorial-next')));
-    await tester.pumpAndSettle();
-    expect(find.text('Know when to call Triple Zero'), findsOneWidget);
-
-    await tester.tap(find.byKey(const ValueKey('journey-tutorial-next')));
-    await tester.pumpAndSettle();
-
-    expect(find.text('Know how to ask for an interpreter'), findsOneWidget);
-    expect(find.text('Journey progress → Community Passport'), findsOneWidget);
-    expect(tester.takeException(), isNull);
-  });
-
-  testWidgets('all first-month tasks are individual tutorial pages', (
-    tester,
-  ) async {
-    tester.view.devicePixelRatio = 1;
-    tester.view.physicalSize = const Size(390, 844);
-    addTearDown(tester.view.reset);
-
-    await pumpJourney(tester);
     const taskTitles = <String>[
       'Know when to call Triple Zero',
       'Know how to ask for an interpreter',
@@ -135,12 +86,17 @@ void main() {
       await tester.tap(find.byKey(const ValueKey('journey-tutorial-next')));
       await tester.pump();
       await tester.pump(const Duration(milliseconds: 50));
-      // Some setup cards intentionally repeat the task title beneath the page
-      // heading. The contract is that the current page presents the title, not
-      // that the title appears exactly once in the complete widget tree.
+      // Setup cards may intentionally repeat the task title beneath the page
+      // heading. The current page must present the title at least once.
       expect(find.text(title), findsAtLeastNWidgets(1));
       expect(find.text('FIND IT IN'), findsOneWidget);
       expect(find.text('SAVED IN'), findsOneWidget);
+      if (title == 'Know how to ask for an interpreter') {
+        expect(
+          find.text('Journey progress → Community Passport'),
+          findsOneWidget,
+        );
+      }
       expect(tester.takeException(), isNull, reason: '$title page overflowed.');
     }
 
@@ -153,10 +109,9 @@ void main() {
     );
     expect(tester.takeException(), isNull);
 
-    // Explicitly unmount the multi-page tutorial before the test binding tears
-    // down. This disposes its PageController and inline setup controllers and
-    // avoids the Windows test runner waiting on the final tutorial frame.
     await tester.pumpWidget(const SizedBox.shrink());
     await tester.pump();
+    passport.dispose();
+    settlement.dispose();
   });
 }
