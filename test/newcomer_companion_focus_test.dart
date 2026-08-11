@@ -152,5 +152,11 @@ void main() {
       findsOneWidget,
     );
     expect(tester.takeException(), isNull);
+
+    // Explicitly unmount the multi-page tutorial before the test binding tears
+    // down. This disposes its PageController and inline setup controllers and
+    // avoids the Windows test runner waiting on the final tutorial frame.
+    await tester.pumpWidget(const SizedBox.shrink());
+    await tester.pump();
   });
 }
