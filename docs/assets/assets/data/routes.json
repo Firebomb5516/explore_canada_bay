@@ -1,0 +1,204 @@
+[
+  {
+    "id": "bay_run",
+    "title": "Bay Run",
+    "description": "A scenic foreshore walk around Iron Cove featuring waterfront views and parklands.",
+    "category": "Walking",
+    "lat": -33.8702274,
+    "lng" : 151.1464889,
+    "gpx": "assets/gpx/bay_run.gpx",
+    "image": "assets/images/routes/bay_run.jpg",
+    "duration": "90 min",
+    "distance": "7 km",
+    "stops": 6,
+    "rating": 4.8,
+    "xp": 120,
+    "difficulty": "Easy",
+    "translations": {
+      "zh": {
+        "title": "海湾环线",
+        "description": "环绕铁湾的风景优美滨水步道，可欣赏水景与沿途公园。",
+        "category": "步行",
+        "duration": "90 分钟",
+        "distance": "7 公里",
+        "difficulty": "简单"
+      },
+      "ko": {
+        "title": "베이 런 순환로",
+        "description": "아이언 코브의 물가 풍경과 공원을 둘러보는 아름다운 산책로입니다.",
+        "category": "걷기",
+        "duration": "90분",
+        "distance": "7km",
+        "difficulty": "쉬움"
+      },
+      "it": {
+        "title": "Anello della baia",
+        "description": "Una passeggiata panoramica intorno a Iron Cove, tra viste sull’acqua e parchi.",
+        "category": "A piedi",
+        "duration": "90 min",
+        "distance": "7 km",
+        "difficulty": "Facile"
+      },
+      "hi": {
+        "title": "बे रन परिक्रमा",
+        "description": "आयरन कोव के चारों ओर जल-दृश्य और पार्कों वाला सुंदर पैदल मार्ग।",
+        "category": "पैदल",
+        "duration": "90 मिनट",
+        "distance": "7 किमी",
+        "difficulty": "आसान"
+      }
+    }
+  },
+
+  {
+    "id": "five_dock_point_to_bayview_park",
+    "title": "Five Dock Point to Bayview Park",
+    "description": "A longer foreshore walk linking waterfront reserves and neighbourhood parks around Canada Bay.",
+    "category": "Walking",
+    "lat": -33.84937,
+    "lng": 151.13441,
+    "gpx": "assets/gpx/five_dock_point_to_bayview_park.gpx",
+    "image": "assets/images/routes/chiswick.jpg",
+    "duration": "2 hrs",
+    "distance": "9.3 km",
+    "stops": 7,
+    "rating": 4.7,
+    "xp": 180,
+    "difficulty": "Easy",
+    "translations": {
+      "zh": {
+        "title": "五船坞角至湾景公园",
+        "description": "一条较长的滨水步道，连接加拿大湾周边的滨水保护区与社区公园。",
+        "category": "步行",
+        "duration": "2 小时",
+        "distance": "9.3 公里",
+        "difficulty": "简单"
+      },
+      "ko": {
+        "title": "파이브 독 포인트에서 베이뷰 공원까지",
+        "description": "캐나다 베이 주변의 수변 보호구역과 동네 공원을 잇는 긴 산책로입니다.",
+        "category": "걷기",
+        "duration": "2시간",
+        "distance": "9.3km",
+        "difficulty": "쉬움"
+      },
+      "it": {
+        "title": "Da Five Dock Point a Bayview Park",
+        "description": "Una lunga passeggiata sul lungomare che collega riserve e parchi di quartiere intorno a Canada Bay.",
+        "category": "A piedi",
+        "duration": "2 ore",
+        "distance": "9,3 km",
+        "difficulty": "Facile"
+      },
+      "hi": {
+        "title": "फ़ाइव डॉक पॉइंट से बेव्यू पार्क",
+        "description": "कनाडा बे के तटीय आरक्षित क्षेत्रों और मोहल्ले के पार्कों को जोड़ने वाला लंबा पैदल मार्ग।",
+        "category": "पैदल",
+        "duration": "2 घंटे",
+        "distance": "9.3 किमी",
+        "difficulty": "आसान"
+      }
+    }
+  },
+
+  {
+    "id": "rhodes_bicentenial",
+    "title": "Rhodes Bicentennial",
+    "description": "A compact waterfront route through Bicentennial Park, wetland habitat and the Rhodes peninsula.",
+    "category": "Walking",
+    "lat": -33.834285,
+    "lng": 151.083091,
+    "gpx": "assets/gpx/rhodes_bicentenial.gpx",
+    "image": "assets/images/routes/family_loop.jpg",
+    "duration": "40 min",
+    "distance": "2.8 km",
+    "stops": 4,
+    "rating": 4.9,
+    "xp": 80,
+    "difficulty": "Easy",
+    "translations": {
+      "zh": {
+        "title": "罗德兹百年纪念公园线",
+        "description": "穿过百年纪念公园、湿地栖息地与罗德兹半岛的精简滨水路线。",
+        "category": "步行",
+        "duration": "40 分钟",
+        "distance": "2.8 公里",
+        "difficulty": "简单"
+      },
+      "ko": {
+        "title": "로즈 바이센테니얼 코스",
+        "description": "바이센테니얼 공원과 습지 서식지, 로즈 반도를 지나는 짧은 수변 경로입니다.",
+        "category": "걷기",
+        "duration": "40분",
+        "distance": "2.8km",
+        "difficulty": "쉬움"
+      },
+      "it": {
+        "title": "Percorso bicentenario di Rhodes",
+        "description": "Un breve percorso sul lungomare attraverso Bicentennial Park, le zone umide e la penisola di Rhodes.",
+        "category": "A piedi",
+        "duration": "40 min",
+        "distance": "2,8 km",
+        "difficulty": "Facile"
+      },
+      "hi": {
+        "title": "रोड्स बाइसेंटेनियल मार्ग",
+        "description": "बाइसेंटेनियल पार्क, आर्द्रभूमि और रोड्स प्रायद्वीप से गुजरने वाला छोटा तटीय मार्ग।",
+        "category": "पैदल",
+        "duration": "40 मिनट",
+        "distance": "2.8 किमी",
+        "difficulty": "आसान"
+      }
+    }
+  },
+  {
+    "id": "concord_cycle",
+    "title": "Concord Cycle",
+    "description": "An easy local cycling route connecting Concord streets, green space and community destinations.",
+    "category": "Cycling",
+    "lat": -33.86500,
+    "lng": 151.11109,
+    "gpx": "assets/gpx/concord_cycle.gpx",
+    "image": "assets/images/routes/queen_elizabeth_park.png",
+    "duration": "50 min",
+    "distance": "5 km",
+    "stops": 3,
+    "rating": 4.9,
+    "xp": 100,
+    "difficulty": "Easy",
+    "translations": {
+      "zh": {
+        "title": "康科德骑行线",
+        "description": "连接康科德街道、绿地与社区目的地的轻松本地骑行路线。",
+        "category": "骑行",
+        "duration": "50 分钟",
+        "distance": "5 公里",
+        "difficulty": "简单"
+      },
+      "ko": {
+        "title": "콩코드 자전거 코스",
+        "description": "콩코드의 거리와 녹지, 지역 시설을 잇는 쉬운 자전거 경로입니다.",
+        "category": "자전거",
+        "duration": "50분",
+        "distance": "5km",
+        "difficulty": "쉬움"
+      },
+      "it": {
+        "title": "Percorso ciclabile di Concord",
+        "description": "Un facile itinerario locale che collega le strade, gli spazi verdi e i luoghi comunitari di Concord.",
+        "category": "Bicicletta",
+        "duration": "50 min",
+        "distance": "5 km",
+        "difficulty": "Facile"
+      },
+      "hi": {
+        "title": "कॉनकॉर्ड साइकिल मार्ग",
+        "description": "कॉनकॉर्ड की सड़कों, हरित क्षेत्रों और सामुदायिक स्थानों को जोड़ने वाला आसान स्थानीय साइकिल मार्ग।",
+        "category": "साइकिल",
+        "duration": "50 मिनट",
+        "distance": "5 किमी",
+        "difficulty": "आसान"
+      }
+    }
+  }
+]

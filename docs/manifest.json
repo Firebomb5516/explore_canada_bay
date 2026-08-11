@@ -1,0 +1,34 @@
+{
+    "name": "Explore Canada Bay",
+    "short_name": "Canada Bay",
+    "start_url": ".",
+    "display": "standalone",
+    "background_color": "#061C31",
+    "theme_color": "#0D4F7C",
+    "description": "Discover local services, community activities, routes and natural places across Canada Bay.",
+    "prefer_related_applications": false,
+    "icons": [
+        {
+            "src": "icons/Icon-192.png",
+            "sizes": "192x192",
+            "type": "image/png"
+        },
+        {
+            "src": "icons/Icon-512.png",
+            "sizes": "512x512",
+            "type": "image/png"
+        },
+        {
+            "src": "icons/Icon-maskable-192.png",
+            "sizes": "192x192",
+            "type": "image/png",
+            "purpose": "maskable"
+        },
+        {
+            "src": "icons/Icon-maskable-512.png",
+            "sizes": "512x512",
+            "type": "image/png",
+            "purpose": "maskable"
+        }
+    ]
+}

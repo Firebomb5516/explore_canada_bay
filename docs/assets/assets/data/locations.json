@@ -1,0 +1,418 @@
+[
+  {
+    "id": "canada_bay_club",
+    "name": "Canada Bay Club",
+    "type": "community",
+    "category": "Community club",
+    "description": "A long-running local club in Five Dock offering dining, functions, entertainment and community activities in a social setting.",
+    "learningPrompt": "Check the club's current What's On information for activities that can help you meet local people, and review entry or membership requirements before visiting.",
+    "highlights": [
+      "Dining and cafe options",
+      "Functions and community events",
+      "Sports, fitness and social activities"
+    ],
+    "accessibility": "Contact the venue before visiting if you need specific accessibility information or assistance.",
+    "image": "",
+    "address": "8 William Street, Five Dock NSW 2046",
+    "officialUrl": "https://canadabayclub.com.au/about-us-2/",
+    "sourceLabel": "Canada Bay Club",
+    "translations": {
+      "zh": {"name": "加拿大湾俱乐部", "category": "社区俱乐部", "description": "五船坞历史悠久的本地俱乐部，提供餐饮、活动、娱乐和社区项目，是居民社交相聚的场所。", "learningPrompt": "查看俱乐部最新活动，寻找结识本地居民的机会，并在到访前确认入场或会员要求。", "highlights": ["餐厅与咖啡馆", "宴会与社区活动", "体育、健身与社交项目"], "accessibility": "如需无障碍信息或协助，请在到访前联系场馆。", "address": "五船坞威廉街 8 号，新南威尔士州 2046", "sourceLabel": "加拿大湾俱乐部"},
+      "ko": {"name": "캐나다 베이 클럽", "category": "지역 클럽", "description": "파이브 독에서 오랫동안 운영된 클럽으로 식사와 행사, 공연, 지역 활동을 함께 즐길 수 있는 사교 공간입니다.", "learningPrompt": "최신 행사 안내에서 이웃을 만날 활동을 찾고 방문 전 입장 및 회원 조건을 확인하세요.", "highlights": ["식당과 카페", "행사와 지역 모임", "스포츠·운동·사교 활동"], "accessibility": "구체적인 접근성 정보나 도움이 필요하면 방문 전에 시설에 문의하세요.", "address": "파이브 독 윌리엄 스트리트 8, NSW 2046", "sourceLabel": "캐나다 베이 클럽"},
+      "it": {"name": "Canada Bay Club", "category": "Club comunitario", "description": "Storico club locale di Five Dock con ristorazione, ricevimenti, intrattenimento e attività comunitarie in un ambiente sociale.", "learningPrompt": "Consulta il programma aggiornato per trovare attività in cui conoscere persone e verifica prima dell’arrivo le condizioni di ingresso o adesione.", "highlights": ["Ristorante e caffè", "Ricevimenti ed eventi comunitari", "Sport, fitness e attività sociali"], "accessibility": "Contatta la struttura prima della visita se ti servono informazioni o assistenza specifiche sull’accessibilità.", "address": "8 William Street, Five Dock NSW 2046", "sourceLabel": "Canada Bay Club"},
+      "hi": {"name": "कनाडा बे क्लब", "category": "सामुदायिक क्लब", "description": "फ़ाइव डॉक का पुराना स्थानीय क्लब, जहाँ भोजन, समारोह, मनोरंजन और सामुदायिक गतिविधियाँ मिलती हैं।", "learningPrompt": "लोगों से मिलने वाली मौजूदा गतिविधियाँ देखें और आने से पहले प्रवेश या सदस्यता की शर्तें जाँचें।", "highlights": ["भोजन और कैफ़े", "समारोह और सामुदायिक कार्यक्रम", "खेल, फ़िटनेस और सामाजिक गतिविधियाँ"], "accessibility": "विशेष सुगम्यता जानकारी या सहायता के लिए आने से पहले स्थल से संपर्क करें।", "address": "8 विलियम स्ट्रीट, फ़ाइव डॉक NSW 2046", "sourceLabel": "कनाडा बे क्लब"}
+    },
+    "lat": -33.8658981,
+    "lng": 151.1203238
+  },
+  {
+    "id": "cabarita_park",
+    "name": "Cabarita Park",
+    "type": "park",
+    "category": "Waterfront park",
+    "description": "A 10-hectare Parramatta River park combining open lawns, remnant bushland, heritage features and waterfront recreation. It was once one of Sydney's popular nineteenth-century pleasure grounds.",
+    "learningPrompt": "Look for the Federation Pavilion, foreshore habitat and mature trees while staying on paths through sensitive vegetation.",
+    "highlights": [
+      "Playgrounds, picnic tables and barbecue areas",
+      "Cabarita Wharf and swimming centre",
+      "Federation Pavilion and waterfront views"
+    ],
+    "accessibility": "Paths, toilets and facilities vary across the large park; check current Council information before planning an accessible visit.",
+    "image": "",
+    "address": "Cabarita Road, Cabarita NSW 2137",
+    "officialUrl": "https://www.canadabay.nsw.gov.au/lifestyle/parklands-and-waterways/parks",
+    "sourceLabel": "City of Canada Bay Council",
+    "translations": {
+      "zh": {"name": "卡巴里塔公园", "category": "滨水公园", "description": "占地 10 公顷的帕拉马塔河公园，拥有草坪、残存林地、历史设施和滨水休闲空间，曾是悉尼十九世纪著名的游乐地。", "learningPrompt": "寻找联邦亭、滨水栖息地和古树，并在敏感植被区域始终沿步道行走。", "highlights": ["游乐场、野餐桌与烧烤区", "卡巴里塔码头与游泳中心", "联邦亭与滨水景观"], "accessibility": "大型公园各处的步道、厕所和设施条件不同；计划无障碍出行前请查阅市议会最新信息。", "address": "卡巴里塔路，卡巴里塔 NSW 2137", "sourceLabel": "加拿大湾市议会"},
+      "ko": {"name": "카바리타 공원", "category": "수변 공원", "description": "파라마타강 옆 10헥타르 공원으로 잔디밭, 남은 숲, 문화유산과 수변 휴식 공간이 있으며 19세기 시드니의 인기 유원지였습니다.", "learningPrompt": "페더레이션 파빌리온과 물가 서식지, 오래된 나무를 찾아보고 민감한 식생에서는 길을 벗어나지 마세요.", "highlights": ["놀이터·피크닉 테이블·바비큐", "카바리타 선착장과 수영장", "페더레이션 파빌리온과 강 전망"], "accessibility": "넓은 공원 안에서 길과 화장실, 시설 조건이 다르므로 접근 가능한 방문을 계획할 때 최신 안내를 확인하세요.", "address": "카바리타 로드, 카바리타 NSW 2137", "sourceLabel": "캐나다 베이시 의회"},
+      "it": {"name": "Cabarita Park", "category": "Parco sul lungofiume", "description": "Parco di 10 ettari sul Parramatta con prati, bosco residuo, elementi storici e attività sul lungofiume; fu una celebre meta ricreativa dell’Ottocento.", "learningPrompt": "Cerca il Federation Pavilion, gli habitat ripariali e gli alberi maturi, restando sui sentieri vicino alla vegetazione sensibile.", "highlights": ["Aree gioco, tavoli da picnic e barbecue", "Molo di Cabarita e piscina", "Federation Pavilion e viste sul fiume"], "accessibility": "Sentieri, bagni e strutture variano nel grande parco; consulta le informazioni aggiornate prima di una visita accessibile.", "address": "Cabarita Road, Cabarita NSW 2137", "sourceLabel": "Consiglio della Città di Canada Bay"},
+      "hi": {"name": "कैबरीटा पार्क", "category": "तटीय पार्क", "description": "पैरामैटा नदी का 10 हेक्टेयर पार्क, जहाँ खुले लॉन, बचा हुआ वन, विरासत और जल-मनोरंजन है; यह उन्नीसवीं सदी का लोकप्रिय सैर स्थल था।", "learningPrompt": "फ़ेडरेशन पैविलियन, तटीय आवास और पुराने पेड़ देखें तथा संवेदनशील वनस्पति में रास्ते पर रहें।", "highlights": ["खेल क्षेत्र, पिकनिक मेज़ और बारबेक्यू", "कैबरीटा घाट और तैराकी केंद्र", "फ़ेडरेशन पैविलियन और नदी के दृश्य"], "accessibility": "बड़े पार्क में रास्ते, शौचालय और सुविधाएँ अलग-अलग हैं; सुगम यात्रा से पहले नवीन जानकारी जाँचें।", "address": "कैबरीटा रोड, कैबरीटा NSW 2137", "sourceLabel": "सिटी ऑफ़ कनाडा बे काउंसिल"}
+    },
+    "lat": -33.843054,
+    "lng": 151.118059
+  },
+  {
+    "id": "rhodes_waterfront",
+    "name": "Rhodes Foreshore Park",
+    "type": "attraction",
+    "category": "Foreshore",
+    "description": "A connected stretch of Parramatta River foreshore with shared walking and cycling paths, open space and links to Rhodes Foreshore Park and The Connection.",
+    "learningPrompt": "Follow the river walkway and notice how new public spaces, seawalls and pockets of habitat meet along the changing foreshore.",
+    "highlights": [
+      "Shared riverfront walking and cycling path",
+      "Rhodes Foreshore Park playground",
+      "Links to The Connection and Rhodes station"
+    ],
+    "accessibility": "The foreshore includes shared paved paths; individual play and park facilities may have different access conditions.",
+    "image": "",
+    "address": "Shoreline Drive and Mary Street, Rhodes NSW 2138",
+    "officialUrl": "https://www.canadabay.nsw.gov.au/lifestyle/sports-and-recreation/playgrounds",
+    "sourceLabel": "City of Canada Bay Council",
+    "translations": {
+      "zh": {"name": "罗德兹滨水公园", "category": "滨水区", "description": "帕拉马塔河沿岸相连的滨水空间，设有步行骑行共享道、开放空间，并连接罗德兹滨水公园和 The Connection。", "learningPrompt": "沿河步道前行，观察新公共空间、海堤和小片栖息地如何在不断变化的岸线上相遇。", "highlights": ["滨河步行骑行共享道", "罗德兹滨水公园游乐场", "连接 The Connection 与罗德兹车站"], "accessibility": "滨水区设有铺装共享道；各游乐与公园设施的无障碍条件可能不同。", "address": "罗德兹 Shoreline Drive 与 Mary Street，NSW 2138", "sourceLabel": "加拿大湾市议会"},
+      "ko": {"name": "로즈 포쇼어 공원", "category": "수변", "description": "파라마타강을 따라 보행·자전거 공용로와 열린 공간이 이어지며 로즈 포쇼어 공원과 더 커넥션을 연결합니다.", "learningPrompt": "강변 길을 따라 새 공공 공간과 방파제, 작은 서식지가 변화하는 물가에서 만나는 모습을 보세요.", "highlights": ["강변 보행·자전거 공용로", "로즈 포쇼어 공원 놀이터", "더 커넥션과 로즈역 연결"], "accessibility": "포장된 공용로가 있으나 개별 놀이·공원 시설의 접근 조건은 다를 수 있습니다.", "address": "쇼어라인 드라이브와 메리 스트리트, 로즈 NSW 2138", "sourceLabel": "캐나다 베이시 의회"},
+      "it": {"name": "Rhodes Foreshore Park", "category": "Lungofiume", "description": "Un tratto continuo sul Parramatta con percorsi condivisi, spazi aperti e collegamenti con Rhodes Foreshore Park e The Connection.", "learningPrompt": "Segui il percorso e osserva come nuovi spazi pubblici, muri costieri e piccoli habitat si incontrano lungo la riva.", "highlights": ["Percorso condiviso a piedi e in bici", "Area giochi di Rhodes Foreshore Park", "Collegamenti con The Connection e la stazione di Rhodes"], "accessibility": "Il lungofiume ha percorsi pavimentati condivisi; le singole strutture possono avere condizioni di accesso diverse.", "address": "Shoreline Drive e Mary Street, Rhodes NSW 2138", "sourceLabel": "Consiglio della Città di Canada Bay"},
+      "hi": {"name": "रोड्स फ़ोरशोर पार्क", "category": "नदी तट", "description": "पैरामैटा नदी के साथ साझा पैदल-साइकिल रास्ते, खुली जगहें और रोड्स फ़ोरशोर पार्क व द कनेक्शन से जुड़ा तटीय क्षेत्र।", "learningPrompt": "नदी मार्ग पर देखें कि नए सार्वजनिक स्थान, तटबंध और छोटे आवास बदलते किनारे पर कैसे मिलते हैं।", "highlights": ["साझा नदी-तटीय पैदल और साइकिल मार्ग", "रोड्स फ़ोरशोर पार्क खेल क्षेत्र", "द कनेक्शन और रोड्स स्टेशन से जुड़ाव"], "accessibility": "यहाँ पक्के साझा रास्ते हैं; अलग खेल और पार्क सुविधाओं की सुगम्यता भिन्न हो सकती है।", "address": "शोरलाइन ड्राइव और मैरी स्ट्रीट, रोड्स NSW 2138", "sourceLabel": "सिटी ऑफ़ कनाडा बे काउंसिल"}
+    },
+    "lat": -33.825685,
+    "lng": 151.085041
+  },
+  {
+    "id": "bicentennial_park",
+    "name": "Bicentennial Park",
+    "type": "park",
+    "category": "Regional parkland",
+    "description": "A 40-hectare regional park beside Concord West with lawns, Lake Belvedere, playgrounds, shared paths and access to the ecologically important Badu Mangroves.",
+    "learningPrompt": "Visit the bird hide or mangrove boardwalk, observe wildlife quietly and obey signs protecting wetlands from dogs and bicycles.",
+    "highlights": [
+      "Walking and cycling paths",
+      "Picnic areas, barbecues and playgrounds",
+      "Treillage Tower, bird hide and wetland boardwalk"
+    ],
+    "accessibility": "Accessible recreation features are available in parts of the park; check current playground closures and parking conditions before travelling.",
+    "image": "",
+    "address": "Bicentennial Park, Sydney Olympic Park NSW 2127",
+    "officialUrl": "https://www.sydneyolympicpark.com.au/parks-and-playgrounds/bicentennial-park",
+    "sourceLabel": "Sydney Olympic Park Authority",
+    "translations": {
+      "zh": {"name": "百年纪念公园", "category": "区域公园", "description": "康科德西旁占地 40 公顷的区域公园，拥有草坪、贝尔维德尔湖、游乐场、共享道，并可前往生态重要的巴杜红树林。", "learningPrompt": "到访观鸟屋或红树林栈道，安静观察野生动物，并遵守湿地禁犬禁自行车标识。", "highlights": ["步行与骑行道", "野餐区、烧烤设施与游乐场", "格架塔、观鸟屋与湿地栈道"], "accessibility": "公园部分区域设有无障碍休闲设施；出发前请查看游乐场关闭和停车情况。", "address": "悉尼奥林匹克公园百年纪念公园，NSW 2127", "sourceLabel": "悉尼奥林匹克公园管理局"},
+      "ko": {"name": "바이센테니얼 공원", "category": "광역 공원", "description": "콩코드 웨스트 옆 40헥타르 공원으로 잔디밭, 벨비디어 호수, 놀이터, 공용로와 생태적으로 중요한 바두 맹그로브가 있습니다.", "learningPrompt": "새 관찰소나 맹그로브 데크에서 조용히 야생동물을 보고 습지를 보호하는 반려견·자전거 제한 표지판을 지키세요.", "highlights": ["산책로와 자전거길", "피크닉·바비큐·놀이터", "트렐리주 타워·새 관찰소·습지 데크"], "accessibility": "일부 구역에 접근 가능한 시설이 있습니다. 출발 전에 놀이터 폐쇄와 주차 상황을 확인하세요.", "address": "바이센테니얼 공원, 시드니 올림픽 공원 NSW 2127", "sourceLabel": "시드니 올림픽 공원 관리청"},
+      "it": {"name": "Bicentennial Park", "category": "Grande parco regionale", "description": "Parco regionale di 40 ettari vicino a Concord West con prati, lago Belvedere, aree gioco, percorsi condivisi e accesso alle importanti mangrovie di Badu.", "learningPrompt": "Visita il capanno per uccelli o la passerella tra le mangrovie, osserva in silenzio e rispetta i divieti per cani e bici nelle zone umide.", "highlights": ["Percorsi pedonali e ciclabili", "Picnic, barbecue e aree gioco", "Treillage Tower, capanno per uccelli e passerella umida"], "accessibility": "Alcune parti offrono strutture accessibili; controlla chiusure delle aree gioco e parcheggi prima di partire.", "address": "Bicentennial Park, Sydney Olympic Park NSW 2127", "sourceLabel": "Autorità del Sydney Olympic Park"},
+      "hi": {"name": "बाइसेंटेनियल पार्क", "category": "क्षेत्रीय पार्क", "description": "कॉनकॉर्ड वेस्ट के पास 40 हेक्टेयर का पार्क, जहाँ लॉन, लेक बेल्वेडियर, खेल क्षेत्र, साझा रास्ते और महत्वपूर्ण बाडू मैंग्रोव हैं।", "learningPrompt": "पक्षी छिपाव या मैंग्रोव बोर्डवॉक पर शांत रहकर जीव देखें और आर्द्रभूमि में कुत्ते व साइकिल संबंधी संकेत मानें।", "highlights": ["पैदल और साइकिल मार्ग", "पिकनिक, बारबेक्यू और खेल क्षेत्र", "ट्रेलिस टावर, पक्षी छिपाव और आर्द्रभूमि बोर्डवॉक"], "accessibility": "पार्क के कुछ भागों में सुगम सुविधाएँ हैं; आने से पहले खेल क्षेत्र बंद होने और पार्किंग की स्थिति जाँचें।", "address": "बाइसेंटेनियल पार्क, सिडनी ओलंपिक पार्क NSW 2127", "sourceLabel": "सिडनी ओलंपिक पार्क प्राधिकरण"}
+    },
+    "lat": -33.84985,
+    "lng": 151.0783
+  },
+  {
+    "id": "bayview_park",
+    "name": "Bayview Park",
+    "type": "park",
+    "category": "Waterfront park",
+    "description": "A foreshore park on Canada Bay with open grass, play equipment, picnic facilities, a boat ramp, outdoor exercise equipment and a netted swimming area.",
+    "learningPrompt": "Enjoy the foreshore while checking current water-quality and safety advice before swimming, and keep litter away from the river.",
+    "highlights": [
+      "Waterfront picnic and barbecue areas",
+      "Playground and outdoor gym",
+      "Boat ramp and netted swim site"
+    ],
+    "accessibility": "Recent park improvements include upgraded paths and parking; confirm current amenities and swim-site conditions with Council.",
+    "image": "",
+    "address": "Burwood Road, Concord NSW 2137",
+    "officialUrl": "https://www.canadabay.nsw.gov.au/lifestyle/parklands-and-waterways/parks",
+    "sourceLabel": "City of Canada Bay Council",
+    "translations": {
+      "zh": {"name": "湾景公园", "category": "滨水公园", "description": "加拿大湾畔的滨水公园，设有草地、游乐设施、野餐区、船坡、户外健身器材和围网游泳区。", "learningPrompt": "享受滨水空间；游泳前查看最新水质与安全建议，并避免垃圾进入河流。", "highlights": ["滨水野餐与烧烤区", "游乐场与户外健身房", "船坡与围网游泳区"], "accessibility": "近期改善包括升级步道和停车位；请向市议会确认最新设施与游泳区情况。", "address": "康科德伯伍德路，NSW 2137", "sourceLabel": "加拿大湾市议会"},
+      "ko": {"name": "베이뷰 공원", "category": "수변 공원", "description": "캐나다 베이 물가의 공원으로 잔디밭, 놀이시설, 피크닉, 보트 진입로, 야외 운동기구와 그물 수영장이 있습니다.", "learningPrompt": "물가를 즐기되 수영 전 최신 수질·안전 안내를 확인하고 쓰레기가 강으로 가지 않게 해 주세요.", "highlights": ["수변 피크닉과 바비큐", "놀이터와 야외 운동 시설", "보트 진입로와 그물 수영장"], "accessibility": "최근 길과 주차가 개선되었습니다. 최신 편의시설과 수영장 상태는 시의회에 확인하세요.", "address": "버우드 로드, 콩코드 NSW 2137", "sourceLabel": "캐나다 베이시 의회"},
+      "it": {"name": "Bayview Park", "category": "Parco sul lungofiume", "description": "Parco sulla baia con prati, giochi, picnic, rampa per barche, attrezzi fitness e zona balneabile protetta da rete.", "learningPrompt": "Goditi il lungofiume, controlla qualità dell’acqua e sicurezza prima di nuotare e tieni i rifiuti lontani dal fiume.", "highlights": ["Picnic e barbecue sul lungofiume", "Area giochi e palestra all’aperto", "Rampa per barche e area balneabile con rete"], "accessibility": "I recenti lavori hanno migliorato sentieri e parcheggi; verifica con il Comune servizi e condizioni della zona balneabile.", "address": "Burwood Road, Concord NSW 2137", "sourceLabel": "Consiglio della Città di Canada Bay"},
+      "hi": {"name": "बेव्यू पार्क", "category": "तटीय पार्क", "description": "कनाडा बे का तटीय पार्क, जहाँ घास, खेल, पिकनिक, नाव रैंप, बाहरी व्यायाम उपकरण और जाल वाला तैराकी क्षेत्र है।", "learningPrompt": "तट का आनंद लें, तैरने से पहले जल गुणवत्ता व सुरक्षा सलाह देखें और कचरा नदी से दूर रखें।", "highlights": ["तटीय पिकनिक और बारबेक्यू", "खेल क्षेत्र और बाहरी व्यायाम", "नाव रैंप और जाल वाला तैराकी क्षेत्र"], "accessibility": "हाल के सुधारों में रास्ते और पार्किंग उन्नत हुए हैं; सुविधाएँ व तैराकी स्थिति काउंसिल से जाँचें।", "address": "बर्वुड रोड, कॉनकॉर्ड NSW 2137", "sourceLabel": "सिटी ऑफ़ कनाडा बे काउंसिल"}
+    },
+    "lat": -33.857707,
+    "lng": 151.121149
+  },
+  {
+    "id": "yaralla_estate",
+    "name": "Yaralla Estate",
+    "type": "attraction",
+    "category": "Heritage and nature",
+    "description": "A state-significant 37-hectare Edwardian estate on the Concord peninsula containing heritage buildings, gardens, mature plantings and valuable remnants of Sydney Turpentine-Ironbark Forest.",
+    "learningPrompt": "Explore only publicly accessible areas, respect the health precinct and look for the contrast between formal estate plantings and remnant native forest.",
+    "highlights": [
+      "Walker family and local social history",
+      "Heritage buildings and gardens",
+      "Sydney Turpentine-Ironbark Forest habitat"
+    ],
+    "accessibility": "Public access and tour arrangements can change because the estate forms part of a health precinct; check official information before visiting.",
+    "image": "",
+    "address": "Nullawarra Avenue, Concord West NSW 2138",
+    "officialUrl": "https://slhd.health.nsw.gov.au/yaralla-estate/about",
+    "sourceLabel": "Sydney Local Health District",
+    "translations": {
+      "zh": {"name": "亚拉拉庄园", "category": "历史与自然", "description": "康科德半岛占地 37 公顷、具有州级意义的爱德华时代庄园，拥有历史建筑、花园、古树及珍贵的悉尼松脂铁皮桉森林残片。", "learningPrompt": "只进入公众开放区域，尊重医疗园区，并观察正式园林与原生森林残片之间的对比。", "highlights": ["沃克家族与本地社会史", "历史建筑与花园", "悉尼松脂铁皮桉森林栖息地"], "accessibility": "庄园属于医疗园区，公众开放和导览安排可能变化；到访前请查阅官方信息。", "address": "康科德西 Nullawarra Avenue，NSW 2138", "sourceLabel": "悉尼地方卫生区"},
+      "ko": {"name": "야랄라 저택", "category": "문화유산과 자연", "description": "콩코드 반도의 주립 중요 에드워드 시대 저택으로 37헥타르에 역사 건물, 정원, 오래된 나무와 귀중한 토종 숲이 있습니다.", "learningPrompt": "공개 구역만 이용하고 의료 구역을 존중하며 정형 정원과 남은 토종 숲을 비교해 보세요.", "highlights": ["워커 가족과 지역 사회사", "역사 건물과 정원", "시드니 터펜타인–아이언바크 숲 서식지"], "accessibility": "의료 구역의 일부라 공개 범위와 투어가 바뀔 수 있으니 방문 전 공식 정보를 확인하세요.", "address": "널라와라 애비뉴, 콩코드 웨스트 NSW 2138", "sourceLabel": "시드니 지역 보건구"},
+      "it": {"name": "Yaralla Estate", "category": "Storia e natura", "description": "Tenuta edoardiana di rilevanza statale, estesa su 37 ettari nella penisola di Concord, con edifici storici, giardini, alberi maturi e preziosa foresta nativa residua.", "learningPrompt": "Visita solo le aree aperte, rispetta il complesso sanitario e confronta i giardini formali con la foresta nativa residua.", "highlights": ["Famiglia Walker e storia sociale locale", "Edifici storici e giardini", "Habitat della foresta Sydney Turpentine-Ironbark"], "accessibility": "Accesso e visite possono cambiare perché la tenuta fa parte di un complesso sanitario; verifica prima le informazioni ufficiali.", "address": "Nullawarra Avenue, Concord West NSW 2138", "sourceLabel": "Distretto sanitario locale di Sydney"},
+      "hi": {"name": "याराला एस्टेट", "category": "विरासत और प्रकृति", "description": "कॉनकॉर्ड प्रायद्वीप की 37 हेक्टेयर की राज्य-महत्वपूर्ण एडवर्डियन एस्टेट, जहाँ विरासत भवन, बगीचे, पुराने पेड़ और दुर्लभ देशी वन बचे हैं।", "learningPrompt": "केवल खुले क्षेत्रों में जाएँ, स्वास्थ्य परिसर का सम्मान करें और औपचारिक बाग़ की तुलना देशी वन से करें।", "highlights": ["वॉकर परिवार और स्थानीय सामाजिक इतिहास", "विरासत भवन और बगीचे", "सिडनी टर्पेंटाइन–आयरनबार्क वन आवास"], "accessibility": "स्वास्थ्य परिसर का हिस्सा होने के कारण प्रवेश और टूर बदल सकते हैं; आने से पहले आधिकारिक जानकारी देखें।", "address": "नलावारा एवेन्यू, कॉनकॉर्ड वेस्ट NSW 2138", "sourceLabel": "सिडनी लोकल हेल्थ डिस्ट्रिक्ट"}
+    },
+    "lat": -33.839597,
+    "lng": 151.099241
+  },
+  {
+    "id": "concord_community_centre",
+    "name": "Concord Community Centre",
+    "type": "community",
+    "category": "Community venue",
+    "description": "A Council community facility with bookable meeting and activity space used for training, classes, information sessions, community groups and private functions.",
+    "learningPrompt": "Check Council's venue information to find a local group, class or community activity rather than assuming the centre is open for casual drop-in visits.",
+    "highlights": [
+      "Meeting and activity rooms",
+      "Kitchen and self-catering facilities",
+      "Home of community organisations including the Men's Shed"
+    ],
+    "accessibility": "This is an unstaffed bookable venue. Council lists flat-floor wheelchair access, an accessible toilet and accessible parking; confirm the requirements of the particular room or event.",
+    "image": "",
+    "address": "1A Gipps Street, Concord NSW 2137",
+    "officialUrl": "https://canadabay.bookable.net.au/venues/8/concord-community-centre",
+    "sourceLabel": "City of Canada Bay Council",
+    "translations": {
+      "zh": {"name": "康科德社区中心", "category": "社区场馆", "description": "可预订的市议会社区设施，提供会议和活动空间，用于培训、课程、说明会、社区团体与私人活动。", "learningPrompt": "查看市议会场馆信息，寻找本地团体、课程或活动；请勿假设中心可随时直接进入。", "highlights": ["会议室与活动室", "厨房与自助餐饮设施", "社区组织所在地，包括男士工坊"], "accessibility": "这是无人值守的预订场馆。市议会列有平层轮椅通道、无障碍厕所和车位；请确认具体房间或活动要求。", "address": "康科德吉普斯街 1A，NSW 2137", "sourceLabel": "加拿大湾市议会"},
+      "ko": {"name": "콩코드 커뮤니티 센터", "category": "지역 행사장", "description": "교육, 수업, 설명회, 지역 단체와 개인 행사를 위한 회의실과 활동 공간을 예약할 수 있는 시의회 시설입니다.", "learningPrompt": "자유 방문이 가능한 곳으로 생각하지 말고 시의회 안내에서 지역 모임이나 수업, 활동을 찾아보세요.", "highlights": ["회의실과 활동실", "주방과 셀프 케이터링", "멘스 셰드를 포함한 지역 단체 활동"], "accessibility": "직원이 상주하지 않는 예약 시설입니다. 평면 휠체어 접근, 접근 가능한 화장실과 주차가 안내되어 있으나 행사별 요건을 확인하세요.", "address": "깁스 스트리트 1A, 콩코드 NSW 2137", "sourceLabel": "캐나다 베이시 의회"},
+      "it": {"name": "Centro comunitario di Concord", "category": "Spazio comunitario", "description": "Struttura comunale prenotabile con sale per riunioni, corsi, formazione, incontri informativi, gruppi ed eventi privati.", "learningPrompt": "Consulta le informazioni del Comune per trovare un gruppo, corso o attività; non dare per scontato l’accesso libero.", "highlights": ["Sale riunioni e attività", "Cucina e attrezzature per ristorazione autonoma", "Sede di organizzazioni, incluso il Men’s Shed"], "accessibility": "È uno spazio non presidiato e su prenotazione. Sono indicati accesso in piano, bagno e parcheggio accessibili; verifica la sala o l’evento specifico.", "address": "1A Gipps Street, Concord NSW 2137", "sourceLabel": "Consiglio della Città di Canada Bay"},
+      "hi": {"name": "कॉनकॉर्ड सामुदायिक केंद्र", "category": "सामुदायिक स्थल", "description": "प्रशिक्षण, कक्षाओं, सूचना सत्रों, समूहों और निजी समारोहों के लिए बुक किए जा सकने वाले कमरे वाला काउंसिल केंद्र।", "learningPrompt": "सीधे प्रवेश मानने के बजाय काउंसिल जानकारी में स्थानीय समूह, कक्षा या गतिविधि खोजें।", "highlights": ["बैठक और गतिविधि कक्ष", "रसोई और स्वयं-भोजन सुविधाएँ", "मेन्स शेड सहित सामुदायिक संगठनों का स्थल"], "accessibility": "यह बिना स्टाफ़ वाला बुकिंग स्थल है। समतल व्हीलचेयर पहुँच, सुगम शौचालय और पार्किंग सूचीबद्ध हैं; विशेष कमरे की ज़रूरतें जाँचें।", "address": "1A गिप्स स्ट्रीट, कॉनकॉर्ड NSW 2137", "sourceLabel": "सिटी ऑफ़ कनाडा बे काउंसिल"}
+    },
+    "lat": -33.866048,
+    "lng": 151.107569
+  },
+  {
+    "id": "the_connection",
+    "name": "The Connection",
+    "type": "community",
+    "category": "Community precinct",
+    "description": "A modern waterfront community precinct in Rhodes combining library and technology services, meeting and event spaces, creative facilities, a digital gallery and public gathering areas.",
+    "learningPrompt": "Look beyond the building itself: check the live program for workshops, reading groups, exhibitions and activities where newcomers can meet local residents.",
+    "highlights": [
+      "The Learning Space library service",
+      "Meeting, event and creative spaces",
+      "Digital gallery, waterfront public space and public toilets"
+    ],
+    "accessibility": "The precinct was designed as a public multi-purpose facility; contact Council for event-specific access requirements.",
+    "image": "",
+    "address": "30 Shoreline Drive, Rhodes NSW 2138",
+    "officialUrl": "https://www.canadabay.nsw.gov.au/the-connection",
+    "sourceLabel": "City of Canada Bay Council",
+    "translations": {
+      "zh": {"name": "The Connection 社区中心", "category": "社区综合区", "description": "罗德兹现代滨水社区综合区，集合图书馆与科技服务、会议活动空间、创意设施、数字画廊及公共聚会区。", "learningPrompt": "不要只看建筑本身：查看实时活动，寻找工作坊、读书会、展览和结识居民的项目。", "highlights": ["The Learning Space 图书馆服务", "会议、活动与创意空间", "数字画廊、滨水公共空间和公共厕所"], "accessibility": "该综合区按公共多用途设施设计；具体活动的无障碍要求请联系市议会。", "address": "罗德兹 Shoreline Drive 30 号，NSW 2138", "sourceLabel": "加拿大湾市议会"},
+      "ko": {"name": "더 커넥션", "category": "복합 커뮤니티 공간", "description": "로즈 수변의 현대적인 지역 시설로 도서관·기술 서비스, 회의·행사 공간, 창작 시설, 디지털 갤러리와 공공 공간이 함께 있습니다.", "learningPrompt": "건물만 보지 말고 실시간 프로그램에서 워크숍, 독서 모임, 전시와 이웃을 만날 활동을 찾아보세요.", "highlights": ["더 러닝 스페이스 도서관", "회의·행사·창작 공간", "디지털 갤러리·수변 공공 공간·화장실"], "accessibility": "공공 다목적 시설로 설계되었습니다. 행사별 접근 요건은 시의회에 문의하세요.", "address": "쇼어라인 드라이브 30, 로즈 NSW 2138", "sourceLabel": "캐나다 베이시 의회"},
+      "it": {"name": "The Connection", "category": "Complesso comunitario", "description": "Moderno centro comunitario sul lungofiume di Rhodes con biblioteca e tecnologia, sale, spazi creativi, galleria digitale e aree pubbliche.", "learningPrompt": "Guarda oltre l’edificio: consulta il programma per laboratori, gruppi di lettura, mostre e attività in cui conoscere residenti.", "highlights": ["Biblioteca The Learning Space", "Spazi per riunioni, eventi e creatività", "Galleria digitale, spazio pubblico sul lungofiume e bagni"], "accessibility": "Il complesso è stato progettato come struttura pubblica polivalente; contatta il Comune per esigenze legate a un evento.", "address": "30 Shoreline Drive, Rhodes NSW 2138", "sourceLabel": "Consiglio della Città di Canada Bay"},
+      "hi": {"name": "द कनेक्शन", "category": "सामुदायिक परिसर", "description": "रोड्स का आधुनिक तटीय परिसर, जहाँ पुस्तकालय व तकनीक, बैठक और कार्यक्रम स्थल, रचनात्मक सुविधाएँ, डिजिटल गैलरी और सार्वजनिक जगहें हैं।", "learningPrompt": "केवल भवन नहीं, मौजूदा कार्यक्रम में कार्यशालाएँ, पठन समूह, प्रदर्शनियाँ और लोगों से मिलने की गतिविधियाँ देखें।", "highlights": ["द लर्निंग स्पेस पुस्तकालय", "बैठक, कार्यक्रम और रचनात्मक स्थान", "डिजिटल गैलरी, तटीय सार्वजनिक स्थान और शौचालय"], "accessibility": "यह बहुउद्देशीय सार्वजनिक सुविधा है; कार्यक्रम की विशेष सुगम्यता के लिए काउंसिल से संपर्क करें।", "address": "30 शोरलाइन ड्राइव, रोड्स NSW 2138", "sourceLabel": "सिटी ऑफ़ कनाडा बे काउंसिल"}
+    },
+    "lat": -33.828711,
+    "lng": 151.083536
+  },
+  {
+    "id": "drummoyne_community_centre",
+    "name": "Drummoyne Community Centre",
+    "type": "community",
+    "category": "Neighbourhood centre",
+    "description": "An independent not-for-profit neighbourhood centre offering social groups, classes, family and wellbeing programs, practical information, community transport and volunteering opportunities.",
+    "learningPrompt": "Browse the current calendar and choose a welcoming class, support service or social activity that matches your interests and needs.",
+    "highlights": [
+      "Arts, hobbies and exercise programs",
+      "Family, wellbeing and practical support",
+      "Social activities, volunteering and venue hire"
+    ],
+    "accessibility": "Contact the centre directly for program accessibility, transport assistance and venue access information.",
+    "image": "",
+    "address": "10 Cometrowe Street, Drummoyne NSW 2047",
+    "officialUrl": "https://dcc.org.au/",
+    "sourceLabel": "Drummoyne Community Centre Inc.",
+    "translations": {
+      "zh": {"name": "德拉莫因社区中心", "category": "邻里中心", "description": "独立非营利邻里中心，提供社交团体、课程、家庭与健康项目、实用信息、社区交通和志愿机会。", "learningPrompt": "浏览最新日程，选择符合兴趣与需要、气氛友好的课程、支持服务或社交活动。", "highlights": ["艺术、兴趣与运动项目", "家庭、健康与实用支持", "社交活动、志愿服务与场地租用"], "accessibility": "有关项目无障碍、交通协助和场馆通行，请直接联系中心。", "address": "德拉莫因 Cometrowe Street 10 号，NSW 2047", "sourceLabel": "德拉莫因社区中心"},
+      "ko": {"name": "드러모인 커뮤니티 센터", "category": "동네 센터", "description": "사교 모임과 수업, 가족·건강 프로그램, 생활 정보, 지역 교통과 봉사 기회를 제공하는 독립 비영리 센터입니다.", "learningPrompt": "최신 일정에서 관심과 필요에 맞는 편안한 수업, 지원 서비스 또는 모임을 골라보세요.", "highlights": ["예술·취미·운동 프로그램", "가족·건강·생활 지원", "사교 활동·봉사·공간 대여"], "accessibility": "프로그램 접근성, 교통 지원과 시설 이용 정보는 센터에 직접 문의하세요.", "address": "코메트로 스트리트 10, 드러모인 NSW 2047", "sourceLabel": "드러모인 커뮤니티 센터"},
+      "it": {"name": "Centro comunitario di Drummoyne", "category": "Centro di quartiere", "description": "Centro di quartiere indipendente e non profit con gruppi sociali, corsi, programmi familiari e di benessere, informazioni, trasporto e volontariato.", "learningPrompt": "Consulta il calendario e scegli un corso accogliente, un servizio o un’attività sociale adatta ai tuoi interessi e bisogni.", "highlights": ["Arte, hobby ed esercizio", "Sostegno familiare, benessere e aiuto pratico", "Attività sociali, volontariato e affitto sale"], "accessibility": "Contatta direttamente il centro per accessibilità dei programmi, trasporto e accesso alla struttura.", "address": "10 Cometrowe Street, Drummoyne NSW 2047", "sourceLabel": "Centro comunitario di Drummoyne"},
+      "hi": {"name": "ड्रमॉइन सामुदायिक केंद्र", "category": "पड़ोस केंद्र", "description": "स्वतंत्र गैर-लाभकारी केंद्र जो सामाजिक समूह, कक्षाएँ, परिवार व कल्याण कार्यक्रम, जानकारी, सामुदायिक परिवहन और स्वयंसेवा देता है।", "learningPrompt": "मौजूदा कैलेंडर में अपनी रुचि व ज़रूरत के अनुसार स्वागतपूर्ण कक्षा, सहायता या सामाजिक गतिविधि चुनें।", "highlights": ["कला, शौक और व्यायाम", "परिवार, कल्याण और व्यावहारिक सहायता", "सामाजिक गतिविधि, स्वयंसेवा और स्थल किराया"], "accessibility": "कार्यक्रम की सुगम्यता, परिवहन सहायता और स्थल पहुँच के लिए केंद्र से सीधे संपर्क करें।", "address": "10 कोमेट्रो स्ट्रीट, ड्रमॉइन NSW 2047", "sourceLabel": "ड्रमॉइन सामुदायिक केंद्र"}
+    },
+    "lat": -33.851851,
+    "lng": 151.149487
+  },
+  {
+    "id": "the_concord_community_club",
+    "name": "The Concord Community Club",
+    "type": "community",
+    "category": "Community club",
+    "description": "A family-oriented local club beside Majors Bay Reserve offering dining, functions, entertainment and a gathering place connected to nearby sporting fields.",
+    "learningPrompt": "Review the venue's current events, dining times and entry conditions before visiting, especially when attending with children.",
+    "highlights": [
+      "Bistro and social dining",
+      "Functions, entertainment and local events",
+      "Next to Majors Bay Reserve sporting fields"
+    ],
+    "accessibility": "Contact the club before visiting if you require detailed accessibility or assistance information.",
+    "image": "",
+    "address": "1 Nullawarra Avenue, Concord NSW 2137",
+    "officialUrl": "https://www.theconcord.com.au/",
+    "sourceLabel": "The Concord Community Club",
+    "translations": {
+      "zh": {"name": "康科德社区俱乐部", "category": "社区俱乐部", "description": "位于梅杰斯湾保护区旁、适合家庭的本地俱乐部，提供餐饮、宴会、娱乐和连接附近运动场的聚会空间。", "learningPrompt": "到访前查看最新活动、餐饮时间和入场条件，尤其是携带儿童时。", "highlights": ["小酒馆与社交用餐", "宴会、娱乐与本地活动", "毗邻梅杰斯湾保护区运动场"], "accessibility": "如需详细无障碍或协助信息，请在到访前联系俱乐部。", "address": "康科德 Nullawarra Avenue 1 号，NSW 2137", "sourceLabel": "康科德社区俱乐部"},
+      "ko": {"name": "콩코드 커뮤니티 클럽", "category": "지역 클럽", "description": "메이저스 베이 보호구역 옆의 가족 친화적 클럽으로 식사, 행사, 공연과 인근 운동장을 잇는 만남의 장소입니다.", "learningPrompt": "특히 어린이와 함께 갈 때 최신 행사, 식사 시간과 입장 조건을 먼저 확인하세요.", "highlights": ["비스트로와 함께하는 식사", "행사·공연·지역 활동", "메이저스 베이 운동장 옆"], "accessibility": "상세한 접근성이나 도움이 필요하면 방문 전에 클럽에 문의하세요.", "address": "널라와라 애비뉴 1, 콩코드 NSW 2137", "sourceLabel": "콩코드 커뮤니티 클럽"},
+      "it": {"name": "The Concord Community Club", "category": "Club comunitario", "description": "Club locale per famiglie accanto a Majors Bay Reserve con ristorazione, ricevimenti, intrattenimento e un punto di ritrovo vicino ai campi sportivi.", "learningPrompt": "Controlla eventi, orari dei pasti e condizioni di ingresso, soprattutto se visiti con bambini.", "highlights": ["Bistrot e pasti in compagnia", "Ricevimenti, spettacoli ed eventi locali", "Accanto ai campi di Majors Bay Reserve"], "accessibility": "Contatta il club prima della visita per informazioni dettagliate sull’accessibilità o assistenza.", "address": "1 Nullawarra Avenue, Concord NSW 2137", "sourceLabel": "The Concord Community Club"},
+      "hi": {"name": "कॉनकॉर्ड सामुदायिक क्लब", "category": "सामुदायिक क्लब", "description": "मेजर्स बे रिज़र्व के पास परिवार-अनुकूल क्लब, जहाँ भोजन, समारोह, मनोरंजन और पास के खेल मैदानों से जुड़ा मिलन स्थल है।", "learningPrompt": "विशेषकर बच्चों के साथ आने से पहले कार्यक्रम, भोजन समय और प्रवेश शर्तें देखें।", "highlights": ["बिस्ट्रो और सामाजिक भोजन", "समारोह, मनोरंजन और स्थानीय कार्यक्रम", "मेजर्स बे रिज़र्व खेल मैदानों के पास"], "accessibility": "विस्तृत सुगम्यता या सहायता जानकारी के लिए आने से पहले क्लब से संपर्क करें।", "address": "1 नलावारा एवेन्यू, कॉनकॉर्ड NSW 2137", "sourceLabel": "कॉनकॉर्ड सामुदायिक क्लब"}
+    },
+    "lat": -33.845665,
+    "lng": 151.097889
+  },
+  {
+    "id": "bayview_park_outdoor_gym",
+    "name": "Bayview Park Outdoor Gym",
+    "type": "gym",
+    "category": "Outdoor fitness",
+    "description": "Free outdoor fitness equipment beside the waterfront, including stations for cardio, strength, mobility and stretching.",
+    "learningPrompt": "Read the instructions on each station, begin within your ability and share equipment courteously with other park users.",
+    "highlights": [
+      "Pull-up bars and Roman rings",
+      "Cardio and strength equipment",
+      "Mobility, stretching and waterfront rest areas"
+    ],
+    "accessibility": "Outdoor equipment has varied transfer and movement requirements; inspect each station before use.",
+    "image": "",
+    "address": "Bayview Park, Burwood Road, Concord NSW 2137",
+    "officialUrl": "https://www.canadabay.nsw.gov.au/lifestyle/sports-and-recreation/outdoor-fitness-centres",
+    "sourceLabel": "City of Canada Bay Council",
+    "translations": {
+      "zh": {"name": "湾景公园户外健身房", "category": "户外健身", "description": "滨水区的免费户外健身器材，包括有氧、力量、灵活性和拉伸训练站。", "learningPrompt": "阅读每个器材的说明，在能力范围内开始，并礼貌与其他公园使用者共享。", "highlights": ["引体向上杆与罗马吊环", "有氧与力量器材", "灵活性、拉伸与滨水休息区"], "accessibility": "户外器材的转移和动作要求各不相同；使用前请检查每一站。", "address": "康科德伯伍德路湾景公园，NSW 2137", "sourceLabel": "加拿大湾市议会"},
+      "ko": {"name": "베이뷰 공원 야외 운동장", "category": "야외 운동", "description": "수변의 무료 운동 시설로 유산소, 근력, 가동성과 스트레칭 기구가 있습니다.", "learningPrompt": "각 기구의 안내를 읽고 자신의 능력 안에서 시작하며 다른 이용자와 배려해 나누세요.", "highlights": ["철봉과 로만 링", "유산소·근력 기구", "가동성·스트레칭·수변 휴식 공간"], "accessibility": "기구마다 이동과 동작 범위가 다르므로 사용 전 각각을 확인하세요.", "address": "베이뷰 공원, 버우드 로드, 콩코드 NSW 2137", "sourceLabel": "캐나다 베이시 의회"},
+      "it": {"name": "Palestra all’aperto di Bayview Park", "category": "Fitness all’aperto", "description": "Attrezzature gratuite sul lungofiume con stazioni per attività cardiovascolare, forza, mobilità e stretching.", "learningPrompt": "Leggi le istruzioni di ogni stazione, inizia secondo le tue capacità e condividi con cortesia.", "highlights": ["Sbarre e anelli romani", "Attrezzi cardio e di forza", "Mobilità, stretching e aree di riposo sul lungofiume"], "accessibility": "Gli attrezzi richiedono movimenti e trasferimenti diversi; controlla ogni stazione prima dell’uso.", "address": "Bayview Park, Burwood Road, Concord NSW 2137", "sourceLabel": "Consiglio della Città di Canada Bay"},
+      "hi": {"name": "बेव्यू पार्क बाहरी व्यायामशाला", "category": "बाहरी फ़िटनेस", "description": "तट के पास मुफ़्त उपकरण, जिनमें कार्डियो, ताक़त, गतिशीलता और खिंचाव के स्टेशन हैं।", "learningPrompt": "हर स्टेशन के निर्देश पढ़ें, अपनी क्षमता के भीतर शुरू करें और उपकरण विनम्रता से साझा करें।", "highlights": ["पुल-अप बार और रोमन रिंग", "कार्डियो और शक्ति उपकरण", "गतिशीलता, खिंचाव और तटीय विश्राम क्षेत्र"], "accessibility": "हर उपकरण की स्थानांतरण और गति की ज़रूरत अलग है; उपयोग से पहले जाँचें।", "address": "बेव्यू पार्क, बर्वुड रोड, कॉनकॉर्ड NSW 2137", "sourceLabel": "सिटी ऑफ़ कनाडा बे काउंसिल"}
+    },
+    "lat": -33.8578291,
+    "lng": 151.1212892
+  },
+  {
+    "id": "mill_park_outdoor_gym",
+    "name": "Mill Park Outdoor Gym",
+    "type": "gym",
+    "category": "Outdoor fitness",
+    "description": "A free outdoor exercise circuit in Rhodes with equipment for bodyweight strength, cardio, mobility and stretching beside local open space.",
+    "learningPrompt": "Use the station diagrams, warm up first and combine a short circuit with a walk along the nearby Rhodes foreshore.",
+    "highlights": [
+      "Parallel, chin-up and push-up bars",
+      "Treadmill, step-up and leg-lift stations",
+      "Sit-up and stretching equipment"
+    ],
+    "accessibility": "Equipment designs require different ranges of movement; check individual stations and surrounding surfaces before use.",
+    "image": "",
+    "address": "Mill Park Street, Rhodes NSW 2138",
+    "officialUrl": "https://www.canadabay.nsw.gov.au/lifestyle/sports-and-recreation/playgrounds",
+    "sourceLabel": "City of Canada Bay Council",
+    "translations": {
+      "zh": {"name": "米尔公园户外健身房", "category": "户外健身", "description": "罗德兹开放空间旁的免费户外运动环线，配有自重力量、有氧、灵活性和拉伸器材。", "learningPrompt": "按照器材图示，先热身，再将短距离训练与附近罗德兹滨水步行结合。", "highlights": ["双杠、引体向上杆与俯卧撑杆", "跑步机、踏步与抬腿器材", "仰卧起坐与拉伸器材"], "accessibility": "器材需要不同动作幅度；使用前检查每一站和周围地面。", "address": "罗德兹米尔公园街，NSW 2138", "sourceLabel": "加拿大湾市议会"},
+      "ko": {"name": "밀 공원 야외 운동장", "category": "야외 운동", "description": "로즈의 열린 공간 옆 무료 운동 코스로 체중 근력, 유산소, 가동성과 스트레칭 기구가 있습니다.", "learningPrompt": "기구 그림을 따르고 먼저 몸을 푼 뒤 짧은 운동을 로즈 수변 산책과 함께 해 보세요.", "highlights": ["평행봉·철봉·푸시업 바", "러닝머신·스텝업·레그 리프트", "윗몸일으키기와 스트레칭 기구"], "accessibility": "기구마다 필요한 동작 범위가 다르므로 개별 기구와 주변 바닥을 확인하세요.", "address": "밀 파크 스트리트, 로즈 NSW 2138", "sourceLabel": "캐나다 베이시 의회"},
+      "it": {"name": "Palestra all’aperto di Mill Park", "category": "Fitness all’aperto", "description": "Circuito gratuito a Rhodes con attrezzi a corpo libero, cardio, mobilità e stretching accanto allo spazio verde.", "learningPrompt": "Segui i diagrammi, riscaldati e abbina un breve circuito a una passeggiata sul vicino lungofiume.", "highlights": ["Parallele, sbarre e appoggi per flessioni", "Tapis roulant, step e sollevamento gambe", "Attrezzi per addominali e stretching"], "accessibility": "Gli attrezzi richiedono movimenti diversi; controlla ogni stazione e la superficie circostante.", "address": "Mill Park Street, Rhodes NSW 2138", "sourceLabel": "Consiglio della Città di Canada Bay"},
+      "hi": {"name": "मिल पार्क बाहरी व्यायामशाला", "category": "बाहरी फ़िटनेस", "description": "रोड्स की खुली जगह के पास मुफ़्त सर्किट, जहाँ शरीर-भार, कार्डियो, गतिशीलता और खिंचाव के उपकरण हैं।", "learningPrompt": "चित्र निर्देश मानें, पहले वार्म-अप करें और छोटे सर्किट के साथ पास के रोड्स तट पर चलें।", "highlights": ["पैरेलल, चिन-अप और पुश-अप बार", "ट्रेडमिल, स्टेप-अप और लेग-लिफ़्ट", "सिट-अप और खिंचाव उपकरण"], "accessibility": "उपकरणों को अलग गति-सीमा चाहिए; हर स्टेशन और आसपास की सतह जाँचें।", "address": "मिल पार्क स्ट्रीट, रोड्स NSW 2138", "sourceLabel": "सिटी ऑफ़ कनाडा बे काउंसिल"}
+    },
+    "lat": -33.8235945,
+    "lng": 151.0880057
+  },
+  {
+    "id": "five_dock_library",
+    "name": "Five Dock Library",
+    "type": "library",
+    "category": "Library",
+    "description": "A Council library offering books and digital resources, study space, multilingual collections, children's and youth activities, social programs and a bookable meeting room.",
+    "learningPrompt": "Ask staff about free membership, regular programs and resources in languages other than English to make the library part of your local routine.",
+    "highlights": [
+      "Physical, digital and multilingual collections",
+      "Children's, youth and adult programs",
+      "Study facilities and the Bay Room"
+    ],
+    "accessibility": "Check the library's current location and opening-hours page or contact staff for specific access requirements.",
+    "image": "",
+    "address": "Level 1, 4-12 Garfield Street, Five Dock NSW 2046",
+    "officialUrl": "https://www.canadabay.nsw.gov.au/libraries/Location-and-opening-hours",
+    "sourceLabel": "City of Canada Bay Libraries",
+    "translations": {
+      "zh": {"name": "五船坞图书馆", "category": "图书馆", "description": "市议会图书馆，提供纸质与数字资源、学习空间、多语种馆藏、儿童青少年活动、社交项目和可预订会议室。", "learningPrompt": "向工作人员了解免费会员、定期活动和非英语资源，让图书馆成为本地生活的一部分。", "highlights": ["纸质、数字与多语种馆藏", "儿童、青少年与成人活动", "学习设施与 Bay Room 会议室"], "accessibility": "请查看图书馆最新地址与开放时间页面，或联系工作人员了解具体无障碍要求。", "address": "五船坞加菲尔德街 4–12 号 1 层，NSW 2046", "sourceLabel": "加拿大湾市图书馆"},
+      "ko": {"name": "파이브 독 도서관", "category": "도서관", "description": "책과 디지털 자료, 학습 공간, 다국어 장서, 아동·청소년 활동, 사교 프로그램과 예약 회의실을 제공하는 시립 도서관입니다.", "learningPrompt": "무료 회원 가입, 정기 프로그램과 영어 외 언어 자료를 직원에게 물어보고 도서관을 일상에 활용하세요.", "highlights": ["책·디지털·다국어 자료", "아동·청소년·성인 프로그램", "학습 시설과 베이 룸"], "accessibility": "최신 위치와 운영 시간 페이지를 확인하거나 구체적인 접근 요구를 직원에게 문의하세요.", "address": "가필드 스트리트 4–12, 1층, 파이브 독 NSW 2046", "sourceLabel": "캐나다 베이시 도서관"},
+      "it": {"name": "Biblioteca di Five Dock", "category": "Biblioteca", "description": "Biblioteca comunale con libri, risorse digitali, studio, collezioni multilingue, attività per giovani, programmi sociali e una sala prenotabile.", "learningPrompt": "Chiedi al personale dell’iscrizione gratuita, dei programmi e delle risorse in altre lingue per rendere la biblioteca parte della tua routine.", "highlights": ["Collezioni fisiche, digitali e multilingue", "Programmi per bambini, giovani e adulti", "Spazi studio e Bay Room"], "accessibility": "Controlla la pagina aggiornata con sede e orari o contatta il personale per esigenze specifiche.", "address": "Livello 1, 4–12 Garfield Street, Five Dock NSW 2046", "sourceLabel": "Biblioteche della Città di Canada Bay"},
+      "hi": {"name": "फ़ाइव डॉक पुस्तकालय", "category": "पुस्तकालय", "description": "काउंसिल पुस्तकालय जहाँ पुस्तकें, डिजिटल साधन, अध्ययन, बहुभाषी संग्रह, बच्चों व युवाओं के कार्यक्रम, सामाजिक गतिविधियाँ और बुकिंग कक्ष हैं।", "learningPrompt": "मुफ़्त सदस्यता, नियमित कार्यक्रम और अंग्रेज़ी के अलावा भाषाओं के संसाधनों के बारे में स्टाफ़ से पूछें।", "highlights": ["भौतिक, डिजिटल और बहुभाषी संग्रह", "बच्चों, युवाओं और वयस्कों के कार्यक्रम", "अध्ययन सुविधा और बे रूम"], "accessibility": "नवीन स्थान व खुलने का समय देखें या विशेष सुगम्यता के लिए स्टाफ़ से संपर्क करें।", "address": "स्तर 1, 4–12 गारफ़ील्ड स्ट्रीट, फ़ाइव डॉक NSW 2046", "sourceLabel": "सिटी ऑफ़ कनाडा बे पुस्तकालय"}
+    },
+    "lat": -33.8678,
+    "lng": 151.12885
+  },
+  {
+    "id": "the_learning_space",
+    "name": "The Learning Space",
+    "type": "library",
+    "category": "Library and makerspace",
+    "description": "A technology-focused library at The Connection offering digital resources, creative learning, STEM activities, computers, Wi-Fi, making equipment and community programs.",
+    "learningPrompt": "Check the program before visiting: some makerspace equipment requires library membership, induction, an age minimum or advance booking.",
+    "highlights": [
+      "Computers, Wi-Fi and digital collections",
+      "3D printing, electronics and maker activities",
+      "Reading groups, classes and youth programs"
+    ],
+    "accessibility": "Located within The Connection precinct; contact library staff for program-specific accessibility and equipment requirements.",
+    "image": "",
+    "address": "Building 2, 30 Shoreline Drive, Rhodes NSW 2138",
+    "officialUrl": "https://www.canadabay.nsw.gov.au/libraries/Location-and-opening-hours",
+    "sourceLabel": "City of Canada Bay Libraries",
+    "translations": {
+      "zh": {"name": "The Learning Space 学习空间", "category": "图书馆与创客空间", "description": "The Connection 内以科技为重点的图书馆，提供数字资源、创意学习、STEM 活动、电脑、无线网络、制作设备和社区项目。", "learningPrompt": "到访前查看活动安排；部分创客设备需要图书馆会员、培训、最低年龄或提前预订。", "highlights": ["电脑、无线网络与数字馆藏", "3D 打印、电子与创客活动", "读书会、课程与青少年活动"], "accessibility": "位于 The Connection 综合区；具体活动无障碍和设备要求请联系图书馆人员。", "address": "罗德兹 Shoreline Drive 30 号 2 号楼，NSW 2138", "sourceLabel": "加拿大湾市图书馆"},
+      "ko": {"name": "더 러닝 스페이스", "category": "도서관과 메이커스페이스", "description": "더 커넥션 안의 기술 중심 도서관으로 디지털 자료, 창의 학습, STEM, 컴퓨터, 와이파이, 제작 장비와 지역 프로그램을 제공합니다.", "learningPrompt": "일부 장비는 회원권, 교육, 최소 연령 또는 예약이 필요하므로 방문 전 프로그램을 확인하세요.", "highlights": ["컴퓨터·와이파이·디지털 자료", "3D 프린팅·전자·메이커 활동", "독서 모임·수업·청소년 프로그램"], "accessibility": "더 커넥션 안에 있습니다. 프로그램 접근성과 장비 요건은 도서관 직원에게 문의하세요.", "address": "쇼어라인 드라이브 30, 건물 2, 로즈 NSW 2138", "sourceLabel": "캐나다 베이시 도서관"},
+      "it": {"name": "The Learning Space", "category": "Biblioteca e makerspace", "description": "Biblioteca tecnologica a The Connection con risorse digitali, apprendimento creativo, STEM, computer, Wi‑Fi, attrezzature e programmi comunitari.", "learningPrompt": "Controlla il programma: alcune attrezzature richiedono tessera, formazione, età minima o prenotazione.", "highlights": ["Computer, Wi‑Fi e collezioni digitali", "Stampa 3D, elettronica e attività maker", "Gruppi di lettura, corsi e programmi giovanili"], "accessibility": "Si trova a The Connection; contatta il personale per accessibilità e requisiti delle attrezzature.", "address": "Edificio 2, 30 Shoreline Drive, Rhodes NSW 2138", "sourceLabel": "Biblioteche della Città di Canada Bay"},
+      "hi": {"name": "द लर्निंग स्पेस", "category": "पुस्तकालय और मेकरस्पेस", "description": "द कनेक्शन का तकनीक-केंद्रित पुस्तकालय, जहाँ डिजिटल साधन, रचनात्मक शिक्षा, STEM, कंप्यूटर, वाई-फ़ाई, बनाने के उपकरण और कार्यक्रम हैं।", "learningPrompt": "आने से पहले कार्यक्रम देखें; कुछ उपकरणों के लिए सदस्यता, प्रशिक्षण, न्यूनतम आयु या बुकिंग चाहिए।", "highlights": ["कंप्यूटर, वाई-फ़ाई और डिजिटल संग्रह", "3D प्रिंटिंग, इलेक्ट्रॉनिक्स और मेकर गतिविधियाँ", "पठन समूह, कक्षाएँ और युवा कार्यक्रम"], "accessibility": "द कनेक्शन में स्थित; कार्यक्रम की सुगम्यता और उपकरण आवश्यकताओं के लिए स्टाफ़ से पूछें।", "address": "भवन 2, 30 शोरलाइन ड्राइव, रोड्स NSW 2138", "sourceLabel": "सिटी ऑफ़ कनाडा बे पुस्तकालय"}
+    },
+    "lat": -33.82917,
+    "lng": 151.08403
+  },
+  {
+    "id": "halliday_park_public_toilet",
+    "name": "Halliday Park Public Toilet",
+    "type": "toilet",
+    "category": "Public amenity",
+    "description": "A unisex public toilet serving Halliday Park users, designed with an external hand-wash point, baby-change facility, natural ventilation and water-saving features.",
+    "learningPrompt": "Check signs for current availability and help keep the facility clean and ready for the next park user.",
+    "highlights": [
+      "Accessible unisex toilet",
+      "External hand-wash and baby-change facilities",
+      "Beside the playground and shared path"
+    ],
+    "accessibility": "Council designed the facility for people with disability and reduced mobility; report access or maintenance problems to Council.",
+    "image": "",
+    "address": "Halliday Park, McGrath Avenue, Five Dock NSW 2046",
+    "officialUrl": "https://collaborate.canadabay.nsw.gov.au/hallidaypark",
+    "sourceLabel": "City of Canada Bay Council",
+    "translations": {
+      "zh": {"name": "哈利迪公园公共厕所", "category": "公共设施", "description": "服务哈利迪公园的无性别公共厕所，设外部洗手点、婴儿更换设施、自然通风和节水设计。", "learningPrompt": "查看标识确认开放情况，并保持设施清洁，方便下一位使用者。", "highlights": ["无障碍无性别厕所", "外部洗手点与婴儿更换设施", "靠近游乐场与共享道"], "accessibility": "市议会按残障和行动不便人士需求设计；如有通行或维护问题请报告。", "address": "五船坞麦格拉斯大道哈利迪公园，NSW 2046", "sourceLabel": "加拿大湾市议会"},
+      "ko": {"name": "할리데이 공원 공중화장실", "category": "공공 편의시설", "description": "할리데이 공원 이용자를 위한 성별 공용 화장실로 외부 세면대, 기저귀 교환대, 자연 환기와 절수 기능이 있습니다.", "learningPrompt": "표지판에서 운영 상태를 확인하고 다음 이용자를 위해 깨끗하게 사용하세요.", "highlights": ["접근 가능한 성별 공용 화장실", "외부 세면대와 기저귀 교환대", "놀이터와 공용로 옆"], "accessibility": "장애인과 이동이 불편한 이용자를 위해 설계되었습니다. 접근 또는 관리 문제는 시의회에 신고하세요.", "address": "할리데이 공원, 맥그래스 애비뉴, 파이브 독 NSW 2046", "sourceLabel": "캐나다 베이시 의회"},
+      "it": {"name": "Bagno pubblico di Halliday Park", "category": "Servizio pubblico", "description": "Bagno unisex per il parco con lavabo esterno, fasciatoio, ventilazione naturale e sistemi di risparmio idrico.", "learningPrompt": "Controlla i cartelli per la disponibilità e lascia la struttura pulita per chi verrà dopo.", "highlights": ["Bagno unisex accessibile", "Lavabo esterno e fasciatoio", "Accanto all’area giochi e al percorso condiviso"], "accessibility": "La struttura è progettata per disabilità e mobilità ridotta; segnala al Comune problemi di accesso o manutenzione.", "address": "Halliday Park, McGrath Avenue, Five Dock NSW 2046", "sourceLabel": "Consiglio della Città di Canada Bay"},
+      "hi": {"name": "हैलिडे पार्क सार्वजनिक शौचालय", "category": "सार्वजनिक सुविधा", "description": "पार्क का सभी लिंगों के लिए शौचालय, जिसमें बाहर हाथ धोने की जगह, शिशु बदलने की सुविधा, प्राकृतिक हवा और जल-बचत है।", "learningPrompt": "खुलने की स्थिति के संकेत देखें और अगले उपयोगकर्ता के लिए सुविधा साफ़ रखें।", "highlights": ["सुगम सभी-लिंग शौचालय", "बाहरी हाथ धुलाई और शिशु बदलने की सुविधा", "खेल क्षेत्र और साझा मार्ग के पास"], "accessibility": "इसे दिव्यांग और कम गतिशीलता वाले लोगों के लिए बनाया गया है; पहुँच या रखरखाव समस्या काउंसिल को बताएँ।", "address": "हैलिडे पार्क, मैकग्राथ एवेन्यू, फ़ाइव डॉक NSW 2046", "sourceLabel": "सिटी ऑफ़ कनाडा बे काउंसिल"}
+    },
+    "lat": -33.861298,
+    "lng": 151.1287017
+  },
+  {
+    "id": "prince_edward_park_public_toilet",
+    "name": "Prince Edward Park Public Toilet",
+    "type": "toilet",
+    "category": "Public amenity",
+    "description": "Public toilets, including an accessible toilet, beside Prince Edward Park's waterfront playground, picnic shelters and barbecue area.",
+    "learningPrompt": "Check posted availability, supervise children near the waterfront and leave the amenity clean for other visitors.",
+    "highlights": [
+      "Accessible toilet",
+      "Close to playground and picnic facilities",
+      "Waterfront park setting"
+    ],
+    "accessibility": "Council lists a disabled toilet at the park; confirm current conditions if this facility is essential to your visit.",
+    "image": "",
+    "address": "End of Phillips Street, Cabarita NSW 2137",
+    "officialUrl": "https://www.canadabay.nsw.gov.au/lifestyle/sports-and-recreation/playgrounds",
+    "sourceLabel": "City of Canada Bay Council",
+    "translations": {
+      "zh": {"name": "爱德华王子公园公共厕所", "category": "公共设施", "description": "位于爱德华王子公园滨水游乐场、野餐棚和烧烤区旁的公共厕所，包括无障碍厕所。", "learningPrompt": "查看开放标识，在滨水区照看儿童，并保持设施清洁。", "highlights": ["无障碍厕所", "靠近游乐场与野餐设施", "滨水公园环境"], "accessibility": "市议会列明公园设有残障厕所；如该设施对行程必不可少，请确认最新情况。", "address": "卡巴里塔菲利普斯街尽头，NSW 2137", "sourceLabel": "加拿大湾市议会"},
+      "ko": {"name": "프린스 에드워드 공원 공중화장실", "category": "공공 편의시설", "description": "프린스 에드워드 공원의 수변 놀이터, 피크닉 쉼터와 바비큐 옆에 있으며 접근 가능한 화장실을 포함합니다.", "learningPrompt": "운영 표지판을 확인하고 물가에서 어린이를 지켜보며 다른 이용자를 위해 깨끗하게 사용하세요.", "highlights": ["접근 가능한 화장실", "놀이터와 피크닉 시설 가까이", "수변 공원 환경"], "accessibility": "시의회는 장애인 화장실이 있다고 안내합니다. 꼭 필요한 시설이면 최신 상태를 확인하세요.", "address": "필립스 스트리트 끝, 카바리타 NSW 2137", "sourceLabel": "캐나다 베이시 의회"},
+      "it": {"name": "Bagno pubblico di Prince Edward Park", "category": "Servizio pubblico", "description": "Bagni pubblici, incluso uno accessibile, accanto all’area giochi sul lungofiume, ai ripari da picnic e al barbecue.", "learningPrompt": "Controlla la disponibilità, sorveglia i bambini vicino all’acqua e lascia pulito per gli altri.", "highlights": ["Bagno accessibile", "Vicino ad area giochi e picnic", "Ambiente sul lungofiume"], "accessibility": "Il Comune indica un bagno per disabili; verifica le condizioni se è essenziale per la visita.", "address": "Fine di Phillips Street, Cabarita NSW 2137", "sourceLabel": "Consiglio della Città di Canada Bay"},
+      "hi": {"name": "प्रिंस एडवर्ड पार्क सार्वजनिक शौचालय", "category": "सार्वजनिक सुविधा", "description": "प्रिंस एडवर्ड पार्क के तटीय खेल क्षेत्र, पिकनिक आश्रय और बारबेक्यू के पास सार्वजनिक तथा सुगम शौचालय।", "learningPrompt": "खुलने के संकेत देखें, पानी के पास बच्चों की देखरेख करें और सुविधा साफ़ छोड़ें।", "highlights": ["सुगम शौचालय", "खेल और पिकनिक सुविधाओं के पास", "तटीय पार्क का परिवेश"], "accessibility": "काउंसिल पार्क में दिव्यांग शौचालय सूचीबद्ध करती है; यदि आवश्यक हो तो मौजूदा स्थिति जाँचें।", "address": "फिलिप्स स्ट्रीट का अंत, कैबरीटा NSW 2137", "sourceLabel": "सिटी ऑफ़ कनाडा बे काउंसिल"}
+    },
+    "lat": -33.8524697,
+    "lng": 151.119079
+  }
+]

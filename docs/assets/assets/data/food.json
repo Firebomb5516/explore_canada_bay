@@ -1,0 +1,96 @@
+[
+  {
+    "id": "majors_bay_road_dining_precinct",
+    "name": "Majors Bay Road Dining Precinct",
+    "type": "food",
+    "description": "Explore the cafes, restaurants and independent businesses around Concord's main street.",
+    "image": "",
+    "translations": {
+      "zh": {"name": "梅杰斯湾路餐饮区", "description": "探索康科德主街周边的咖啡馆、餐厅和独立商户。"},
+      "ko": {"name": "메이저스 베이 로드 식당가", "description": "콩코드 중심가의 카페와 식당, 독립 상점을 둘러보세요."},
+      "it": {"name": "Zona gastronomica di Majors Bay Road", "description": "Scopri caffè, ristoranti e attività indipendenti lungo la via principale di Concord."},
+      "hi": {"name": "मेजर्स बे रोड भोजन क्षेत्र", "description": "कॉनकॉर्ड की मुख्य सड़क के आसपास कैफ़े, रेस्तराँ और स्वतंत्र व्यवसाय खोजें।"}
+    },
+    "lat": -33.856943,
+    "lng": 151.103387
+  },
+  {
+    "id": "five_dock_town_centre",
+    "name": "Five Dock Town Centre",
+    "type": "food",
+    "description": "Discover local dining and small businesses along Great North Road.",
+    "image": "",
+    "translations": {
+      "zh": {"name": "五船坞镇中心", "description": "探索大北路沿线的本地餐饮和小型商户。"},
+      "ko": {"name": "파이브 독 타운 센터", "description": "그레이트 노스 로드를 따라 지역 음식점과 소규모 상점을 만나보세요."},
+      "it": {"name": "Centro di Five Dock", "description": "Scopri la ristorazione locale e le piccole attività lungo Great North Road."},
+      "hi": {"name": "फ़ाइव डॉक टाउन सेंटर", "description": "ग्रेट नॉर्थ रोड पर स्थानीय भोजन और छोटे व्यवसाय खोजें।"}
+    },
+    "lat": -33.867461,
+    "lng": 151.129249
+  },
+  {
+    "id": "rhodes_waterside_precinct",
+    "name": "Rhodes Waterside Precinct",
+    "type": "food",
+    "description": "Find places to eat and shop near the Rhodes waterfront and town centre.",
+    "image": "",
+    "translations": {
+      "zh": {"name": "罗德兹滨水区", "description": "在罗德兹滨水区和镇中心附近寻找餐饮与购物场所。"},
+      "ko": {"name": "로즈 워터사이드 지구", "description": "로즈 수변과 도심 근처의 음식점과 상점을 찾아보세요."},
+      "it": {"name": "Zona sul lungomare di Rhodes", "description": "Trova ristoranti e negozi vicino al lungomare e al centro di Rhodes."},
+      "hi": {"name": "रोड्स वाटरसाइड क्षेत्र", "description": "रोड्स तट और टाउन सेंटर के पास खाने और खरीदारी की जगहें खोजें।"}
+    },
+    "lat": -33.83434,
+    "lng": 151.08527
+  },
+  {
+    "id": "chiswick_village_shops",
+    "name": "Chiswick Village Shops",
+    "type": "food",
+    "description": "Visit the neighbourhood shops and food businesses near Chambers Park.",
+    "image": "",
+    "translations": {
+      "zh": {"name": "奇斯威克村商店", "description": "到钱伯斯公园附近的社区商店和餐饮商户逛逛。"},
+      "ko": {"name": "치즈윅 빌리지 상점가", "description": "체임버스 공원 인근의 동네 상점과 음식점을 방문해 보세요."},
+      "it": {"name": "Negozi di Chiswick Village", "description": "Visita i negozi e le attività gastronomiche vicino a Chambers Park."},
+      "hi": {"name": "चिज़विक विलेज दुकानें", "description": "चेम्बर्स पार्क के पास मोहल्ले की दुकानों और भोजन व्यवसायों पर जाएँ।"}
+    },
+    "lat": -33.849742,
+    "lng": 151.138169
+  },
+  {
+    "id": "birkenhead_point",
+    "name": "Birkenhead Point",
+    "type": "food",
+    "description": "Explore retail and dining beside Sydney Harbour in Drummoyne.",
+    "image": "",
+    "translations": {
+      "zh": {"name": "伯肯黑德角", "description": "在德拉莫因的悉尼港畔探索购物和餐饮。"},
+      "ko": {"name": "버컨헤드 포인트", "description": "드러모인의 시드니 하버 곁에서 쇼핑과 식사를 즐겨보세요."},
+      "it": {"name": "Birkenhead Point", "description": "Scopri negozi e ristoranti sul porto di Sydney a Drummoyne."},
+      "hi": {"name": "बर्केनहेड पॉइंट", "description": "ड्रमॉइन में सिडनी हार्बर के किनारे खरीदारी और भोजन खोजें।"}
+    },
+    "lat": -33.856589,
+    "lng": 151.162965
+  },
+  {
+    "id": "akasha_brewing",
+    "name": "Akasha Brewing",
+    "type": "food",
+    "category": "local business",
+    "description": "An independent Five Dock brewery and taproom serving locally brewed beer.",
+    "image": "",
+    "address": "10-12 Spencer Street, Five Dock",
+    "officialUrl": "https://akashabrewing.com.au/",
+    "sourceLabel": "Akasha Brewing",
+    "translations": {
+      "zh": {"name": "阿卡莎精酿啤酒厂", "category": "本地商户", "description": "五船坞的一家独立啤酒厂和酒吧，供应本地酿造的啤酒。", "address": "五船坞斯宾塞街 10–12 号", "sourceLabel": "阿卡莎精酿啤酒厂"},
+      "ko": {"name": "아카샤 브루잉", "category": "지역 사업체", "description": "파이브 독에서 지역 맥주를 만드는 독립 양조장 겸 탭룸입니다.", "address": "파이브 독 스펜서 스트리트 10–12", "sourceLabel": "아카샤 브루잉"},
+      "it": {"name": "Birrificio Akasha", "category": "Attività locale", "description": "Birrificio indipendente e taproom di Five Dock che serve birra prodotta in loco.", "address": "10–12 Spencer Street, Five Dock", "sourceLabel": "Birrificio Akasha"},
+      "hi": {"name": "आकाशा ब्रूइंग", "category": "स्थानीय व्यवसाय", "description": "फ़ाइव डॉक की स्वतंत्र ब्रुअरी और टैपरूम, जहाँ स्थानीय बीयर मिलती है।", "address": "10–12 स्पेंसर स्ट्रीट, फ़ाइव डॉक", "sourceLabel": "आकाशा ब्रूइंग"}
+    },
+    "lat": -33.869544,
+    "lng": 151.118213
+  }
+]
