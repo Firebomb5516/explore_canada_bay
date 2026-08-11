@@ -181,6 +181,13 @@ class _ScanScreenState extends State<ScanScreen> with WidgetsBindingObserver {
     try {
       final result = await widget.passport.applyQrPayload(rawValue);
       if (!mounted) return;
+      if (!result.duplicate) {
+        await Future.wait<void>([
+          SystemSound.play(SystemSoundType.click),
+          HapticFeedback.mediumImpact(),
+        ]);
+        if (!mounted) return;
+      }
       final action = await _showRewardResult(result);
       if (action == _RewardDialogAction.viewPassport &&
           widget.onOpenPassport != null) {

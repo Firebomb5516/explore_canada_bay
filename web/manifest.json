@@ -3,7 +3,7 @@
     "short_name": "Canada Bay",
     "start_url": ".",
     "display": "standalone",
-    "background_color": "#061C31",
+    "background_color": "#FFFFFF",
     "theme_color": "#0D4F7C",
     "description": "Discover local services, community activities, routes and natural places across Canada Bay.",
     "prefer_related_applications": false,

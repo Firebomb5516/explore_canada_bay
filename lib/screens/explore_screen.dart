@@ -3056,8 +3056,10 @@ class _ExploreScreenState extends State<ExploreScreen> {
                     ),
                     minZoom: calculatedZoom,
                     maxZoom: _maximumZoom,
-                    interactionOptions: InteractionOptions(
-                      flags: InteractiveFlag.all,
+                    interactionOptions: const InteractionOptions(
+                      // Keep navigation natural while preventing the map and
+                      // its labels from being turned away from north-up.
+                      flags: InteractiveFlag.all & ~InteractiveFlag.rotate,
                     ),
                     cameraConstraint: CameraConstraint.containCenter(
                       bounds: _contentCameraBounds,
