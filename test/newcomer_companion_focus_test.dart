@@ -77,6 +77,27 @@ void main() {
       }
       expect(tester.takeException(), isNull);
 
+      await tester.tap(
+        find.byKey(const ValueKey('journey-today:know-triple-zero')),
+      );
+      await tester.pumpAndSettle();
+      expect(
+        find.byKey(const ValueKey('journey-roadmap-ribbon')),
+        findsOneWidget,
+      );
+      expect(
+        find.byKey(const ValueKey('journey-understand-tomorrow')),
+        findsOneWidget,
+      );
+      expect(find.text('Know when to call Triple Zero'), findsOneWidget);
+      expect(tester.takeException(), isNull);
+      await tester.tap(find.byKey(const ValueKey('journey-roadmap-ribbon')));
+      await tester.pumpAndSettle();
+      expect(
+        find.byKey(const ValueKey('journey-today:know-triple-zero')),
+        findsOneWidget,
+      );
+
       await tester.pumpWidget(const SizedBox.shrink());
       await tester.pump();
       passport.dispose();

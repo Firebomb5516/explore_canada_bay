@@ -8,10 +8,12 @@ import '../l10n/app_localizations.dart';
 import '../l10n/community_services_localizations.dart';
 import '../l10n/explore_localizations.dart';
 import '../l10n/journey_activity_localizations.dart';
+import '../l10n/journey_localizations.dart';
 import '../models/community_item.dart';
 import '../models/community_challenge.dart';
 import '../models/environmental_story.dart';
 import '../models/local_service_item.dart';
+import '../models/newcomer_journey.dart';
 import '../models/passport.dart';
 import '../models/settlement_profile.dart';
 import '../services/community_repository.dart';
@@ -19,6 +21,7 @@ import '../services/environment_repository.dart';
 import '../services/external_link_service.dart';
 import '../services/location_service.dart';
 import '../services/local_services_repository.dart';
+import '../services/newcomer_journey_repository.dart';
 import '../theme/app_theme.dart';
 import '../widgets/localized_text.dart';
 
@@ -83,6 +86,7 @@ class _HomeScreenState extends State<HomeScreen> {
   CommunityItem? featuredCommunity;
   LocalPosition? _currentPosition;
   bool _locating = false;
+  NewcomerJourneyCatalog? _journeyCatalog;
 
   Map<String, dynamic>? featuredRoute;
 
@@ -100,6 +104,16 @@ class _HomeScreenState extends State<HomeScreen> {
     widget.passport.addListener(_handlePassportChanged);
     widget.settlement.addListener(_handlePassportChanged);
     _loadHomeData();
+    _loadJourneyCatalog();
+  }
+
+  Future<void> _loadJourneyCatalog() async {
+    try {
+      final catalog = await const NewcomerJourneyRepository().loadCatalog();
+      if (mounted) setState(() => _journeyCatalog = catalog);
+    } on Object catch (error) {
+      debugPrint('Home journey summary unavailable: $error');
+    }
   }
 
   @override
@@ -815,38 +829,29 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Widget _buildNextStep() {
-    final settlement = widget.settlement;
-    final strings = AppLocalizations.of(context);
+    final journeyCopy = JourneyLocalizations.of(context);
+    NewcomerJourneyTask? nextTask;
+    for (final task
+        in _journeyCatalog?.tasks ?? const <NewcomerJourneyTask>[]) {
+      if (!_isHomeJourneyTaskComplete(task)) {
+        nextTask = task;
+        break;
+      }
+    }
     final ({IconData icon, String eyebrow, String title, String body}) content;
-    if (!settlement.hasBinDay) {
+    if (nextTask != null) {
       content = (
-        icon: Icons.delete_outline_rounded,
+        icon: _homeJourneyIcon(nextTask.kind),
         eyebrow: 'YOUR NEXT STEP',
-        title: 'Confirm your bin collection day',
-        body: 'Save it once and get an optional reminder the night before.',
-      );
-    } else if (!settlement.hasLibraryCard) {
-      content = (
-        icon: Icons.local_library_rounded,
-        eyebrow: 'KEEP SETTLING IN',
-        title: 'Join your local library',
-        body: 'Find free services, then keep your card reference in Passport.',
-      );
-    } else if (!settlement.hasTransportShortcut) {
-      content = (
-        icon: Icons.directions_transit_rounded,
-        eyebrow: 'MAKE IT YOURS',
-        title: 'Save your usual transport stop',
-        body: 'Keep a familiar station, wharf or bus stop in your Passport.',
+        title: journeyCopy.title(nextTask),
+        body: journeyCopy.summary(nextTask),
       );
     } else {
       content = (
-        icon: Icons.explore_rounded,
-        eyebrow: 'READY TO EXPLORE',
-        title: '${settlement.usefulToolCount} local tools ready',
-        body:
-            '${settlement.binCollectionWeekday == null ? strings.literal('Not set') : strings.weekday(settlement.binCollectionWeekday!)} bins · '
-            '${settlement.transportStop}',
+        icon: Icons.verified_rounded,
+        eyebrow: 'JOURNEY COMPLETE',
+        title: journeyCopy.ui('journeyCompleteTitle'),
+        body: journeyCopy.ui('journeyCompleteBody'),
       );
     }
     return Material(
@@ -912,6 +917,25 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
     );
   }
+
+  bool _isHomeJourneyTaskComplete(NewcomerJourneyTask task) {
+    if (task.id == 'find-bin-day') return widget.settlement.hasBinDay;
+    if (task.id == 'discover-library') return widget.settlement.hasLibraryCard;
+    if (task.id == 'plan-first-trip') {
+      return widget.settlement.hasTransportShortcut;
+    }
+    if (task.canSelfComplete) {
+      return widget.passport.hasActivity(task.activityId);
+    }
+    return widget.passport.badgeProgress(task.badgeId) > 0;
+  }
+
+  IconData _homeJourneyIcon(JourneyTaskKind kind) => switch (kind) {
+    JourneyTaskKind.learn => Icons.menu_book_rounded,
+    JourneyTaskKind.civic => Icons.account_balance_rounded,
+    JourneyTaskKind.explore => Icons.explore_rounded,
+    JourneyTaskKind.community => Icons.groups_rounded,
+  };
 
   Widget _buildDesktopLayout() {
     return Row(

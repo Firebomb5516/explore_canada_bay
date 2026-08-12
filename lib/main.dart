@@ -220,6 +220,7 @@ class _MainShellState extends State<MainShell> {
   String? _requestedExploreFilter;
   String? _requestedPlaceName;
   int _exploreRequestVersion = 0;
+  int _journeyFocusRequestVersion = 0;
 
   @override
   void initState() {
@@ -258,6 +259,13 @@ class _MainShellState extends State<MainShell> {
     });
   }
 
+  void _openJourneyAtNextStep() {
+    setState(() {
+      _journeyFocusRequestVersion++;
+      _selectedIndex = _journeyIndex;
+    });
+  }
+
   List<Widget> get _pages => [
     home.HomeScreen(
       passport: widget.passport,
@@ -282,7 +290,7 @@ class _MainShellState extends State<MainShell> {
       onOpenProfile: () => _goToPage(_profileIndex),
       onOpenCommunity: () => _goToPage(_communityIndex),
       onOpenServices: () => _goToPage(_servicesIndex),
-      onOpenJourney: () => _goToPage(_journeyIndex),
+      onOpenJourney: _openJourneyAtNextStep,
     ),
     explore.ExploreScreen(
       isActive: _selectedIndex == _exploreIndex,
@@ -321,6 +329,7 @@ class _MainShellState extends State<MainShell> {
     NewcomerJourneyScreen(
       passport: widget.passport,
       settlement: widget.settlement,
+      focusRequestVersion: _journeyFocusRequestVersion,
       onFinishTutorial: () {
         unawaited(widget.settlement.markTutorialSeen());
         _goToPage(_homeIndex);

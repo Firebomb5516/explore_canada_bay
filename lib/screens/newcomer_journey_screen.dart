@@ -143,6 +143,7 @@ class NewcomerJourneyScreen extends StatefulWidget {
     this.onOpenPassport,
     this.onOpenProfile,
     this.onFinishTutorial,
+    this.focusRequestVersion = 0,
   });
 
   final PassportController passport;
@@ -156,6 +157,7 @@ class NewcomerJourneyScreen extends StatefulWidget {
   final VoidCallback? onOpenPassport;
   final VoidCallback? onOpenProfile;
   final VoidCallback? onFinishTutorial;
+  final int focusRequestVersion;
 
   @override
   State<NewcomerJourneyScreen> createState() => _NewcomerJourneyScreenState();
@@ -169,6 +171,8 @@ class _NewcomerJourneyScreenState extends State<NewcomerJourneyScreen> {
   int _tutorialPage = 0;
   bool _showOverview = true;
   bool _updatingReminders = false;
+  final Map<String, GlobalKey> _roadmapKeys = {};
+  String? _pulsingTaskId;
 
   @override
   void initState() {
@@ -176,6 +180,44 @@ class _NewcomerJourneyScreenState extends State<NewcomerJourneyScreen> {
     _catalog = widget.repository.loadCatalog();
     _tutorialPage = widget.settlement.journeyResumePage.clamp(0, 14);
     _tutorialController = PageController(initialPage: _tutorialPage);
+  }
+
+  @override
+  void didUpdateWidget(covariant NewcomerJourneyScreen oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (oldWidget.focusRequestVersion != widget.focusRequestVersion) {
+      WidgetsBinding.instance.addPostFrameCallback((_) => _focusNextTask());
+    }
+  }
+
+  Future<void> _focusNextTask() async {
+    final catalog = await _catalog;
+    if (!mounted) return;
+    NewcomerJourneyTask? nextTask;
+    for (final task in catalog.tasks) {
+      if (!_isTaskComplete(widget.passport, task, widget.settlement)) {
+        nextTask = task;
+        break;
+      }
+    }
+    if (nextTask == null) return;
+    final targetContext = _roadmapKeys[nextTask.id]?.currentContext;
+    if (targetContext == null || !targetContext.mounted) return;
+    final disableAnimations = MediaQuery.disableAnimationsOf(context);
+    await Scrollable.ensureVisible(
+      targetContext,
+      alignment: 0.5,
+      duration: disableAnimations
+          ? Duration.zero
+          : const Duration(milliseconds: 650),
+      curve: Curves.easeOutCubic,
+    );
+    if (!mounted) return;
+    setState(() => _pulsingTaskId = nextTask!.id);
+    await Future<void>.delayed(const Duration(milliseconds: 420));
+    if (mounted && _pulsingTaskId == nextTask.id) {
+      setState(() => _pulsingTaskId = null);
+    }
   }
 
   @override
@@ -600,7 +642,10 @@ class _NewcomerJourneyScreenState extends State<NewcomerJourneyScreen> {
                         key: ValueKey('journey-today:${currentTask.id}'),
                         task: currentTask,
                         day: _journeyDay(currentIndex),
-                        onTap: () => _showTask(currentTask),
+                        onTap: () => _showTask(
+                          currentTask,
+                          day: _journeyDay(currentIndex),
+                        ),
                       ),
                     const SizedBox(height: 34),
                     _SectionHeading(
@@ -614,7 +659,12 @@ class _NewcomerJourneyScreenState extends State<NewcomerJourneyScreen> {
                       completed: taskStates,
                       currentIndex: currentIndex,
                       journeyDay: _journeyDay,
-                      onOpenTask: _showTask,
+                      onOpenTask: (task) => _showTask(
+                        task,
+                        day: _journeyDay(catalog.tasks.indexOf(task)),
+                      ),
+                      focusKeys: _roadmapKeys,
+                      pulsingTaskId: _pulsingTaskId,
                     ),
                     if (widget.onFinishTutorial != null) ...[
                       const SizedBox(height: 18),
@@ -707,50 +757,43 @@ class _NewcomerJourneyScreenState extends State<NewcomerJourneyScreen> {
     await _showTask(selected);
   }
 
-  Future<void> _showTask(NewcomerJourneyTask task) async {
-    if (task.id == 'find-bin-day') {
-      await _setUpBinNight();
-      return;
-    }
-    if (task.id == 'discover-library') {
-      await _setUpLibraryCard(points: task.xp);
-      return;
-    }
-    if (task.id == 'plan-first-trip') {
-      await _setUpTransport();
-      return;
-    }
+  Future<void> _showTask(NewcomerJourneyTask task, {int? day}) async {
     final completed = _isTaskComplete(widget.passport, task, widget.settlement);
-    await showModalBottomSheet<void>(
-      context: context,
-      useSafeArea: true,
-      isScrollControlled: true,
-      backgroundColor: Colors.transparent,
-      constraints: const BoxConstraints(maxWidth: 680),
-      builder: (sheetContext) => _TaskSheet(
-        task: task,
-        completed: completed,
-        saving: _savingTaskId == task.id,
-        onOpen: () {
-          Navigator.of(sheetContext).pop();
-          _openTask(task);
-        },
-        onScan:
-            task.verification == JourneyVerification.qr &&
-                widget.onOpenScanner != null
-            ? () {
-                Navigator.of(sheetContext).pop();
-                widget.onOpenScanner!();
-              }
-            : null,
-        onComplete: task.canSelfComplete && !completed
-            ? () async {
-                Navigator.of(sheetContext).pop();
-                await _completeLearningTask(task);
-              }
-            : null,
+    await Navigator.of(context).push<void>(
+      MaterialPageRoute(
+        builder: (_) => _JourneyActivityPage(
+          day: day ?? 1,
+          task: task,
+          completed: completed,
+          onOpenResource: () => _openTask(task),
+          onReturnHome: () => _finishActivityPage(task, completed: completed),
+        ),
       ),
     );
+  }
+
+  Future<void> _finishActivityPage(
+    NewcomerJourneyTask task, {
+    required bool completed,
+  }) async {
+    if (!completed) {
+      if (task.id == 'find-bin-day') {
+        await _setUpBinNight();
+      } else if (task.id == 'discover-library') {
+        await _setUpLibraryCard(points: task.xp);
+      } else if (task.id == 'plan-first-trip') {
+        await _setUpTransport();
+      } else if (task.canSelfComplete) {
+        await _completeLearningTask(task);
+      } else {
+        await _openTask(task);
+        return;
+      }
+      if (!_isTaskComplete(widget.passport, task, widget.settlement)) return;
+    }
+    if (!mounted) return;
+    Navigator.of(context).pop();
+    (widget.onOpenHome ?? widget.onFinishTutorial)?.call();
   }
 
   Future<void> _setUpBinNight() async {
@@ -1659,6 +1702,8 @@ class _JourneyRoadmap extends StatelessWidget {
     required this.currentIndex,
     required this.journeyDay,
     required this.onOpenTask,
+    required this.focusKeys,
+    required this.pulsingTaskId,
   });
 
   final List<NewcomerJourneyTask> tasks;
@@ -1666,6 +1711,8 @@ class _JourneyRoadmap extends StatelessWidget {
   final int currentIndex;
   final int Function(int index) journeyDay;
   final ValueChanged<NewcomerJourneyTask> onOpenTask;
+  final Map<String, GlobalKey> focusKeys;
+  final String? pulsingTaskId;
 
   @override
   Widget build(BuildContext context) {
@@ -1689,6 +1736,8 @@ class _JourneyRoadmap extends StatelessWidget {
                 first: index == 0,
                 last: index == tasks.length - 1,
                 onTap: () => onOpenTask(tasks[index]),
+                focusKey: focusKeys.putIfAbsent(tasks[index].id, GlobalKey.new),
+                pulsing: pulsingTaskId == tasks[index].id,
               ),
           ],
         ),
@@ -1707,6 +1756,8 @@ class _JourneyRoadmapStep extends StatelessWidget {
     required this.first,
     required this.last,
     required this.onTap,
+    required this.focusKey,
+    required this.pulsing,
   });
 
   final NewcomerJourneyTask task;
@@ -1716,6 +1767,8 @@ class _JourneyRoadmapStep extends StatelessWidget {
   final bool first;
   final bool last;
   final VoidCallback onTap;
+  final GlobalKey focusKey;
+  final bool pulsing;
 
   @override
   Widget build(BuildContext context) {
@@ -1728,114 +1781,133 @@ class _JourneyRoadmapStep extends StatelessWidget {
     return Semantics(
       button: true,
       checked: complete,
-      child: InkWell(
-        onTap: onTap,
-        borderRadius: BorderRadius.circular(12),
-        child: IntrinsicHeight(
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              SizedBox(
-                width: 44,
-                child: Column(
-                  children: [
-                    Expanded(
-                      child: Container(
-                        width: 2,
-                        color: first
-                            ? Colors.transparent
-                            : AppThemeColors.border,
-                      ),
-                    ),
-                    AnimatedContainer(
-                      duration: const Duration(milliseconds: 220),
-                      width: current ? 34 : 30,
-                      height: current ? 34 : 30,
-                      decoration: BoxDecoration(
-                        color: complete || current ? accent : Colors.white,
-                        shape: BoxShape.circle,
-                        border: Border.all(color: accent, width: 2),
-                      ),
-                      child: Icon(
-                        complete ? Icons.check_rounded : _kindIcon(task.kind),
-                        size: 17,
-                        color: complete || current ? Colors.white : accent,
-                      ),
-                    ),
-                    Expanded(
-                      child: Container(
-                        width: 2,
-                        color: last
-                            ? Colors.transparent
-                            : AppThemeColors.border,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              const SizedBox(width: 10),
-              Expanded(
-                child: Container(
-                  constraints: const BoxConstraints(minHeight: 92),
-                  padding: const EdgeInsets.symmetric(vertical: 14),
-                  decoration: last
-                      ? null
-                      : BoxDecoration(
-                          border: Border(
-                            bottom: BorderSide(color: AppThemeColors.border),
+      child: AnimatedScale(
+        key: focusKey,
+        scale: pulsing ? 1.025 : 1,
+        duration: const Duration(milliseconds: 210),
+        curve: Curves.easeOutCubic,
+        child: AnimatedContainer(
+          duration: const Duration(milliseconds: 210),
+          decoration: BoxDecoration(
+            color: pulsing
+                ? const Color(0xFF1679C4).withValues(alpha: 0.08)
+                : Colors.transparent,
+            borderRadius: BorderRadius.circular(12),
+          ),
+          child: InkWell(
+            onTap: onTap,
+            borderRadius: BorderRadius.circular(12),
+            child: IntrinsicHeight(
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  SizedBox(
+                    width: 44,
+                    child: Column(
+                      children: [
+                        Expanded(
+                          child: Container(
+                            width: 2,
+                            color: first
+                                ? Colors.transparent
+                                : AppThemeColors.border,
                           ),
                         ),
-                  child: Row(
-                    children: [
-                      Expanded(
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              '$day / 30  ·  ${copy.section(task.section).toUpperCase()}',
-                              style: TextStyle(
-                                color: accent,
-                                fontSize: 10,
-                                letterSpacing: 0.7,
-                                fontWeight: FontWeight.w900,
-                              ),
-                            ),
-                            const SizedBox(height: 5),
-                            Text(
-                              copy.title(task),
-                              style: TextStyle(
-                                color: AppThemeColors.text,
-                                fontSize: 16,
-                                fontWeight: FontWeight.w900,
-                                decoration: complete
-                                    ? TextDecoration.lineThrough
-                                    : TextDecoration.none,
-                              ),
-                            ),
-                            if (current) ...[
-                              const SizedBox(height: 5),
-                              Text(
-                                copy.summary(task),
-                                maxLines: 2,
-                                overflow: TextOverflow.ellipsis,
-                                style: TextStyle(
-                                  color: AppThemeColors.subtleText,
-                                  fontSize: 12,
-                                  height: 1.3,
+                        AnimatedContainer(
+                          duration: const Duration(milliseconds: 220),
+                          width: current ? 34 : 30,
+                          height: current ? 34 : 30,
+                          decoration: BoxDecoration(
+                            color: complete || current ? accent : Colors.white,
+                            shape: BoxShape.circle,
+                            border: Border.all(color: accent, width: 2),
+                          ),
+                          child: Icon(
+                            complete
+                                ? Icons.check_rounded
+                                : _kindIcon(task.kind),
+                            size: 17,
+                            color: complete || current ? Colors.white : accent,
+                          ),
+                        ),
+                        Expanded(
+                          child: Container(
+                            width: 2,
+                            color: last
+                                ? Colors.transparent
+                                : AppThemeColors.border,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(width: 10),
+                  Expanded(
+                    child: Container(
+                      constraints: const BoxConstraints(minHeight: 92),
+                      padding: const EdgeInsets.symmetric(vertical: 14),
+                      decoration: last
+                          ? null
+                          : BoxDecoration(
+                              border: Border(
+                                bottom: BorderSide(
+                                  color: AppThemeColors.border,
                                 ),
                               ),
-                            ],
-                          ],
-                        ),
+                            ),
+                      child: Row(
+                        children: [
+                          Expanded(
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  '$day / 30  ·  ${copy.section(task.section).toUpperCase()}',
+                                  style: TextStyle(
+                                    color: accent,
+                                    fontSize: 10,
+                                    letterSpacing: 0.7,
+                                    fontWeight: FontWeight.w900,
+                                  ),
+                                ),
+                                const SizedBox(height: 5),
+                                Text(
+                                  copy.title(task),
+                                  style: TextStyle(
+                                    color: AppThemeColors.text,
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w900,
+                                    decoration: complete
+                                        ? TextDecoration.lineThrough
+                                        : TextDecoration.none,
+                                  ),
+                                ),
+                                if (current) ...[
+                                  const SizedBox(height: 5),
+                                  Text(
+                                    copy.summary(task),
+                                    maxLines: 2,
+                                    overflow: TextOverflow.ellipsis,
+                                    style: TextStyle(
+                                      color: AppThemeColors.subtleText,
+                                      fontSize: 12,
+                                      height: 1.3,
+                                    ),
+                                  ),
+                                ],
+                              ],
+                            ),
+                          ),
+                          const SizedBox(width: 8),
+                          Icon(Icons.chevron_right_rounded, color: accent),
+                        ],
                       ),
-                      const SizedBox(width: 8),
-                      Icon(Icons.chevron_right_rounded, color: accent),
-                    ],
+                    ),
                   ),
-                ),
+                ],
               ),
-            ],
+            ),
           ),
         ),
       ),
@@ -4881,6 +4953,294 @@ class _FlagLine extends StatelessWidget {
   }
 }
 
+class _JourneyActivityPage extends StatelessWidget {
+  const _JourneyActivityPage({
+    required this.day,
+    required this.task,
+    required this.completed,
+    required this.onOpenResource,
+    required this.onReturnHome,
+  });
+
+  final int day;
+  final NewcomerJourneyTask task;
+  final bool completed;
+  final VoidCallback onOpenResource;
+  final VoidCallback onReturnHome;
+
+  bool get _canFinishToday =>
+      completed ||
+      task.canSelfComplete ||
+      task.id == 'find-bin-day' ||
+      task.id == 'discover-library' ||
+      task.id == 'plan-first-trip';
+
+  @override
+  Widget build(BuildContext context) {
+    final copy = JourneyLocalizations.of(context);
+    final accent = _kindColor(task.kind);
+    return Scaffold(
+      backgroundColor: AppThemeColors.background,
+      appBar: AppBar(
+        backgroundColor: AppThemeColors.background,
+        surfaceTintColor: Colors.transparent,
+        leading: IconButton(
+          key: const ValueKey('journey-activity-back'),
+          tooltip: copy.ui('tutorialOverview'),
+          onPressed: () => Navigator.of(context).pop(),
+          icon: const Icon(Icons.arrow_back_rounded),
+        ),
+        title: Text(
+          copy.ui('journeyTitle'),
+          style: const TextStyle(fontWeight: FontWeight.w900),
+        ),
+      ),
+      body: SafeArea(
+        top: false,
+        child: Column(
+          children: [
+            Expanded(
+              child: SingleChildScrollView(
+                padding: const EdgeInsets.fromLTRB(20, 8, 20, 28),
+                child: Center(
+                  child: ConstrainedBox(
+                    constraints: const BoxConstraints(maxWidth: 760),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Material(
+                          color: const Color(0xFF0C5685),
+                          borderRadius: BorderRadius.circular(16),
+                          clipBehavior: Clip.antiAlias,
+                          child: InkWell(
+                            key: const ValueKey('journey-roadmap-ribbon'),
+                            onTap: () => Navigator.of(context).pop(),
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 16,
+                                vertical: 12,
+                              ),
+                              child: Row(
+                                children: [
+                                  const Icon(
+                                    Icons.route_rounded,
+                                    color: Color(0xFF9EF2D7),
+                                  ),
+                                  const SizedBox(width: 11),
+                                  Expanded(
+                                    child: Text(
+                                      '${copy.ui('belongingEyebrow')}  ·  $day / 30',
+                                      style: const TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 11,
+                                        letterSpacing: 0.8,
+                                        fontWeight: FontWeight.w900,
+                                      ),
+                                    ),
+                                  ),
+                                  const Icon(
+                                    Icons.keyboard_arrow_up_rounded,
+                                    color: Colors.white,
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+                        const SizedBox(height: 28),
+                        Container(
+                          width: 58,
+                          height: 58,
+                          decoration: BoxDecoration(
+                            color: accent.withValues(alpha: 0.12),
+                            shape: BoxShape.circle,
+                          ),
+                          child: Icon(_kindIcon(task.kind), color: accent),
+                        ),
+                        const SizedBox(height: 20),
+                        Text(
+                          copy.section(task.section).toUpperCase(),
+                          style: TextStyle(
+                            color: accent,
+                            fontSize: 11,
+                            letterSpacing: 1.2,
+                            fontWeight: FontWeight.w900,
+                          ),
+                        ),
+                        const SizedBox(height: 9),
+                        Text(
+                          copy.title(task),
+                          style: TextStyle(
+                            color: AppThemeColors.text,
+                            fontSize: 32,
+                            height: 1.08,
+                            letterSpacing: -0.7,
+                            fontWeight: FontWeight.w900,
+                          ),
+                        ),
+                        const SizedBox(height: 16),
+                        Text(
+                          copy.summary(task),
+                          style: TextStyle(
+                            color: AppThemeColors.subtleText,
+                            fontSize: 17,
+                            height: 1.55,
+                          ),
+                        ),
+                        if (copy.contextNote(task.id) case final note?) ...[
+                          const SizedBox(height: 26),
+                          Container(
+                            width: double.infinity,
+                            padding: const EdgeInsets.all(18),
+                            decoration: BoxDecoration(
+                              color: accent.withValues(alpha: 0.09),
+                              border: Border(
+                                left: BorderSide(color: accent, width: 4),
+                              ),
+                            ),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Row(
+                                  children: [
+                                    Icon(
+                                      Icons.people_alt_outlined,
+                                      color: accent,
+                                      size: 20,
+                                    ),
+                                    const SizedBox(width: 8),
+                                    Expanded(
+                                      child: Text(
+                                        copy.ui('contextHeading'),
+                                        style: TextStyle(
+                                          color: AppThemeColors.text,
+                                          fontWeight: FontWeight.w900,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                const SizedBox(height: 10),
+                                Text(
+                                  note,
+                                  style: TextStyle(
+                                    color: AppThemeColors.subtleText,
+                                    height: 1.5,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                        const SizedBox(height: 24),
+                        Material(
+                          color: AppThemeColors.surface,
+                          shape: Border(
+                            top: BorderSide(color: AppThemeColors.border),
+                            bottom: BorderSide(color: AppThemeColors.border),
+                          ),
+                          child: InkWell(
+                            onTap: onOpenResource,
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(vertical: 14),
+                              child: Row(
+                                children: [
+                                  Icon(
+                                    Icons.open_in_new_rounded,
+                                    color: accent,
+                                  ),
+                                  const SizedBox(width: 12),
+                                  Expanded(
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          copy.action(task),
+                                          style: const TextStyle(
+                                            fontWeight: FontWeight.w900,
+                                          ),
+                                        ),
+                                        const SizedBox(height: 3),
+                                        Text(
+                                          copy.verification(task),
+                                          style: TextStyle(
+                                            color: AppThemeColors.subtleText,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  const SizedBox(width: 8),
+                                  const Icon(Icons.chevron_right_rounded),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            ),
+            Container(
+              decoration: BoxDecoration(
+                color: AppThemeColors.surface,
+                border: Border(top: BorderSide(color: AppThemeColors.border)),
+              ),
+              padding: const EdgeInsets.fromLTRB(20, 12, 20, 16),
+              child: Center(
+                child: ConstrainedBox(
+                  constraints: const BoxConstraints(maxWidth: 760),
+                  child: SizedBox(
+                    width: double.infinity,
+                    child: FilledButton(
+                      key: const ValueKey('journey-understand-tomorrow'),
+                      onPressed: onReturnHome,
+                      style: FilledButton.styleFrom(
+                        backgroundColor: _canFinishToday
+                            ? AppThemeColors.accentGreen
+                            : accent,
+                        foregroundColor: Colors.white,
+                        minimumSize: const Size.fromHeight(54),
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(
+                            _canFinishToday
+                                ? Icons.check_rounded
+                                : _kindIcon(task.kind),
+                          ),
+                          const SizedBox(width: 10),
+                          Flexible(
+                            child: Text(
+                              _canFinishToday
+                                  ? copy.ui('callItADay')
+                                  : copy.action(task),
+                              textAlign: TextAlign.center,
+                              style: const TextStyle(
+                                fontWeight: FontWeight.w900,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+// Kept temporarily for compatibility with older journey presentation tests.
+// ignore: unused_element
 class _TaskSheet extends StatelessWidget {
   const _TaskSheet({
     required this.task,
