@@ -7,6 +7,7 @@ import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
 
 import '../l10n/explore_localizations.dart';
+import '../l10n/app_localizations.dart';
 import '../models/passport.dart';
 import '../services/external_link_service.dart';
 import '../theme/app_theme.dart';
@@ -2076,12 +2077,12 @@ class _ExploreScreenState extends State<ExploreScreen> {
     return Row(
       children: [
         Container(
-          width: desktop ? 58 : 48,
-          height: desktop ? 58 : 48,
+          width: 58,
+          height: 58,
           padding: EdgeInsets.all(3),
           decoration: BoxDecoration(
             color: Colors.white,
-            borderRadius: BorderRadius.circular(desktop ? 19 : 16),
+            borderRadius: BorderRadius.circular(19),
             boxShadow: [
               BoxShadow(
                 color: _green.withValues(alpha: 0.20),
@@ -2091,7 +2092,7 @@ class _ExploreScreenState extends State<ExploreScreen> {
             ],
           ),
           child: ClipRRect(
-            borderRadius: BorderRadius.circular(desktop ? 14 : 11),
+            borderRadius: BorderRadius.circular(14),
             child: Image.asset(
               'assets/images/canada_bay_logo.jpg',
               semanticLabel: _exploreL10n.text('exploreTitle'),
@@ -2110,26 +2111,26 @@ class _ExploreScreenState extends State<ExploreScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                _exploreL10n.text('localAdventure').toUpperCase(),
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-                style: TextStyle(
-                  color: _green,
-                  fontSize: 8.5,
-                  letterSpacing: 1.4,
-                  fontWeight: FontWeight.w900,
-                ),
-              ),
-              SizedBox(height: 3),
-              Text(
-                _exploreL10n.text('exploreTitle'),
+                AppLocalizations.of(context).text('exploreAreaTitle'),
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
                 style: TextStyle(
                   color: _textPrimary,
-                  fontSize: desktop ? 20 : 18,
+                  fontSize: 24,
+                  height: 1.05,
+                  letterSpacing: -0.7,
                   fontWeight: FontWeight.w900,
-                  letterSpacing: -0.5,
+                ),
+              ),
+              SizedBox(height: 6),
+              Text(
+                AppLocalizations.of(context).text('exploreAreaSubtitle'),
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
+                style: TextStyle(
+                  color: _textSecondary,
+                  fontSize: 11.5,
+                  fontWeight: FontWeight.w600,
                 ),
               ),
             ],
@@ -3140,7 +3141,12 @@ class _ExploreScreenState extends State<ExploreScreen> {
                   duration: Duration(milliseconds: 220),
                   child: _MapBadge(
                     key: ValueKey(_asText(selectedRoute?['id'], 'all')),
-                    title: _exploreL10n.text('exploreTitle'),
+                    title: selectedRoute == null
+                        ? _exploreL10n.text('canadaBay')
+                        : _asText(
+                            _contentFor(selectedRoute!)['title'],
+                            _exploreL10n.text('selectedRoute'),
+                          ),
                     subtitle: selectedRoute == null
                         ? _exploreL10n.text('placesInView', {
                             'count': mapItems.length,

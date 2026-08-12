@@ -863,7 +863,7 @@ class _PassportHeader extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                AppLocalizations.of(context).text('passportTitle'),
+                AppLocalizations.of(context).text('engageAreaTitle'),
                 style: TextStyle(
                   color: _passportText,
                   fontSize: 24,
@@ -873,14 +873,14 @@ class _PassportHeader extends StatelessWidget {
               ),
               SizedBox(height: 5),
               Text(
-                'DISCOVER · SCAN · COLLECT',
+                AppLocalizations.of(context).text('engageAreaSubtitle'),
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
                 style: TextStyle(
                   color: _passportMuted,
                   fontSize: 9.5,
-                  letterSpacing: 1.55,
-                  fontWeight: FontWeight.w800,
+                  letterSpacing: 0,
+                  fontWeight: FontWeight.w600,
                 ),
               ),
             ],

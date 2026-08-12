@@ -1135,9 +1135,8 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
               SizedBox(height: 4),
               Text(
-                'LOCAL EXPLORATION · CIVIC INFORMATION · COMMUNITY CONNECTION · '
-                'ENVIRONMENTAL LEARNING · INTERACTIVE ENGAGEMENT',
-                maxLines: desktop ? 1 : 2,
+                'EXPLORE · UNDERSTAND · CONNECT · LEARN · ENGAGE',
+                maxLines: 1,
                 overflow: TextOverflow.ellipsis,
                 style: TextStyle(
                   color: _homeMuted,

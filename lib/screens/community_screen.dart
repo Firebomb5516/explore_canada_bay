@@ -407,7 +407,7 @@ class _CommunityHeader extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                strings.text('community'),
+                strings.text('connectAreaTitle'),
                 style: TextStyle(
                   color: AppThemeColors.text,
                   fontSize: 24,
@@ -418,7 +418,7 @@ class _CommunityHeader extends StatelessWidget {
               ),
               const SizedBox(height: 6),
               Text(
-                copy.text('community.subtitle'),
+                strings.text('connectAreaSubtitle'),
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
                 style: TextStyle(

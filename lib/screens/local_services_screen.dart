@@ -304,8 +304,8 @@ class _DirectoryHeader extends StatelessWidget {
               borderRadius: BorderRadius.circular(22),
               child: Image.asset(
                 'assets/images/canada_bay_logo.jpg',
-                width: compact ? 58 : 68,
-                height: compact ? 58 : 68,
+                width: 58,
+                height: 58,
                 fit: BoxFit.cover,
               ),
             ),
@@ -315,19 +315,24 @@ class _DirectoryHeader extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    AppLocalizations.of(context).text('services').toUpperCase(),
-                    style: Theme.of(context).textTheme.labelMedium?.copyWith(
-                      color: AppThemeColors.accentGreen,
-                      fontWeight: FontWeight.w800,
-                      letterSpacing: 1.8,
+                    AppLocalizations.of(context).text('understandAreaTitle'),
+                    style: Theme.of(context).textTheme.headlineSmall?.copyWith(
+                      color: AppThemeColors.text,
+                      fontSize: 24,
+                      height: 1.05,
+                      fontWeight: FontWeight.w900,
+                      letterSpacing: -0.7,
                     ),
                   ),
                   const SizedBox(height: 4),
                   Text(
-                    AppLocalizations.of(context).text('servicesTagline'),
-                    style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-                      color: AppThemeColors.text,
-                      fontWeight: FontWeight.w800,
+                    AppLocalizations.of(context).text('understandAreaSubtitle'),
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                    style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                      color: AppThemeColors.subtleText,
+                      fontSize: 11.5,
+                      fontWeight: FontWeight.w600,
                     ),
                   ),
                 ],
