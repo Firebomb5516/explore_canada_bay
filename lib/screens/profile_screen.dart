@@ -78,6 +78,18 @@ class ProfileScreen extends StatelessWidget {
                               const SizedBox(height: 14),
                               _buildSettingsColumn(context, palette),
                             ],
+                            const SizedBox(height: 28),
+                            Center(
+                              child: Text(
+                                'v1.3.2',
+                                style: TextStyle(
+                                  color: palette.muted.withValues(alpha: 0.72),
+                                  fontSize: 11,
+                                  letterSpacing: 0.8,
+                                  fontWeight: FontWeight.w700,
+                                ),
+                              ),
+                            ),
                           ],
                         ),
                       ),

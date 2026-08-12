@@ -300,13 +300,34 @@ class _DirectoryHeader extends StatelessWidget {
         final brand = Row(
           mainAxisSize: MainAxisSize.min,
           children: [
-            ClipRRect(
-              borderRadius: BorderRadius.circular(22),
-              child: Image.asset(
-                'assets/images/canada_bay_logo.jpg',
-                width: 58,
-                height: 58,
-                fit: BoxFit.cover,
+            Container(
+              width: 58,
+              height: 58,
+              padding: const EdgeInsets.all(5),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(19),
+                border: Border.all(
+                  color: AppThemeColors.border.withValues(alpha: 0.72),
+                ),
+                boxShadow: [
+                  BoxShadow(
+                    color: AppThemeColors.shadow,
+                    blurRadius: 18,
+                    offset: const Offset(0, 6),
+                  ),
+                ],
+              ),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(14),
+                child: Image.asset(
+                  'assets/images/canada_bay_logo.jpg',
+                  fit: BoxFit.cover,
+                  errorBuilder: (_, _, _) => const Icon(
+                    Icons.sailing_rounded,
+                    color: Color(0xFF0D4F7C),
+                  ),
+                ),
               ),
             ),
             const SizedBox(width: 16),
