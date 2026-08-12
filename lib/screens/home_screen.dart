@@ -1066,8 +1066,8 @@ class _HomeScreenState extends State<HomeScreen> {
     return Row(
       children: [
         Container(
-          width: desktop ? 64 : 52,
-          height: desktop ? 64 : 52,
+          width: desktop ? 64 : 58,
+          height: desktop ? 64 : 58,
           padding: EdgeInsets.all(desktop ? 7 : 6),
           decoration: BoxDecoration(
             color: Colors.white,
@@ -1110,7 +1110,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       text: 'Explore ',
                       style: TextStyle(
                         color: _homeText,
-                        fontSize: desktop ? 27 : 20,
+                        fontSize: desktop ? 27 : 24,
                         fontWeight: FontWeight.w900,
                       ),
                     ),
@@ -1118,7 +1118,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       text: 'Canada ',
                       style: TextStyle(
                         color: _homeGreen,
-                        fontSize: desktop ? 27 : 20,
+                        fontSize: desktop ? 27 : 24,
                         fontWeight: FontWeight.w900,
                       ),
                     ),
@@ -1126,7 +1126,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       text: 'Bay',
                       style: TextStyle(
                         color: _homeAccent,
-                        fontSize: desktop ? 27 : 20,
+                        fontSize: desktop ? 27 : 24,
                         fontWeight: FontWeight.w900,
                       ),
                     ),
@@ -1135,13 +1135,14 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
               SizedBox(height: 4),
               Text(
-                'PASSPORT · ROUTES · LOCAL CHECKPOINTS',
-                maxLines: 1,
+                'LOCAL EXPLORATION · CIVIC INFORMATION · COMMUNITY CONNECTION · '
+                'ENVIRONMENTAL LEARNING · INTERACTIVE ENGAGEMENT',
+                maxLines: desktop ? 1 : 2,
                 overflow: TextOverflow.ellipsis,
                 style: TextStyle(
                   color: _homeMuted,
-                  fontSize: desktop ? 12 : 8.5,
-                  letterSpacing: desktop ? 2 : 1.1,
+                  fontSize: desktop ? 10 : 7.5,
+                  letterSpacing: desktop ? 1.2 : 0.65,
                   fontWeight: FontWeight.w800,
                 ),
               ),

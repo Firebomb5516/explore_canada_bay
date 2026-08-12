@@ -56,17 +56,28 @@ class JourneyLocalizations {
   };
 
   String title(NewcomerJourneyTask task) =>
-      _tasks[languageCode]?[task.id]?.title ?? task.title;
+      _tasks[languageCode]?[task.id]?.title ??
+      _additionalTitles[languageCode]?[task.id] ??
+      task.title;
 
   String summary(NewcomerJourneyTask task) =>
-      _tasks[languageCode]?[task.id]?.summary ?? task.summary;
+      _tasks[languageCode]?[task.id]?.summary ??
+      (_additionalTitles[languageCode]?[task.id] == null
+          ? task.summary
+          : _additionalSummary(languageCode, title(task)));
 
   bool hasTask(String taskId) => _taskSections.containsKey(taskId);
 
-  String? titleForTaskId(String taskId) => _tasks[languageCode]?[taskId]?.title;
+  String? titleForTaskId(String taskId) =>
+      _tasks[languageCode]?[taskId]?.title ??
+      _additionalTitles[languageCode]?[taskId];
 
-  String? summaryForTaskId(String taskId) =>
-      _tasks[languageCode]?[taskId]?.summary;
+  String? summaryForTaskId(String taskId) {
+    final translated = _tasks[languageCode]?[taskId]?.summary;
+    if (translated != null) return translated;
+    final title = _additionalTitles[languageCode]?[taskId];
+    return title == null ? null : _additionalSummary(languageCode, title);
+  }
 
   String? sectionForTaskId(String taskId) {
     final source = _taskSections[taskId];
@@ -74,7 +85,28 @@ class JourneyLocalizations {
   }
 
   String action(NewcomerJourneyTask task) =>
-      _tasks[languageCode]?[task.id]?.action ?? task.actionLabel;
+      _tasks[languageCode]?[task.id]?.action ??
+      (_additionalTitles[languageCode]?[task.id] == null
+          ? task.actionLabel
+          : _additionalAction(languageCode));
+
+  static String _additionalSummary(String code, String title) => switch (code) {
+    'zh' => '今天了解“$title”，并在需要时使用应用中的本地地图、服务和社区信息。',
+    'ko' => '오늘 “$title” 단계를 알아보고 필요할 때 앱의 지역 지도, 서비스 및 커뮤니티 정보를 활용하세요.',
+    'it' =>
+      'Oggi completa “$title” e usa la mappa, i servizi e le informazioni della comunità disponibili nell’app.',
+    'hi' =>
+      'आज “$title” चरण को समझें और ज़रूरत पड़ने पर ऐप के स्थानीय मानचित्र, सेवाओं और सामुदायिक जानकारी का उपयोग करें।',
+    _ => title,
+  };
+
+  static String _additionalAction(String code) => switch (code) {
+    'zh' => '打开相关本地信息',
+    'ko' => '관련 지역 정보 열기',
+    'it' => 'Apri le informazioni locali',
+    'hi' => 'संबंधित स्थानीय जानकारी खोलें',
+    _ => 'Open local information',
+  };
 
   String section(String source) => _sections[languageCode]?[source] ?? source;
 
@@ -1440,6 +1472,89 @@ class JourneyLocalizations {
     },
   };
 
+  static const _additionalTitles = <String, Map<String, String>>{
+    'zh': {
+      'find-council-contact': '保存市议会联系方式',
+      'learn-local-suburbs': '了解周边城区',
+      'understand-opal': '了解 Opal 出行基础',
+      'browse-library-programs': '浏览图书馆活动',
+      'find-healthcare': '寻找附近的医疗服务',
+      'learn-bond-basics': '了解租房押金基础',
+      'find-conversation-group': '寻找英语会话小组',
+      'prepare-emergency-plan': '制定简单的应急计划',
+      'learn-river-safety': '了解河岸与河流安全',
+      'choose-local-park': '选择您的本地公园',
+      'sort-household-waste': '练习家庭垃圾分类',
+      'plan-weekend-walk': '计划周末步行',
+      'notice-local-wildlife': '观察本地野生动物',
+      'visit-local-business': '发现一家本地商户',
+      'save-community-event': '保存一个社区活动',
+      'choose-volunteer-interest': '选择一种志愿服务方式',
+      'understand-council-decisions': '了解市议会如何作出决定',
+      'reflect-first-month': '回顾您的第一个月',
+    },
+    'ko': {
+      'find-council-contact': '시의회 연락처 저장하기',
+      'learn-local-suburbs': '주변 지역 알아보기',
+      'understand-opal': 'Opal 교통 기본 이해하기',
+      'browse-library-programs': '도서관 프로그램 찾아보기',
+      'find-healthcare': '가까운 의료 서비스 찾기',
+      'learn-bond-basics': '임대 보증금 기본 알아보기',
+      'find-conversation-group': '영어 회화 모임 찾기',
+      'prepare-emergency-plan': '간단한 비상 계획 세우기',
+      'learn-river-safety': '강변과 수상 안전 알아보기',
+      'choose-local-park': '나의 동네 공원 정하기',
+      'sort-household-waste': '생활 쓰레기 분리 연습하기',
+      'plan-weekend-walk': '주말 산책 계획하기',
+      'notice-local-wildlife': '지역 야생동물 관찰하기',
+      'visit-local-business': '지역 상점 발견하기',
+      'save-community-event': '커뮤니티 행사 저장하기',
+      'choose-volunteer-interest': '관심 있는 자원봉사 선택하기',
+      'understand-council-decisions': '시의회 결정 과정 알아보기',
+      'reflect-first-month': '첫 한 달 돌아보기',
+    },
+    'it': {
+      'find-council-contact': 'Salva i contatti del Comune',
+      'learn-local-suburbs': 'Conosci i quartieri vicini',
+      'understand-opal': 'Impara le basi dei viaggi Opal',
+      'browse-library-programs': 'Scopri un programma della biblioteca',
+      'find-healthcare': 'Trova servizi sanitari vicini',
+      'learn-bond-basics': 'Impara le basi del deposito cauzionale',
+      'find-conversation-group': 'Trova un gruppo di conversazione inglese',
+      'prepare-emergency-plan': 'Prepara un semplice piano di emergenza',
+      'learn-river-safety': 'Impara la sicurezza sul fiume e sul lungomare',
+      'choose-local-park': 'Scegli il tuo parco locale',
+      'sort-household-waste': 'Esercitati a separare i rifiuti domestici',
+      'plan-weekend-walk': 'Pianifica una passeggiata nel fine settimana',
+      'notice-local-wildlife': 'Osserva la fauna locale',
+      'visit-local-business': 'Scopri un’attività locale',
+      'save-community-event': 'Salva un evento della comunità',
+      'choose-volunteer-interest': 'Scegli un modo per fare volontariato',
+      'understand-council-decisions': 'Scopri come decide il Comune',
+      'reflect-first-month': 'Ripensa al tuo primo mese',
+    },
+    'hi': {
+      'find-council-contact': 'काउंसिल की संपर्क जानकारी सहेजें',
+      'learn-local-suburbs': 'आस-पास के उपनगरों को जानें',
+      'understand-opal': 'ओपल यात्रा की बुनियादी बातें समझें',
+      'browse-library-programs': 'लाइब्रेरी कार्यक्रम देखें',
+      'find-healthcare': 'नज़दीकी स्वास्थ्य सेवाएँ खोजें',
+      'learn-bond-basics': 'किराये के बॉन्ड की बुनियादी बातें जानें',
+      'find-conversation-group': 'अंग्रेज़ी वार्तालाप समूह खोजें',
+      'prepare-emergency-plan': 'एक सरल आपातकालीन योजना बनाएँ',
+      'learn-river-safety': 'नदी और तट की सुरक्षा जानें',
+      'choose-local-park': 'अपना स्थानीय पार्क चुनें',
+      'sort-household-waste': 'घरेलू कचरा अलग करने का अभ्यास करें',
+      'plan-weekend-walk': 'सप्ताहांत की सैर की योजना बनाएँ',
+      'notice-local-wildlife': 'स्थानीय वन्यजीवों को देखें',
+      'visit-local-business': 'एक स्थानीय व्यवसाय खोजें',
+      'save-community-event': 'एक सामुदायिक कार्यक्रम सहेजें',
+      'choose-volunteer-interest': 'स्वयंसेवा का एक तरीका चुनें',
+      'understand-council-decisions': 'जानें कि काउंसिल निर्णय कैसे लेती है',
+      'reflect-first-month': 'अपने पहले महीने पर विचार करें',
+    },
+  };
+
   static const _sections = <String, Map<String, String>>{
     'zh': {
       'First 48 hours': '最初48小时',
@@ -1448,6 +1563,7 @@ class JourneyLocalizations {
       'Australian water safety': '澳大利亚水上安全',
       'Know your neighbourhood': '了解您的社区',
       'Feel connected': '融入社区',
+      'Care for your neighbourhood': '关爱您的社区',
     },
     'ko': {
       'First 48 hours': '처음 48시간',
@@ -1456,6 +1572,7 @@ class JourneyLocalizations {
       'Australian water safety': '호주의 물놀이 안전',
       'Know your neighbourhood': '우리 동네 알아보기',
       'Feel connected': '지역사회와 연결되기',
+      'Care for your neighbourhood': '우리 동네 돌보기',
     },
     'it': {
       'First 48 hours': 'Prime 48 ore',
@@ -1464,6 +1581,7 @@ class JourneyLocalizations {
       'Australian water safety': 'Sicurezza in acqua in Australia',
       'Know your neighbourhood': 'Conosci il tuo quartiere',
       'Feel connected': 'Entra nella comunità',
+      'Care for your neighbourhood': 'Prenditi cura del quartiere',
     },
     'hi': {
       'First 48 hours': 'पहले 48 घंटे',
@@ -1472,6 +1590,7 @@ class JourneyLocalizations {
       'Australian water safety': 'ऑस्ट्रेलिया में जल सुरक्षा',
       'Know your neighbourhood': 'अपने पड़ोस को जानें',
       'Feel connected': 'समुदाय से जुड़ें',
+      'Care for your neighbourhood': 'अपने पड़ोस की देखभाल करें',
     },
   };
 
@@ -1489,9 +1608,131 @@ class JourneyLocalizations {
     'complete-local-route': 'Know your neighbourhood',
     'join-community-activity': 'Feel connected',
     'help-local-environment': 'Feel connected',
+    'find-council-contact': 'First 48 hours',
+    'learn-local-suburbs': 'Your first week',
+    'understand-opal': 'Your first week',
+    'browse-library-programs': 'Your first week',
+    'find-healthcare': 'Your first week',
+    'learn-bond-basics': 'Your first month',
+    'find-conversation-group': 'Feel connected',
+    'prepare-emergency-plan': 'Your first month',
+    'learn-river-safety': 'Australian water safety',
+    'choose-local-park': 'Know your neighbourhood',
+    'sort-household-waste': 'Care for your neighbourhood',
+    'plan-weekend-walk': 'Know your neighbourhood',
+    'notice-local-wildlife': 'Know your neighbourhood',
+    'visit-local-business': 'Feel connected',
+    'save-community-event': 'Feel connected',
+    'choose-volunteer-interest': 'Feel connected',
+    'understand-council-decisions': 'Care for your neighbourhood',
+    'reflect-first-month': 'Feel connected',
   };
 
   static const _tasks = <String, Map<String, _JourneyTranslation>>{
+    'en': {
+      'find-council-contact': _JourneyTranslation(
+        title: 'Save the Council contact details',
+        summary:
+            'Know where to ask about local services, facilities and neighbourhood concerns.',
+        action: 'Explore local services',
+      ),
+      'learn-local-suburbs': _JourneyTranslation(
+        title: 'Learn the suburbs around you',
+        summary:
+            'Use the map to recognise nearby suburbs, foreshore areas and useful local landmarks.',
+        action: 'Open the local map',
+      ),
+      'understand-opal': _JourneyTranslation(
+        title: 'Understand Opal travel basics',
+        summary:
+            'Learn how to tap on and off and where to check fares before your next trip.',
+        action: 'Explore transport help',
+      ),
+      'browse-library-programs': _JourneyTranslation(
+        title: 'Browse a library program',
+        summary:
+            'Find a free session, workshop or activity that feels useful or welcoming.',
+        action: 'Browse community activities',
+      ),
+      'find-healthcare': _JourneyTranslation(
+        title: 'Find nearby healthcare options',
+        summary:
+            'Identify where you could seek routine medical help and where to go after hours.',
+        action: 'Explore health services',
+      ),
+      'find-conversation-group': _JourneyTranslation(
+        title: 'Find an English conversation group',
+        summary:
+            'Choose a friendly local place where you can practise English and meet people.',
+        action: 'Find a local group',
+      ),
+      'prepare-emergency-plan': _JourneyTranslation(
+        title: 'Make a simple emergency plan',
+        summary:
+            'Choose a household contact, note essential numbers and think about where you would meet.',
+        action: 'Review emergency services',
+      ),
+      'learn-river-safety': _JourneyTranslation(
+        title: 'Learn foreshore and river safety',
+        summary:
+            'Notice changing conditions, slippery edges and signs before enjoying the Parramatta River foreshore.',
+        action: 'Explore a safe foreshore route',
+      ),
+      'choose-local-park': _JourneyTranslation(
+        title: 'Choose your local park',
+        summary:
+            'Find a nearby green space you could revisit for exercise, rest or time with others.',
+        action: 'Find a park',
+      ),
+      'sort-household-waste': _JourneyTranslation(
+        title: 'Practise sorting household waste',
+        summary:
+            'Check one everyday item and learn which Canada Bay bin it belongs in.',
+        action: 'Review waste services',
+      ),
+      'plan-weekend-walk': _JourneyTranslation(
+        title: 'Plan a weekend walk',
+        summary:
+            'Pick a route, check its distance and invite someone to explore Canada Bay with you.',
+        action: 'Choose a walking route',
+      ),
+      'notice-local-wildlife': _JourneyTranslation(
+        title: 'Notice local wildlife',
+        summary:
+            'Use a biodiversity checkpoint to learn about a species sharing your neighbourhood.',
+        action: 'Explore biodiversity places',
+      ),
+      'visit-local-business': _JourneyTranslation(
+        title: 'Discover a local business',
+        summary:
+            'Find an independent cafe, shop or service and become more familiar with a local centre.',
+        action: 'Explore local places',
+      ),
+      'save-community-event': _JourneyTranslation(
+        title: 'Save a community event',
+        summary:
+            'Choose one upcoming activity you may enjoy and make a simple plan to attend.',
+        action: 'Browse local events',
+      ),
+      'choose-volunteer-interest': _JourneyTranslation(
+        title: 'Choose a way to volunteer',
+        summary:
+            'Find a local cause that matches your interests, availability and confidence.',
+        action: 'Explore volunteering',
+      ),
+      'understand-council-decisions': _JourneyTranslation(
+        title: 'See how Council decisions are made',
+        summary:
+            'Learn where community consultations, meeting information and local updates are shared.',
+        action: 'Explore Council services',
+      ),
+      'reflect-first-month': _JourneyTranslation(
+        title: 'Reflect on your first month',
+        summary:
+            'Look back at the places, services and people that now make Canada Bay feel more familiar.',
+        action: 'Open your Community Passport',
+      ),
+    },
     'zh': {
       'know-triple-zero': _JourneyTranslation(
         title: '了解何时拨打000',

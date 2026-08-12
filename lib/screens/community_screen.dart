@@ -377,12 +377,12 @@ class _CommunityHeader extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         Container(
-          width: 46,
-          height: 46,
+          width: 58,
+          height: 58,
           padding: const EdgeInsets.all(4),
           decoration: BoxDecoration(
             color: Colors.white,
-            borderRadius: BorderRadius.circular(15),
+            borderRadius: BorderRadius.circular(19),
             boxShadow: [
               BoxShadow(
                 color: AppThemeColors.shadow,
@@ -392,7 +392,7 @@ class _CommunityHeader extends StatelessWidget {
             ],
           ),
           child: ClipRRect(
-            borderRadius: BorderRadius.circular(11),
+            borderRadius: BorderRadius.circular(14),
             child: Image.asset(
               _communityLogoAsset,
               fit: BoxFit.cover,
@@ -410,7 +410,7 @@ class _CommunityHeader extends StatelessWidget {
                 strings.text('community'),
                 style: TextStyle(
                   color: AppThemeColors.text,
-                  fontSize: 26,
+                  fontSize: 24,
                   height: 1,
                   letterSpacing: -0.7,
                   fontWeight: FontWeight.w900,

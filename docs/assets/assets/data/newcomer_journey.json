@@ -27,7 +27,7 @@
       "officialUrl": "https://www.tisnational.gov.au/en/Non-English-speakers",
       "badgeId": "civic_ready",
       "xp": 0,
-      "sortOrder": 15
+      "sortOrder": 20
     },
     {
       "id": "find-bin-day",
@@ -41,7 +41,7 @@
       "destination": "services",
       "badgeId": "civic_ready",
       "xp": 0,
-      "sortOrder": 20
+      "sortOrder": 30
     },
     {
       "id": "plan-first-trip",
@@ -55,7 +55,7 @@
       "destination": "services",
       "badgeId": "civic_ready",
       "xp": 0,
-      "sortOrder": 30
+      "sortOrder": 50
     },
     {
       "id": "discover-library",
@@ -69,7 +69,7 @@
       "destination": "services",
       "badgeId": "library_local",
       "xp": 40,
-      "sortOrder": 40
+      "sortOrder": 70
     },
     {
       "id": "check-medicare",
@@ -82,7 +82,7 @@
       "officialUrl": "https://www.servicesaustralia.gov.au/enrolling-medicare?context=60092",
       "badgeId": "civic_ready",
       "xp": 0,
-      "sortOrder": 45
+      "sortOrder": 90
     },
     {
       "id": "know-rental-rights",
@@ -95,7 +95,7 @@
       "officialUrl": "https://www.nsw.gov.au/housing-and-construction/renting-a-place-to-live",
       "badgeId": "civic_ready",
       "xp": 0,
-      "sortOrder": 47
+      "sortOrder": 110
     },
     {
       "id": "find-english-support",
@@ -108,7 +108,7 @@
       "officialUrl": "https://immi.homeaffairs.gov.au/settling-in-australia/amep",
       "badgeId": "community_participant",
       "xp": 0,
-      "sortOrder": 48
+      "sortOrder": 130
     },
     {
       "id": "swim-between-flags",
@@ -121,7 +121,7 @@
       "officialUrl": "https://beachsafe.org.au/surf-safety/flags-and-signs",
       "badgeId": "water_wise",
       "xp": 0,
-      "sortOrder": 50
+      "sortOrder": 160
     },
     {
       "id": "home-pool-safety",
@@ -134,7 +134,7 @@
       "officialUrl": "https://dcj.nsw.gov.au/children-and-families/parenting/keeping-your-children-safe/water-safety.html",
       "badgeId": "water_wise",
       "xp": 0,
-      "sortOrder": 60
+      "sortOrder": 170
     },
     {
       "id": "complete-local-route",
@@ -147,7 +147,7 @@
       "destination": "explore",
       "badgeId": "foreshore_walker",
       "xp": 75,
-      "sortOrder": 70
+      "sortOrder": 220
     },
     {
       "id": "join-community-activity",
@@ -160,7 +160,7 @@
       "destination": "community",
       "badgeId": "community_participant",
       "xp": 60,
-      "sortOrder": 80
+      "sortOrder": 260
     },
     {
       "id": "help-local-environment",
@@ -174,7 +174,228 @@
       "destination": "community",
       "badgeId": "bushcare_helper",
       "xp": 80,
-      "sortOrder": 90
+      "sortOrder": 290
+    },
+    {
+      "id": "find-council-contact",
+      "title": "Save the Council contact details",
+      "summary": "Know where to ask about local services, facilities and neighbourhood concerns.",
+      "section": "First 48 hours",
+      "kind": "civic",
+      "verification": "self",
+      "actionLabel": "Explore local services",
+      "destination": "services",
+      "badgeId": "civic_ready",
+      "xp": 0,
+      "sortOrder": 16
+    },
+    {
+      "id": "learn-local-suburbs",
+      "title": "Learn the suburbs around you",
+      "summary": "Use the map to recognise nearby suburbs, foreshore areas and useful local landmarks.",
+      "section": "Your first week",
+      "kind": "explore",
+      "verification": "self",
+      "actionLabel": "Open the local map",
+      "destination": "explore",
+      "badgeId": "civic_ready",
+      "xp": 0,
+      "sortOrder": 40
+    },
+    {
+      "id": "understand-opal",
+      "title": "Understand Opal travel basics",
+      "summary": "Learn how to tap on and off and where to check fares before your next trip.",
+      "section": "Your first week",
+      "kind": "civic",
+      "verification": "self",
+      "actionLabel": "Explore transport help",
+      "destination": "services",
+      "badgeId": "civic_ready",
+      "xp": 0,
+      "sortOrder": 60
+    },
+    {
+      "id": "browse-library-programs",
+      "title": "Browse a library program",
+      "summary": "Find a free session, workshop or activity that feels useful or welcoming.",
+      "section": "Your first week",
+      "kind": "community",
+      "verification": "self",
+      "actionLabel": "Browse community activities",
+      "destination": "community",
+      "badgeId": "community_participant",
+      "xp": 0,
+      "sortOrder": 80
+    },
+    {
+      "id": "find-healthcare",
+      "title": "Find nearby healthcare options",
+      "summary": "Identify where you could seek routine medical help and where to go after hours.",
+      "section": "Your first week",
+      "kind": "civic",
+      "verification": "self",
+      "actionLabel": "Explore health services",
+      "destination": "services",
+      "badgeId": "civic_ready",
+      "xp": 0,
+      "sortOrder": 100
+    },
+    {
+      "id": "find-conversation-group",
+      "title": "Find an English conversation group",
+      "summary": "Choose a friendly local place where you can practise English and meet people.",
+      "section": "Feel connected",
+      "kind": "community",
+      "verification": "self",
+      "actionLabel": "Find a local group",
+      "destination": "community",
+      "badgeId": "community_participant",
+      "xp": 0,
+      "sortOrder": 140
+    },
+    {
+      "id": "prepare-emergency-plan",
+      "title": "Make a simple emergency plan",
+      "summary": "Choose a household contact, note essential numbers and think about where you would meet.",
+      "section": "Your first month",
+      "kind": "learn",
+      "verification": "self",
+      "actionLabel": "Review emergency services",
+      "destination": "services",
+      "badgeId": "civic_ready",
+      "xp": 0,
+      "sortOrder": 150
+    },
+    {
+      "id": "learn-river-safety",
+      "title": "Learn foreshore and river safety",
+      "summary": "Notice changing conditions, slippery edges and signs before enjoying the Parramatta River foreshore.",
+      "section": "Australian water safety",
+      "kind": "learn",
+      "verification": "self",
+      "actionLabel": "Explore a safe foreshore route",
+      "destination": "explore",
+      "badgeId": "water_wise",
+      "xp": 0,
+      "sortOrder": 180
+    },
+    {
+      "id": "choose-local-park",
+      "title": "Choose your local park",
+      "summary": "Find a nearby green space you could revisit for exercise, rest or time with others.",
+      "section": "Know your neighbourhood",
+      "kind": "explore",
+      "verification": "self",
+      "actionLabel": "Find a park",
+      "destination": "explore",
+      "badgeId": "nature_trail",
+      "xp": 0,
+      "sortOrder": 190
+    },
+    {
+      "id": "sort-household-waste",
+      "title": "Practise sorting household waste",
+      "summary": "Check one everyday item and learn which Canada Bay bin it belongs in.",
+      "section": "Care for your neighbourhood",
+      "kind": "civic",
+      "verification": "self",
+      "actionLabel": "Review waste services",
+      "destination": "services",
+      "badgeId": "civic_ready",
+      "xp": 0,
+      "sortOrder": 200
+    },
+    {
+      "id": "plan-weekend-walk",
+      "title": "Plan a weekend walk",
+      "summary": "Pick a route, check its distance and invite someone to explore Canada Bay with you.",
+      "section": "Know your neighbourhood",
+      "kind": "explore",
+      "verification": "self",
+      "actionLabel": "Choose a walking route",
+      "destination": "explore",
+      "badgeId": "foreshore_walker",
+      "xp": 0,
+      "sortOrder": 210
+    },
+    {
+      "id": "notice-local-wildlife",
+      "title": "Notice local wildlife",
+      "summary": "Use a biodiversity checkpoint to learn about a species sharing your neighbourhood.",
+      "section": "Know your neighbourhood",
+      "kind": "explore",
+      "verification": "self",
+      "actionLabel": "Explore biodiversity places",
+      "destination": "explore",
+      "badgeId": "nature_trail",
+      "xp": 0,
+      "sortOrder": 230
+    },
+    {
+      "id": "visit-local-business",
+      "title": "Discover a local business",
+      "summary": "Find an independent cafe, shop or service and become more familiar with a local centre.",
+      "section": "Feel connected",
+      "kind": "community",
+      "verification": "self",
+      "actionLabel": "Explore local places",
+      "destination": "explore",
+      "badgeId": "community_participant",
+      "xp": 0,
+      "sortOrder": 240
+    },
+    {
+      "id": "save-community-event",
+      "title": "Save a community event",
+      "summary": "Choose one upcoming activity you may enjoy and make a simple plan to attend.",
+      "section": "Feel connected",
+      "kind": "community",
+      "verification": "self",
+      "actionLabel": "Browse local events",
+      "destination": "community",
+      "badgeId": "community_participant",
+      "xp": 0,
+      "sortOrder": 250
+    },
+    {
+      "id": "choose-volunteer-interest",
+      "title": "Choose a way to volunteer",
+      "summary": "Find a local cause that matches your interests, availability and confidence.",
+      "section": "Feel connected",
+      "kind": "community",
+      "verification": "self",
+      "actionLabel": "Explore volunteering",
+      "destination": "community",
+      "badgeId": "bushcare_helper",
+      "xp": 0,
+      "sortOrder": 270
+    },
+    {
+      "id": "understand-council-decisions",
+      "title": "See how Council decisions are made",
+      "summary": "Learn where community consultations, meeting information and local updates are shared.",
+      "section": "Care for your neighbourhood",
+      "kind": "civic",
+      "verification": "self",
+      "actionLabel": "Explore Council services",
+      "destination": "services",
+      "badgeId": "civic_ready",
+      "xp": 0,
+      "sortOrder": 280
+    },
+    {
+      "id": "reflect-first-month",
+      "title": "Reflect on your first month",
+      "summary": "Look back at the places, services and people that now make Canada Bay feel more familiar.",
+      "section": "Feel connected",
+      "kind": "community",
+      "verification": "self",
+      "actionLabel": "Open your Community Passport",
+      "destination": "community",
+      "badgeId": "community_participant",
+      "xp": 0,
+      "sortOrder": 300
     }
   ]
 }

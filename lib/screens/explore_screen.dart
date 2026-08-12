@@ -762,6 +762,14 @@ class _ExploreScreenState extends State<ExploreScreen> {
           icon: _iconForKind(kind),
           colour: _colourForKind(kind),
           type: _MapItemType.waypoint,
+          data: {
+            'id': 'route-waypoint:$index:${waypoint.name}',
+            'name': _localizedWaypointName(waypoint.name),
+            'description': waypoint.description.isEmpty
+                ? _exploreL10n.text('discoverPlace')
+                : waypoint.description,
+            'type': waypoint.type,
+          },
         ),
       );
     }
@@ -1296,12 +1304,17 @@ class _ExploreScreenState extends State<ExploreScreen> {
       final name = _xmlValue(body, 'name');
 
       final type = _xmlValue(body, 'type');
+      final waypointDescription = _xmlValue(body, 'desc');
+      final comment = _xmlValue(body, 'cmt');
 
       waypoints.add(
         _GpxWaypoint(
           name: name.isEmpty ? _exploreL10n.text('routeCheckpoint') : name,
           type: type.isEmpty ? _guessType(name) : type,
           point: point,
+          description: waypointDescription.isEmpty
+              ? comment
+              : waypointDescription,
         ),
       );
     }
@@ -1399,7 +1412,8 @@ class _ExploreScreenState extends State<ExploreScreen> {
     }
 
     final discoveries = _boundDiscoveriesFor(item);
-    if (item.data != null && discoveries.isNotEmpty) {
+    if (item.data != null &&
+        (item.type == _MapItemType.waypoint || discoveries.isNotEmpty)) {
       _showPlaceDetails(item, discoveries: discoveries);
       return;
     }
@@ -3119,30 +3133,24 @@ class _ExploreScreenState extends State<ExploreScreen> {
                 ),
               ),
 
-              if (desktop)
-                Positioned(
-                  top: 16,
-                  left: 16,
-                  child: AnimatedSwitcher(
-                    duration: Duration(milliseconds: 220),
-                    child: _MapBadge(
-                      key: ValueKey(_asText(selectedRoute?['id'], 'all')),
-                      title: selectedRoute == null
-                          ? _exploreL10n.text('canadaBay')
-                          : _asText(
-                              _contentFor(selectedRoute!)['title'],
-                              _exploreL10n.text('selectedRoute'),
-                            ),
-                      subtitle: selectedRoute == null
-                          ? _exploreL10n.text('placesInView', {
-                              'count': mapItems.length,
-                            })
-                          : _exploreL10n.text('routeStops', {
-                              'count': selectedRouteWaypoints.length,
-                            }),
-                    ),
+              Positioned(
+                top: 16,
+                left: 16,
+                child: AnimatedSwitcher(
+                  duration: Duration(milliseconds: 220),
+                  child: _MapBadge(
+                    key: ValueKey(_asText(selectedRoute?['id'], 'all')),
+                    title: _exploreL10n.text('exploreTitle'),
+                    subtitle: selectedRoute == null
+                        ? _exploreL10n.text('placesInView', {
+                            'count': mapItems.length,
+                          })
+                        : _exploreL10n.text('routeStops', {
+                            'count': selectedRouteWaypoints.length,
+                          }),
                   ),
                 ),
+              ),
 
               Positioned(
                 top: 16,
@@ -4098,8 +4106,14 @@ class _GpxWaypoint {
   final String name;
   final String type;
   final LatLng point;
+  final String description;
 
-  _GpxWaypoint({required this.name, required this.type, required this.point});
+  _GpxWaypoint({
+    required this.name,
+    required this.type,
+    required this.point,
+    required this.description,
+  });
 }
 
 enum _MapItemType { location, route, waypoint, start, finish }

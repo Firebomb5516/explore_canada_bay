@@ -538,9 +538,7 @@ class _NewcomerJourneyScreenState extends State<NewcomerJourneyScreen> {
   }
 
   int _journeyDay(int taskIndex) {
-    const milestones = <int>[1, 2, 3, 5, 7, 9, 11, 14, 16, 19, 22, 26, 30];
-    if (taskIndex < milestones.length) return milestones[taskIndex];
-    return ((taskIndex + 1) * 30 / 13).round().clamp(1, 30).toInt();
+    return (taskIndex + 1).clamp(1, 30);
   }
 
   ({String featureKey, String storageKey, IconData icon, Color colour})

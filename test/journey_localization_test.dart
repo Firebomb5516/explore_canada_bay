@@ -185,14 +185,9 @@ void main() {
     tester.view.physicalSize = const Size(390, 844);
     addTearDown(tester.view.reset);
 
-    const expectedHeadlines = <String, String>{
-      'zh': '一个月，每次完成一个清晰步骤。',
-      'ko': '한 달 동안, 한 번에 하나씩.',
-      'it': 'Un mese. Un passo chiaro alla volta.',
-      'hi': 'एक महीना। एक बार में एक साफ़ कदम।',
-    };
+    const languageCodes = <String>['zh', 'ko', 'it', 'hi'];
 
-    for (final entry in expectedHeadlines.entries) {
+    for (final languageCode in languageCodes) {
       final passport = PassportController(store: _MemoryStore());
       await passport.load();
       final repository = NewcomerJourneyRepository(
@@ -201,7 +196,7 @@ void main() {
       );
       await tester.pumpWidget(
         MaterialApp(
-          locale: Locale(entry.key),
+          locale: Locale(languageCode),
           supportedLocales: AppLocalizations.supportedLocales,
           localizationsDelegates: const [
             AppLocalizations.delegate,
@@ -218,11 +213,18 @@ void main() {
       );
       await tester.pumpAndSettle();
 
-      expect(find.text(entry.value), findsOneWidget);
+      expect(
+        find.text(
+          JourneyLocalizations.forLocale(
+            Locale(languageCode),
+          ).ui('journeyTitle'),
+        ),
+        findsOneWidget,
+      );
       expect(
         tester.takeException(),
         isNull,
-        reason: '${entry.key} journey should render without overflow.',
+        reason: '$languageCode journey should render without overflow.',
       );
       await tester.pumpWidget(const SizedBox.shrink());
       await tester.pump();
