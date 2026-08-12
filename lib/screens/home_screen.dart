@@ -651,8 +651,6 @@ class _HomeScreenState extends State<HomeScreen> {
                               SizedBox(height: 18),
                               _buildNextStep(),
                               SizedBox(height: 12),
-                              _buildJourneyStrip(),
-                              SizedBox(height: 12),
                               _buildCommunityChallenge(),
                               SizedBox(height: 22),
 
@@ -1357,61 +1355,6 @@ class _HomeScreenState extends State<HomeScreen> {
             ],
           );
         },
-      ),
-    );
-  }
-
-  Widget _buildJourneyStrip() {
-    final strings = AppLocalizations.of(context);
-    final completed = widget.passport.scanHistory
-        .where((record) => record.rewardId.startsWith('journey:'))
-        .length;
-    return Material(
-      color: const Color(0xFF075E67),
-      child: InkWell(
-        onTap: widget.onOpenJourney,
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 14),
-          child: Row(
-            children: [
-              const Icon(Icons.route_rounded, color: Color(0xFF8FF5D1)),
-              const SizedBox(width: 13),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      completed == 0
-                          ? strings.text('journeyStart').toUpperCase()
-                          : strings
-                                .text('journeySaved')
-                                .replaceAll('{count}', '$completed')
-                                .toUpperCase(),
-                      style: const TextStyle(
-                        color: Color(0xFF8FF5D1),
-                        fontSize: 9,
-                        letterSpacing: 1.2,
-                        fontWeight: FontWeight.w900,
-                      ),
-                    ),
-                    const SizedBox(height: 3),
-                    Text(
-                      strings.text('journeyBody'),
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontWeight: FontWeight.w900,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              const SizedBox(width: 10),
-              const Icon(Icons.arrow_forward_rounded, color: Colors.white),
-            ],
-          ),
-        ),
       ),
     );
   }

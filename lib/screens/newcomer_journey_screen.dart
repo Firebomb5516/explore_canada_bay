@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:flutter/material.dart' hide Text;
 import 'package:flutter/services.dart';
 
-import '../l10n/journey_activity_localizations.dart';
 import '../l10n/journey_localizations.dart';
 import '../models/newcomer_journey.dart';
 import '../models/passport.dart';
@@ -26,6 +25,8 @@ extension on _JourneyNeed {
     _JourneyNeed.careTogether => 'needCareTogether',
   };
 
+  // Retained for the legacy adaptive companion layout.
+  // ignore: unused_element
   String get reasonKey => switch (this) {
     _JourneyNeed.settle => 'needSettleReason',
     _JourneyNeed.findWay => 'needFindWayReason',
@@ -165,9 +166,8 @@ class _NewcomerJourneyScreenState extends State<NewcomerJourneyScreen> {
   late final PageController _tutorialController;
   OverlayEntry? _quickMessageEntry;
   String? _savingTaskId;
-  _JourneyNeed _selectedNeed = _JourneyNeed.settle;
   int _tutorialPage = 0;
-  bool _showOverview = false;
+  bool _showOverview = true;
   bool _updatingReminders = false;
 
   @override
@@ -548,19 +548,16 @@ class _NewcomerJourneyScreenState extends State<NewcomerJourneyScreen> {
 
   Widget _buildJourneyOverview(NewcomerJourneyCatalog catalog) {
     final copy = JourneyLocalizations.of(context);
-    final completed = catalog.tasks
-        .where(
-          (task) => _isTaskComplete(widget.passport, task, widget.settlement),
-        )
-        .length;
+    final taskStates = [
+      for (final task in catalog.tasks)
+        _isTaskComplete(widget.passport, task, widget.settlement),
+    ];
+    final completed = taskStates.where((complete) => complete).length;
     final progress = catalog.tasks.isEmpty
         ? 0.0
         : completed / catalog.tasks.length;
-    final focusTask = _focusTask(catalog, _selectedNeed);
-    final journeyMoments = widget.passport.scanHistory
-        .where((record) => record.rewardId.startsWith('journey:'))
-        .toList(growable: false);
-    final journeyActivityCopy = JourneyActivityLocalizations.of(context);
+    final currentIndex = taskStates.indexWhere((complete) => !complete);
+    final currentTask = currentIndex < 0 ? null : catalog.tasks[currentIndex];
     final compact = MediaQuery.sizeOf(context).width < 700;
 
     return CustomScrollView(
@@ -575,13 +572,6 @@ class _NewcomerJourneyScreenState extends State<NewcomerJourneyScreen> {
             copy.ui('journeyTitle'),
             style: const TextStyle(fontWeight: FontWeight.w900),
           ),
-          actions: [
-            IconButton(
-              tooltip: copy.ui('tutorialPages'),
-              onPressed: () => setState(() => _showOverview = false),
-              icon: const Icon(Icons.view_carousel_rounded),
-            ),
-          ],
           flexibleSpace: FlexibleSpaceBar(
             background: _JourneyHero(
               completed: completed,
@@ -596,121 +586,35 @@ class _NewcomerJourneyScreenState extends State<NewcomerJourneyScreen> {
             child: ConstrainedBox(
               constraints: const BoxConstraints(maxWidth: 1160),
               child: Padding(
-                padding: const EdgeInsets.fromLTRB(20, 30, 20, 48),
+                padding: const EdgeInsets.fromLTRB(20, 24, 20, 48),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
+                    if (currentTask == null)
+                      _JourneyCompleteCard(
+                        key: const ValueKey('journey-complete'),
+                        onExplore: widget.onFinishTutorial,
+                      )
+                    else
+                      _TodayJourneyActivity(
+                        key: ValueKey('journey-today:${currentTask.id}'),
+                        task: currentTask,
+                        day: _journeyDay(currentIndex),
+                        onTap: () => _showTask(currentTask),
+                      ),
+                    const SizedBox(height: 34),
                     _SectionHeading(
-                      eyebrow: copy.ui('companionCheckInEyebrow'),
-                      title: copy.ui('companionCheckInTitle'),
-                      body: copy.ui('companionCheckInBody'),
+                      eyebrow: copy.ui('belongingEyebrow'),
+                      title: copy.ui('belongingTitle'),
+                      body: copy.ui('belongingBody'),
                     ),
                     const SizedBox(height: 18),
-                    _JourneyNeedPicker(
-                      selected: _selectedNeed,
-                      onSelected: (need) {
-                        if (need == _selectedNeed) return;
-                        setState(() => _selectedNeed = need);
-                      },
-                    ),
-                    const SizedBox(height: 22),
-                    LayoutBuilder(
-                      builder: (context, constraints) {
-                        final status = _ConnectionPulse(
-                          completed: completed,
-                          total: catalog.tasks.length,
-                          setupCount: widget.settlement.usefulToolCount,
-                          moments: journeyMoments.length,
-                          latestMoment: journeyMoments.isEmpty
-                              ? null
-                              : journeyActivityCopy
-                                    .resolve(
-                                      journeyMoments.first,
-                                      settlement: widget.settlement,
-                                    )
-                                    .placeName,
-                          onOpenWholeJourney: () =>
-                              _showJourneyCollection(catalog.tasks),
-                        );
-                        final focus = AnimatedSwitcher(
-                          duration: MediaQuery.disableAnimationsOf(context)
-                              ? Duration.zero
-                              : const Duration(milliseconds: 280),
-                          switchInCurve: Curves.easeOutCubic,
-                          switchOutCurve: Curves.easeInCubic,
-                          transitionBuilder: (child, animation) =>
-                              FadeTransition(
-                                opacity: animation,
-                                child: SlideTransition(
-                                  position: Tween<Offset>(
-                                    begin: const Offset(0.035, 0),
-                                    end: Offset.zero,
-                                  ).animate(animation),
-                                  child: child,
-                                ),
-                              ),
-                          child: focusTask == null
-                              ? _JourneyCompleteCard(
-                                  key: const ValueKey('journey-complete'),
-                                  onExplore: widget.onFinishTutorial,
-                                )
-                              : _NextJourneyStep(
-                                  key: ValueKey(focusTask.id),
-                                  task: focusTask,
-                                  completed: _isTaskComplete(
-                                    widget.passport,
-                                    focusTask,
-                                    widget.settlement,
-                                  ),
-                                  reason: copy.ui(_selectedNeed.reasonKey),
-                                  onTap: () => _showTask(focusTask),
-                                  onChooseAnother: () => _showJourneyCollection(
-                                    _tasksForNeed(catalog, _selectedNeed),
-                                    title: copy.ui(_selectedNeed.labelKey),
-                                  ),
-                                ),
-                        );
-                        if (constraints.maxWidth >= 900) {
-                          return Row(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Expanded(flex: 7, child: focus),
-                              const SizedBox(width: 20),
-                              Expanded(flex: 4, child: status),
-                            ],
-                          );
-                        }
-                        return Column(
-                          children: [focus, const SizedBox(height: 16), status],
-                        );
-                      },
-                    ),
-                    const SizedBox(height: 38),
-                    _BelongingPath(
-                      catalog: catalog,
-                      passport: widget.passport,
-                      settlement: widget.settlement,
-                      onOpenChapter: (definition, tasks) =>
-                          _showJourneyCollection(
-                            tasks,
-                            title: copy.ui(definition.titleKey),
-                            body: copy.ui(definition.bodyKey),
-                          ),
-                    ),
-                    const SizedBox(height: 34),
-                    _EssentialsSetup(
-                      settlement: widget.settlement,
-                      onSetBins: _setUpBinNight,
-                      onSetLibrary: _setUpLibraryCard,
-                      onSetTransport: _setUpTransport,
-                      onSetCouncilReport: _setUpCouncilReport,
-                      onSetPet: _setUpPet,
-                    ),
-                    const SizedBox(height: 30),
-                    _WholeJourneyInvitation(
-                      completed: completed,
-                      total: catalog.tasks.length,
-                      onTap: () => _showJourneyCollection(catalog.tasks),
+                    _JourneyRoadmap(
+                      tasks: catalog.tasks,
+                      completed: taskStates,
+                      currentIndex: currentIndex,
+                      journeyDay: _journeyDay,
+                      onOpenTask: _showTask,
                     ),
                     if (widget.onFinishTutorial != null) ...[
                       const SizedBox(height: 18),
@@ -757,6 +661,8 @@ class _NewcomerJourneyScreenState extends State<NewcomerJourneyScreen> {
         .toList(growable: false);
   }
 
+  // Retained while older saved tutorial sessions migrate to the roadmap.
+  // ignore: unused_element
   NewcomerJourneyTask? _focusTask(
     NewcomerJourneyCatalog catalog,
     _JourneyNeed need,
@@ -775,6 +681,8 @@ class _NewcomerJourneyScreenState extends State<NewcomerJourneyScreen> {
     return null;
   }
 
+  // Retained for compatibility with the legacy overview widgets below.
+  // ignore: unused_element
   Future<void> _showJourneyCollection(
     List<NewcomerJourneyTask> tasks, {
     String? title,
@@ -966,6 +874,7 @@ class _NewcomerJourneyScreenState extends State<NewcomerJourneyScreen> {
     }
   }
 
+  // ignore: unused_element
   Future<void> _setUpCouncilReport() async {
     final copy = JourneyLocalizations.of(context);
     final result =
@@ -986,6 +895,7 @@ class _NewcomerJourneyScreenState extends State<NewcomerJourneyScreen> {
     _showQuickMessage(copy.ui('councilSaved'));
   }
 
+  // ignore: unused_element
   Future<void> _setUpPet() async {
     final copy = JourneyLocalizations.of(context);
     final name = await showModalBottomSheet<String>(
@@ -1283,6 +1193,7 @@ class _SectionHeading extends StatelessWidget {
   }
 }
 
+// ignore: unused_element
 class _JourneyNeedPicker extends StatelessWidget {
   const _JourneyNeedPicker({required this.selected, required this.onSelected});
 
@@ -1400,6 +1311,7 @@ class _JourneyNeedChoice extends StatelessWidget {
   }
 }
 
+// ignore: unused_element
 class _ConnectionPulse extends StatelessWidget {
   const _ConnectionPulse({
     required this.completed,
@@ -1651,6 +1563,287 @@ class _JourneyCompleteCard extends StatelessWidget {
   }
 }
 
+class _TodayJourneyActivity extends StatelessWidget {
+  const _TodayJourneyActivity({
+    super.key,
+    required this.task,
+    required this.day,
+    required this.onTap,
+  });
+
+  final NewcomerJourneyTask task;
+  final int day;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    final copy = JourneyLocalizations.of(context);
+    return Semantics(
+      button: true,
+      label: '${copy.ui('rightNow')}: ${copy.title(task)}',
+      child: Material(
+        color: const Color(0xFF0C5685),
+        borderRadius: BorderRadius.circular(22),
+        clipBehavior: Clip.antiAlias,
+        child: InkWell(
+          onTap: onTap,
+          child: Padding(
+            padding: const EdgeInsets.fromLTRB(20, 20, 18, 20),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Container(
+                  width: 52,
+                  height: 52,
+                  decoration: BoxDecoration(
+                    color: Colors.white.withValues(alpha: 0.15),
+                    borderRadius: BorderRadius.circular(15),
+                  ),
+                  child: Icon(_kindIcon(task.kind), color: Colors.white),
+                ),
+                const SizedBox(width: 16),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        '${copy.ui('rightNow').toUpperCase()}  ·  $day / 30',
+                        style: const TextStyle(
+                          color: Color(0xFF9EF2D7),
+                          fontSize: 11,
+                          letterSpacing: 1,
+                          fontWeight: FontWeight.w900,
+                        ),
+                      ),
+                      const SizedBox(height: 7),
+                      Text(
+                        copy.title(task),
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontSize: 22,
+                          height: 1.15,
+                          fontWeight: FontWeight.w900,
+                        ),
+                      ),
+                      const SizedBox(height: 7),
+                      Text(
+                        copy.summary(task),
+                        maxLines: 3,
+                        overflow: TextOverflow.ellipsis,
+                        style: TextStyle(
+                          color: Colors.white.withValues(alpha: 0.82),
+                          height: 1.4,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                const SizedBox(width: 8),
+                const Padding(
+                  padding: EdgeInsets.only(top: 12),
+                  child: Icon(Icons.arrow_forward_rounded, color: Colors.white),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class _JourneyRoadmap extends StatelessWidget {
+  const _JourneyRoadmap({
+    required this.tasks,
+    required this.completed,
+    required this.currentIndex,
+    required this.journeyDay,
+    required this.onOpenTask,
+  });
+
+  final List<NewcomerJourneyTask> tasks;
+  final List<bool> completed;
+  final int currentIndex;
+  final int Function(int index) journeyDay;
+  final ValueChanged<NewcomerJourneyTask> onOpenTask;
+
+  @override
+  Widget build(BuildContext context) {
+    return DecoratedBox(
+      decoration: BoxDecoration(
+        color: Theme.of(context).colorScheme.surface,
+        border: Border.all(color: AppThemeColors.border),
+        borderRadius: BorderRadius.circular(20),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+        child: Column(
+          children: [
+            for (var index = 0; index < tasks.length; index++)
+              _JourneyRoadmapStep(
+                key: ValueKey('journey-roadmap:${tasks[index].id}'),
+                task: tasks[index],
+                day: journeyDay(index),
+                complete: completed[index],
+                current: index == currentIndex,
+                first: index == 0,
+                last: index == tasks.length - 1,
+                onTap: () => onOpenTask(tasks[index]),
+              ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class _JourneyRoadmapStep extends StatelessWidget {
+  const _JourneyRoadmapStep({
+    super.key,
+    required this.task,
+    required this.day,
+    required this.complete,
+    required this.current,
+    required this.first,
+    required this.last,
+    required this.onTap,
+  });
+
+  final NewcomerJourneyTask task;
+  final int day;
+  final bool complete;
+  final bool current;
+  final bool first;
+  final bool last;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    final copy = JourneyLocalizations.of(context);
+    final accent = complete
+        ? AppThemeColors.accentGreen
+        : current
+        ? const Color(0xFF1679C4)
+        : AppThemeColors.muted;
+    return Semantics(
+      button: true,
+      checked: complete,
+      child: InkWell(
+        onTap: onTap,
+        borderRadius: BorderRadius.circular(12),
+        child: IntrinsicHeight(
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              SizedBox(
+                width: 44,
+                child: Column(
+                  children: [
+                    Expanded(
+                      child: Container(
+                        width: 2,
+                        color: first
+                            ? Colors.transparent
+                            : AppThemeColors.border,
+                      ),
+                    ),
+                    AnimatedContainer(
+                      duration: const Duration(milliseconds: 220),
+                      width: current ? 34 : 30,
+                      height: current ? 34 : 30,
+                      decoration: BoxDecoration(
+                        color: complete || current ? accent : Colors.white,
+                        shape: BoxShape.circle,
+                        border: Border.all(color: accent, width: 2),
+                      ),
+                      child: Icon(
+                        complete ? Icons.check_rounded : _kindIcon(task.kind),
+                        size: 17,
+                        color: complete || current ? Colors.white : accent,
+                      ),
+                    ),
+                    Expanded(
+                      child: Container(
+                        width: 2,
+                        color: last
+                            ? Colors.transparent
+                            : AppThemeColors.border,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              const SizedBox(width: 10),
+              Expanded(
+                child: Container(
+                  constraints: const BoxConstraints(minHeight: 92),
+                  padding: const EdgeInsets.symmetric(vertical: 14),
+                  decoration: last
+                      ? null
+                      : BoxDecoration(
+                          border: Border(
+                            bottom: BorderSide(color: AppThemeColors.border),
+                          ),
+                        ),
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              '$day / 30  ·  ${copy.section(task.section).toUpperCase()}',
+                              style: TextStyle(
+                                color: accent,
+                                fontSize: 10,
+                                letterSpacing: 0.7,
+                                fontWeight: FontWeight.w900,
+                              ),
+                            ),
+                            const SizedBox(height: 5),
+                            Text(
+                              copy.title(task),
+                              style: TextStyle(
+                                color: AppThemeColors.text,
+                                fontSize: 16,
+                                fontWeight: FontWeight.w900,
+                                decoration: complete
+                                    ? TextDecoration.lineThrough
+                                    : TextDecoration.none,
+                              ),
+                            ),
+                            if (current) ...[
+                              const SizedBox(height: 5),
+                              Text(
+                                copy.summary(task),
+                                maxLines: 2,
+                                overflow: TextOverflow.ellipsis,
+                                style: TextStyle(
+                                  color: AppThemeColors.subtleText,
+                                  fontSize: 12,
+                                  height: 1.3,
+                                ),
+                              ),
+                            ],
+                          ],
+                        ),
+                      ),
+                      const SizedBox(width: 8),
+                      Icon(Icons.chevron_right_rounded, color: accent),
+                    ],
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+// ignore: unused_element
 class _BelongingPath extends StatelessWidget {
   const _BelongingPath({
     required this.catalog,
@@ -1902,6 +2095,7 @@ class _CountPill extends StatelessWidget {
   }
 }
 
+// ignore: unused_element
 class _WholeJourneyInvitation extends StatelessWidget {
   const _WholeJourneyInvitation({
     required this.completed,
@@ -2087,9 +2281,9 @@ class _JourneyCollectionSheet extends StatelessWidget {
   }
 }
 
+// ignore: unused_element
 class _NextJourneyStep extends StatelessWidget {
   const _NextJourneyStep({
-    super.key,
     required this.task,
     required this.completed,
     required this.reason,
@@ -2275,6 +2469,7 @@ class _NextJourneyStep extends StatelessWidget {
   }
 }
 
+// ignore: unused_element
 class _EssentialsSetup extends StatelessWidget {
   const _EssentialsSetup({
     required this.settlement,
