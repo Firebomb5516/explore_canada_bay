@@ -29,6 +29,7 @@ void main() {
 
     final passport = PassportController(store: _MemoryStore());
     final settlement = SettlementProfileController.memory();
+    var openedServices = false;
     await passport.load();
     final repository = NewcomerJourneyRepository(
       assetLoader: (_) async =>
@@ -44,6 +45,7 @@ void main() {
             passport: passport,
             settlement: settlement,
             repository: repository,
+            onOpenServices: () => openedServices = true,
           ),
         ),
       ),
@@ -81,8 +83,11 @@ void main() {
     expect(find.text('Know when to call Triple Zero'), findsOneWidget);
     expect(tester.takeException(), isNull);
 
-    await tester.tap(find.byKey(const ValueKey('journey-roadmap-ribbon')));
+    await tester.ensureVisible(find.text('Read emergency guidance'));
     await tester.pumpAndSettle();
+    await tester.tap(find.text('Read emergency guidance'));
+    await tester.pumpAndSettle();
+    expect(openedServices, isTrue);
     expect(
       find.byKey(const ValueKey('journey-today:know-triple-zero')),
       findsOneWidget,

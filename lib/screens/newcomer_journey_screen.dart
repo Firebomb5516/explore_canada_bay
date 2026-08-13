@@ -763,7 +763,7 @@ class _NewcomerJourneyScreenState extends State<NewcomerJourneyScreen> {
           day: day ?? 1,
           task: task,
           completed: completed,
-          onOpenResource: () => _openTask(task),
+          onOpenResource: () => _openTaskFromActivity(task),
           onReturnHome: () => _finishActivityPage(task, completed: completed),
         ),
       ),
@@ -784,7 +784,7 @@ class _NewcomerJourneyScreenState extends State<NewcomerJourneyScreen> {
       } else if (task.canSelfComplete) {
         await _completeLearningTask(task);
       } else {
-        await _openTask(task);
+        await _openTaskFromActivity(task);
         return;
       }
       if (!_isTaskComplete(widget.passport, task, widget.settlement)) return;
@@ -1002,6 +1002,28 @@ class _NewcomerJourneyScreenState extends State<NewcomerJourneyScreen> {
       if (!mounted) return;
       _showQuickMessage(JourneyLocalizations.of(context).ui('linkCopied'));
     }
+  }
+
+  Future<void> _openTaskFromActivity(NewcomerJourneyTask task) async {
+    final destination = task.destination;
+    final opensInsideApp =
+        (destination == 'services' && widget.onOpenServices != null) ||
+        (destination == 'explore' && widget.onOpenExplore != null) ||
+        (destination == 'community' && widget.onOpenCommunity != null) ||
+        (destination == 'scan' && widget.onOpenScanner != null);
+
+    if (!opensInsideApp) {
+      await _openTask(task);
+      return;
+    }
+
+    // The activity is a Navigator route above MainShell's IndexedStack. Close
+    // it before switching tabs, otherwise the correct destination changes
+    // underneath an activity page that still covers the screen.
+    Navigator.of(context).pop();
+    await Future<void>.delayed(Duration.zero);
+    if (!mounted) return;
+    await _openTask(task);
   }
 
   Future<void> _completeLearningTask(NewcomerJourneyTask task) async {
