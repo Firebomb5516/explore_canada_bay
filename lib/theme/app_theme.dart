@@ -39,10 +39,10 @@ abstract final class AppThemeColors {
       isDark ? const Color(0xFFF4F9FD) : const Color(0xFF102A3A);
 
   static Color get muted =>
-      isDark ? const Color(0xFF7DCCDC) : const Color(0xFF557787);
+      isDark ? const Color(0xFF7DCCDC) : const Color(0xFF496A79);
 
   static Color get subtleText =>
-      isDark ? const Color(0xFF9AB5C7) : const Color(0xFF688491);
+      isDark ? const Color(0xFF9AB5C7) : const Color(0xFF506F7C);
 
   static Color get accentGreen =>
       isDark ? const Color(0xFF00C58E) : const Color(0xFF007D59);

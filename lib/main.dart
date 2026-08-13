@@ -134,6 +134,9 @@ class ExploreCanadaBayApp extends StatelessWidget {
         seedColor: const Color(0xFF00B87A),
         brightness: brightness,
       ),
+      materialTapTargetSize: MaterialTapTargetSize.padded,
+      visualDensity: VisualDensity.standard,
+      focusColor: const Color(0xFF1769AA).withValues(alpha: 0.22),
       scaffoldBackgroundColor: brightness == Brightness.dark
           ? const Color(0xFF071E35)
           : Colors.white,
@@ -150,6 +153,7 @@ class ExploreCanadaBayApp extends StatelessWidget {
       ),
       filledButtonTheme: FilledButtonThemeData(
         style: FilledButton.styleFrom(
+          minimumSize: const Size(48, 48),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(12),
           ),
@@ -157,6 +161,7 @@ class ExploreCanadaBayApp extends StatelessWidget {
       ),
       elevatedButtonTheme: ElevatedButtonThemeData(
         style: ElevatedButton.styleFrom(
+          minimumSize: const Size(48, 48),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(12),
           ),
@@ -164,6 +169,7 @@ class ExploreCanadaBayApp extends StatelessWidget {
       ),
       outlinedButtonTheme: OutlinedButtonThemeData(
         style: OutlinedButton.styleFrom(
+          minimumSize: const Size(48, 48),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(12),
           ),

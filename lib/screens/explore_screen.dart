@@ -3134,29 +3134,30 @@ class _ExploreScreenState extends State<ExploreScreen> {
                 ),
               ),
 
-              Positioned(
-                top: 16,
-                left: 16,
-                child: AnimatedSwitcher(
-                  duration: Duration(milliseconds: 220),
-                  child: _MapBadge(
-                    key: ValueKey(_asText(selectedRoute?['id'], 'all')),
-                    title: selectedRoute == null
-                        ? _exploreL10n.text('canadaBay')
-                        : _asText(
-                            _contentFor(selectedRoute!)['title'],
-                            _exploreL10n.text('selectedRoute'),
-                          ),
-                    subtitle: selectedRoute == null
-                        ? _exploreL10n.text('placesInView', {
-                            'count': mapItems.length,
-                          })
-                        : _exploreL10n.text('routeStops', {
-                            'count': selectedRouteWaypoints.length,
-                          }),
+              if (desktop)
+                Positioned(
+                  top: 16,
+                  left: 16,
+                  child: AnimatedSwitcher(
+                    duration: Duration(milliseconds: 220),
+                    child: _MapBadge(
+                      key: ValueKey(_asText(selectedRoute?['id'], 'all')),
+                      title: selectedRoute == null
+                          ? _exploreL10n.text('canadaBay')
+                          : _asText(
+                              _contentFor(selectedRoute!)['title'],
+                              _exploreL10n.text('selectedRoute'),
+                            ),
+                      subtitle: selectedRoute == null
+                          ? _exploreL10n.text('placesInView', {
+                              'count': mapItems.length,
+                            })
+                          : _exploreL10n.text('routeStops', {
+                              'count': selectedRouteWaypoints.length,
+                            }),
+                    ),
                   ),
                 ),
-              ),
 
               Positioned(
                 top: 16,

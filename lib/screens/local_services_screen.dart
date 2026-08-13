@@ -303,18 +303,15 @@ class _DirectoryHeader extends StatelessWidget {
             Container(
               width: 58,
               height: 58,
-              padding: const EdgeInsets.all(5),
+              padding: const EdgeInsets.all(4),
               decoration: BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.circular(19),
-                border: Border.all(
-                  color: AppThemeColors.border.withValues(alpha: 0.72),
-                ),
                 boxShadow: [
                   BoxShadow(
                     color: AppThemeColors.shadow,
-                    blurRadius: 18,
-                    offset: const Offset(0, 6),
+                    blurRadius: 16,
+                    offset: const Offset(0, 5),
                   ),
                 ],
               ),
